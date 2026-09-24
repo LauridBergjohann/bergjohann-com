@@ -6,6 +6,7 @@
   import Container from '$lib/components/ui/Container.svelte';
   import ThemeSwitch from '$lib/components/ui/ThemeSwitch.svelte';
 
+import SiteLogo from '$lib/components/layout/SiteLogo.svelte';
   const navigation = [
     { label: 'Themen', id: 'themen' },
     { label: 'Projekte', id: 'projekte' },
@@ -19,20 +20,7 @@
   <Container
     class="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 py-3 sm:py-4"
   >
-    <a
-      href={resolve('/')}
-      aria-label="bergjohann – Startseite"
-      class="inline-flex items-center gap-2.5"
-    >
-      <span class="text-2xl font-bold tracking-tight">
-        {site.name}
-      </span>
-
-      <span
-        class="mt-1 h-2 w-2 rounded-xs bg-accent"
-        aria-hidden="true"
-      ></span>
-    </a>
+    <SiteLogo />
 
     <nav
       aria-label="Hauptnavigation"
