@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* Midnight Workshop: heller Modus. */
+:root {
+  color-scheme: light;
+
+  --background: #ffffff;
+  --surface: #f6f8fa;
+  --surface-raised: #ffffff;
+
+  --foreground: #111827;
+  --muted: #596575;
+
+  --border: #e2e8f0;
+  --control-border: #8592a2;
+
+  --primary: #2f6ea6;
+  --primary-hover: #255c8c;
+  --on-primary: #ffffff;
+
+  --link: #2f6ea6;
+  --accent: #ff7a00;
+}
+
+/* Midnight Workshop: dunkler Modus. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --background: #0b0f14;
+  --surface: #111827;
+  --surface-raised: #151f2d;
+
+  --foreground: #f9fafb;
+  --muted: #a3b2c6;
+
+  --border: #263446;
+  --control-border: #62748b;
+
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --on-primary: #0b0f14;
+
+  --link: #93c5fd;
+  --accent: #ff7a00;
+}
+
+/* Systemeinstellung auch ohne JavaScript berücksichtigen. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --background: #0b0f14;
+    --surface: #111827;
+    --surface-raised: #151f2d;
+
+    --foreground: #f9fafb;
+    --muted: #a3b2c6;
+
+    --border: #263446;
+    --control-border: #62748b;
+
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --on-primary: #0b0f14;
+
+    --link: #93c5fd;
+    --accent: #ff7a00;
+  }
+}
+
+/* CSS-Variablen als semantische Tailwind-Farben bereitstellen. */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+
+  --color-border: var(--border);
+  --color-control-border: var(--control-border);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+
+  --color-link: var(--link);
+  --color-accent: var(--accent);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 9rem;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background: var(--background);
+    color: var(--foreground);
+
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 4px;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}

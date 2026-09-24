@@ -1,12 +1,36 @@
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="text-scale" content="scale" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Theme bereits vor dem ersten Rendern setzen. -->
+    <script>
+      (() => {
+        let preference = null;
+
+        try {
+          preference = localStorage.getItem('bergjohann-theme');
+        } catch {
+          // Die Website bleibt auch ohne verfügbaren Speicher nutzbar.
+        }
+
+        const explicit =
+          preference === 'light' || preference === 'dark';
+
+        const dark = explicit
+          ? preference === 'dark'
+          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
+
+    %sveltekit.head%
+  </head>
+
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
 </html>
