@@ -135,6 +135,7 @@
       </p>
 
       <a
+        // eslint-disable-next-line svelte/no-navigation-without-resolve
         href={site.github}
         class="mt-5 inline-block text-sm text-link underline underline-offset-4"
       >
