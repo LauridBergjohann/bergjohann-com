@@ -51,7 +51,7 @@
 <Section
   id="themen"
   eyebrow="01 / Themen"
-  title="Was mich beschäftigt."
+  title="Was mich aktuell beschäftigt."
   description="Zwischen Bildschirm und Werkbank gibt es mehr Gemeinsamkeiten, als man zunächst denkt."
 >
   <div class="grid gap-5 md:grid-cols-3">
