@@ -1,7 +1,7 @@
 <script lang="ts">
   import { site } from '$lib/site';
 
-  import Hero from '$lib/components/home/Hero.svelte';
+  import Hero from '$lib/components/sections/Hero.svelte';
   import Section from '$lib/components/ui/Section.svelte';
 
   const topics = [
@@ -46,7 +46,7 @@
   <meta name="description" content={site.description} />
 </svelte:head>
 
-<Hero />
+<Hero id="hero" image={{light: '/images/rhein-light.webp', dark: '/images/rhein-dark.webp'}} title="Willkommen auf meiner Website" description="Hier findet ihr Informationen über meine Projekte und Gedanken zur Softwareentwicklung und Modellbau." />
 
 <Section
   id="themen"
