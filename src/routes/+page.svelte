@@ -1,7 +1,7 @@
 <script lang="ts">
   import { site } from '$lib/site';
 
-  import Hero from '$lib/components/sections/Hero.svelte';
+  import Hero from '$lib/components/sections2/Hero.svelte';
   import Section from '$lib/components/ui/Section.svelte';
 
   const topics = [

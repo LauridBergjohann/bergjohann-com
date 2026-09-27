@@ -2,6 +2,7 @@
   import { site } from '$lib/site';
 
   import Container from '$lib/components/ui/Container.svelte';
+	import Link from '../helper/Link.svelte';
 </script>
 
 <footer class="border-t border-border py-9">
@@ -18,11 +19,11 @@
       </p>
     </div>
 
-    <a
-      href={site.github}
+    <Link
+      href={site.github} rel="external"
       class="text-sm text-link underline underline-offset-4"
     >
       Quellcode auf GitHub
-    </a>
+  </Link>
   </Container>
 </footer>
