@@ -3,10 +3,11 @@ export const site = {
 
   author: 'Laurid Bergjohann',
 
-  title: 'Laurid Bergjohann – UX, Softwarearchitektur & Modellbau',
+  title: 'Laurid Bergjohann – UX, Software Architecture & Model Making',
 
   description:
-    'Eine persönliche Werkstatt für User Experience, User Interfaces, Softwarearchitektur und Modellbau.',
+    'A personal workshop for user experience, user interfaces, software architecture, and model making.',
 
-  github: 'https://github.com/LauridBergjohann/bergjohann-com'
+  github: 'https://github.com/LauridBergjohann/bergjohann-com',
+  linkedin: 'https://www.linkedin.com/in/laurid-bergjohann'
 } as const;

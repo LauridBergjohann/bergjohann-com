@@ -1,91 +1,209 @@
 @import "tailwindcss";
 
-/* Midnight Workshop: heller Modus. */
+/* Midnight Workshop: light mode */
 :root {
+  /* Shared dimensions for the floating header and HeaderSpacer. */
+  --header-top: 0.5rem;
+  --header-height: 4.5rem;
+  --header-clearance: calc(var(--header-top) + var(--header-height) + 2px + 1rem);
+
   color-scheme: light;
 
-  --background: #ffffff;
-  --surface: #f6f8fa;
-  --surface-raised: #ffffff;
+  /* Page backgrounds */
+  --background: #ffffff;           /* Main page background */
+  --background-alt: #f3f6f9;      /* Alternating section background */
 
-  --foreground: #111827;
-  --muted: #596575;
+  /* Surfaces */
+  --surface: #f6f8fa;              /* Default surface for cards and panels */
+  --surface-raised: #ffffff;       /* Elevated surfaces such as dialogs or menus */
+  --surface-hover: #f1f5f9;        /* Hover state for interactive surfaces */
 
-  --border: #e2e8f0;
-  --control-border: #8592a2;
+  /* Text */
+  --foreground: #111827;           /* Primary text color */
+  --foreground-soft: #475569;      /* Softer body text and secondary content */
+  --muted: #6b7280;                /* Muted metadata and less important text */
+  --subtle: #94a3b8;               /* Very subtle text, eyebrows and timestamps */
 
-  --primary: #2f6ea6;
-  --primary-hover: #255c8c;
-  --on-primary: #ffffff;
+  /* Borders */
+  --border: #e2e8f0;               /* Default border and divider color */
+  --border-strong: #cbd5e1;        /* Stronger borders for emphasis */
+  --control-border: #8592a2;       /* Form controls and interactive outlines */
 
-  --link: #2f6ea6;
-  --accent: #ff7a00;
+  /* Primary brand color */
+  --primary: #2f6ea6;              /* Primary actions and brand elements */
+  --primary-hover: #255c8c;        /* Hover state for primary elements */
+  --primary-soft: #eaf2f8;         /* Subtle primary-tinted backgrounds */
+  --on-primary: #ffffff;           /* Text and icons placed on primary color */
+
+  /* Links */
+  --link: #2f6ea6;                 /* Default link color */
+  --link-hover: #255c8c;           /* Link hover color */
+
+  /* Accent */
+  --accent: #ff7a00;               /* Secondary brand accent */
+  --accent-soft: #fff1e5;          /* Subtle accent-tinted background */
+
+  /* Semantic states */
+  --success: #16a34a;              /* Successful or positive state */
+  --warning: #f59e0b;              /* Warning state */
+  --error: #dc2626;                /* Error or destructive state */
+  --info: #0ea5e9;                 /* Informational state */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);    /* Subtle resting shadow */
+  --shadow-md: 0 6px 18px rgb(15 23 42 / 0.10);   /* Card hover / medium elevation */
+  --shadow-lg: 0 14px 32px rgb(15 23 42 / 0.14);  /* Dialogs and strong elevation */
+
+  /* Card semantics */
+  --card-background: var(--surface-raised);        /* Default card background */
+  --card-border: var(--border);                    /* Default card border */
+  --card-shadow: var(--shadow-sm);                 /* Resting card shadow */
+  --card-shadow-hover: var(--shadow-md);           /* Card hover shadow */
 }
 
-/* Midnight Workshop: dunkler Modus. */
+/* Midnight Workshop: dark mode */
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --background: #0b0f14;
-  --surface: #111827;
-  --surface-raised: #151f2d;
+  /* Page backgrounds */
+  --background: #0b0f14;           /* Main page background */
+  --background-alt: #0e141d;       /* Alternating section background */
 
-  --foreground: #f9fafb;
-  --muted: #a3b2c6;
+  /* Surfaces */
+  --surface: #111827;              /* Default surface for cards and panels */
+  --surface-raised: #151f2d;       /* Elevated surfaces such as dialogs or menus */
+  --surface-hover: #182233;        /* Hover state for interactive surfaces */
 
-  --border: #263446;
-  --control-border: #62748b;
+  /* Text */
+  --foreground: #f8fafc;           /* Primary text color */
+  --foreground-soft: #cbd5e1;      /* Softer body text and secondary content */
+  --muted: #94a3b8;                /* Muted metadata and less important text */
+  --subtle: #64748b;               /* Very subtle text, eyebrows and timestamps */
 
-  --primary: #3b82f6;
-  --primary-hover: #60a5fa;
-  --on-primary: #0b0f14;
+  /* Borders */
+  --border: #263446;               /* Default border and divider color */
+  --border-strong: #3a4a5f;        /* Stronger borders for emphasis */
+  --control-border: #62748b;       /* Form controls and interactive outlines */
 
-  --link: #93c5fd;
-  --accent: #ff7a00;
+  /* Primary brand color */
+  --primary: #3b82f6;              /* Primary actions and brand elements */
+  --primary-hover: #60a5fa;        /* Hover state for primary elements */
+  --primary-soft: #0f2540;         /* Subtle primary-tinted backgrounds */
+  --on-primary: #0b0f14;           /* Text and icons placed on primary color */
+
+  /* Links */
+  --link: #93c5fd;                 /* Default link color */
+  --link-hover: #bfdbfe;           /* Link hover color */
+
+  /* Accent */
+  --accent: #ff7a00;               /* Secondary brand accent */
+  --accent-soft: #3a210d;          /* Subtle accent-tinted background */
+
+  /* Semantic states */
+  --success: #22c55e;              /* Successful or positive state */
+  --warning: #f59e0b;              /* Warning state */
+  --error: #ef4444;                /* Error or destructive state */
+  --info: #38bdf8;                 /* Informational state */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28);       /* Subtle resting shadow */
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.35);      /* Card hover / medium elevation */
+  --shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45);     /* Dialogs and strong elevation */
+
+  /* Card semantics */
+  --card-background: var(--surface);               /* Default card background */
+  --card-border: var(--border);                    /* Default card border */
+  --card-shadow: var(--shadow-sm);                 /* Resting card shadow */
+  --card-shadow-hover: var(--shadow-md);            /* Card hover shadow */
 }
 
-/* Systemeinstellung auch ohne JavaScript berücksichtigen. */
+/* Respect the operating system theme even when JavaScript is unavailable. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
 
     --background: #0b0f14;
+    --background-alt: #0e141d;
+
     --surface: #111827;
     --surface-raised: #151f2d;
+    --surface-hover: #182233;
 
-    --foreground: #f9fafb;
-    --muted: #a3b2c6;
+    --foreground: #f8fafc;
+    --foreground-soft: #cbd5e1;
+    --muted: #94a3b8;
+    --subtle: #64748b;
 
     --border: #263446;
+    --border-strong: #3a4a5f;
     --control-border: #62748b;
 
     --primary: #3b82f6;
     --primary-hover: #60a5fa;
+    --primary-soft: #0f2540;
     --on-primary: #0b0f14;
 
     --link: #93c5fd;
+    --link-hover: #bfdbfe;
+
     --accent: #ff7a00;
+    --accent-soft: #3a210d;
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #38bdf8;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28);
+    --shadow-md: 0 8px 24px rgb(0 0 0 / 0.35);
+    --shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45);
+
+    --card-background: var(--surface);
+    --card-border: var(--border);
+    --card-shadow: var(--shadow-sm);
+    --card-shadow-hover: var(--shadow-md);
   }
 }
 
-/* CSS-Variablen als semantische Tailwind-Farben bereitstellen. */
+/* Expose CSS variables as semantic Tailwind colors. */
 @theme inline {
   --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
+
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
 
   --color-foreground: var(--foreground);
+  --color-foreground-soft: var(--foreground-soft);
   --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
 
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-control-border: var(--control-border);
 
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
   --color-on-primary: var(--on-primary);
 
   --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --header-top: 1rem;
+  }
 }
 
 @layer base {
@@ -108,6 +226,11 @@
       sans-serif;
 
     -webkit-font-smoothing: antialiased;
+  }
+
+  a{
+    color: var(--link);
+    text-decoration: none;
   }
 
   :focus-visible {

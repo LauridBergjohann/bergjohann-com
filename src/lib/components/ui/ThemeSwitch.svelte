@@ -1,91 +1,57 @@
-<script lang="ts">
-  import { onMount } from 'svelte';
-
-  type ThemePreference = 'system' | 'light' | 'dark';
-
-  const storageKey = 'bergjohann-theme';
-
-  let preference = $state<ThemePreference>('system');
-  let ready = $state(false);
-
-  function readPreference(): ThemePreference {
-    try {
-      const stored = localStorage.getItem(storageKey);
-
-      return stored === 'light' || stored === 'dark'
-        ? stored
-        : 'system';
-    } catch {
-      return 'system';
-    }
-  }
-
-  function applyTheme() {
-    const dark =
-      preference === 'dark' ||
-      (
-        preference === 'system' &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches
-      );
-
-    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  }
-
-  function changeTheme(value: string) {
-    if (
-      value !== 'system' &&
-      value !== 'light' &&
-      value !== 'dark'
-    ) {
-      return;
-    }
-
-    preference = value;
-    applyTheme();
-
-    try {
-      if (value === 'system') {
-        localStorage.removeItem(storageKey);
-      } else {
-        localStorage.setItem(storageKey, value);
-      }
-    } catch {
-      // Ohne Speicher bleibt die Auswahl für die aktuelle Sitzung wirksam.
-    }
-  }
-
-  onMount(() => {
-    preference = readPreference();
-    applyTheme();
-    ready = true;
-
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const onSystemChange = () => {
-      if (preference === 'system') {
-        applyTheme();
-      }
-    };
-
-    media.addEventListener('change', onSystemChange);
-
-    return () => {
-      media.removeEventListener('change', onSystemChange);
-    };
-  });
+﻿<script lang="ts">
+	import { onMount } from 'svelte';
+	import Icon from './Icon.svelte';
+	import { themePreference, changeTheme, type ThemePreference } from '$lib/theme';
+	let { labelled = false }: { labelled?: boolean } = $props();
+	let preference = $state<ThemePreference>('system');
+	let ready = $state(false);
+	let dismissed = $state(false);
+	const options = [
+		{ value: 'light', label: 'Light', description: 'Use light theme', icon: 'sun' },
+		{ value: 'dark', label: 'Dark', description: 'Use dark theme', icon: 'moon' },
+		{ value: 'system', label: 'System', description: 'Use system theme', icon: 'monitor' }
+	] as const;
+	onMount(() => {
+		const unsubscribe = themePreference.subscribe((value) => (preference = value));
+		ready = true;
+		return unsubscribe;
+	});
 </script>
 
-<label class="inline-flex items-center gap-2 text-sm">
-  <span class="sr-only">Farbschema</span>
-
-  <select
-    class="min-h-11 rounded-lg border border-control-border bg-surface px-3 text-foreground disabled:opacity-60"
-    value={preference}
-    disabled={!ready}
-    onchange={(event) => changeTheme(event.currentTarget.value)}
-  >
-    <option value="system">System</option>
-    <option value="light">Hell</option>
-    <option value="dark">Dunkel</option>
-  </select>
-</label>
+<div
+	role="group"
+	aria-label="Appearance"
+	class="inline-flex shrink-0 items-center gap-1 rounded-xl border border-border-strong bg-surface/70 p-1"
+>
+	{#each options as option (option.value)}
+		<div class="group relative">
+			<button
+				type="button"
+				aria-label={option.description}
+				aria-pressed={preference === option.value}
+				disabled={!ready}
+				onclick={() => changeTheme(option.value)}
+				onmouseenter={() => (dismissed = false)}
+				onfocus={() => (dismissed = false)}
+				onkeydown={(event) => {
+					if (event.key === 'Escape') dismissed = true;
+				}}
+				class={`inline-flex min-h-10 items-center justify-center gap-2 rounded-lg text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-background text-foreground shadow-sm ring-1 ring-border' : 'text-muted hover:bg-surface-hover hover:text-foreground'}`}
+			>
+				<span aria-hidden="true"><Icon id={option.icon} size={18} /></span>
+				{#if labelled}<span>{option.label}</span>{/if}
+			</button>
+			{#if !labelled && !dismissed}
+				<span
+					aria-hidden="true"
+					class="pointer-events-none absolute top-full right-0 z-50 pt-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100"
+				>
+					<span
+						class="block rounded-lg border border-border bg-surface-raised px-3 py-2 text-xs whitespace-nowrap text-foreground shadow-md"
+						>{option.description}</span
+					>
+				</span>
+			{/if}
+		</div>
+	{/each}
+</div>
