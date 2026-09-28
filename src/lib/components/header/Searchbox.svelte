@@ -42,7 +42,7 @@
 		activeIndex = -1;
 
 		if (!q.trim()) {
-			results = { products: [], pages: [], didYouMean: [] };
+			results = { models: [], pages: [], didYouMean: [] };
 		}
 	}
 
@@ -78,11 +78,11 @@
 
 	// flatten + limit (nur echte Treffer)
 	$effect(() => {
-		const p = (results?.products ?? []).slice(0, LIMIT);
+		const p = (results?.models ?? []).slice(0, LIMIT);
 		const s = (results?.pages ?? []).slice(0, LIMIT);
 
 		const out: FlatItem[] = [
-			...p.map((x, i) => ({ ...x, group: 'products' as const, indexInGroup: i })),
+			...p.map((x, i) => ({ ...x, group: 'models' as const, indexInGroup: i })),
 			...s.map((x, i) => ({ ...x, group: 'pages' as const, indexInGroup: i }))
 		];
 
@@ -90,14 +90,14 @@
 		if (activeIndex >= out.length) activeIndex = out.length - 1;
 	});
 
-	const productsLimited = $derived.by(() => (results?.products ?? []).slice(0, LIMIT));
+	const modelsLimited = $derived.by(() => (results?.models ?? []).slice(0, LIMIT));
 	const pagesLimited = $derived.by(() => (results?.pages ?? []).slice(0, LIMIT));
 
-	const hasProducts = $derived.by(() => productsLimited.length > 0);
+	const hasModels = $derived.by(() => modelsLimited.length > 0);
 	const hasPages = $derived.by(() => pagesLimited.length > 0);
-	const mixed = $derived.by(() => hasProducts && hasPages);
+	const mixed = $derived.by(() => hasModels && hasPages);
 
-	const hasMoreProducts = $derived.by(() => (results?.products?.length ?? 0) > LIMIT);
+	const hasMoreModels = $derived.by(() => (results?.models?.length ?? 0) > LIMIT);
 	const hasMorePages = $derived.by(() => (results?.pages?.length ?? 0) > LIMIT);
 
 	const didYouMean = $derived.by(() => results?.didYouMean ?? []);
@@ -109,7 +109,7 @@
 		activeIndex = -1;
 
 		if (term.length < 2) {
-			results = { products: [], pages: [], didYouMean: [] };
+			results = { models: [], pages: [], didYouMean: [] };
 			return;
 		}
 
@@ -258,7 +258,7 @@
 					Tip: Enter a <span class="font-medium">Keyword</span> (e.g.,
 					<span class="font-mono">UX</span>) or search for terms.
 				</div>
-			{:else if !hasProducts && !hasPages}
+			{:else if !hasModels && !hasPages}
 				{#if hasDidYouMean}
 					<div class="px-3 py-3 text-sm text-foreground-soft">
 						<span class="font-medium">Meinten Sie:</span>
@@ -282,13 +282,13 @@
 					<div class="px-3 py-3 text-sm text-muted">Keine Treffer</div>
 				{/if}
 			{:else}
-				{#if hasProducts}
+				{#if hasModels}
 					{#if mixed}
 						<div class="px-3 py-2 text-xs font-semibold text-muted">Produkte</div>
 					{/if}
 
 					<ul class="pb-2">
-						{#each productsLimited as r, i (r.href)}
+						{#each modelsLimited as r, i (r.href)}
 							<li>
 								<a
 									id={`search-item-${variant}-${i}`}
@@ -318,7 +318,7 @@
 							</li>
 						{/each}
 
-						{#if hasMoreProducts}
+						{#if hasMoreModels}
 							<li class="px-3 pt-1">
 								<a
 									class="text-sm text-link hover:underline"
@@ -346,7 +346,7 @@
 
 					<ul class="pb-3">
 						{#each pagesLimited as r, j (r.href)}
-							{@const base = productsLimited.length}
+							{@const base = modelsLimited.length}
 							{@const idx = base + j}
 							<li>
 								<a

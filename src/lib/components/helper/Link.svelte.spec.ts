@@ -9,6 +9,15 @@ const children = createRawSnippet(() => ({
 }));
 
 describe('Link.svelte', () => {
+	it.each(['/', '/projects?filter=web#details', '/workbench/example'])(
+		'resolves the concrete pathname %s',
+		async (href) => {
+			const screen = await render(Link, { props: { href, children } });
+			await expect
+				.element(screen.getByRole('link', { name: 'Test link' }))
+				.toHaveAttribute('href', href);
+		}
+	);
 	it('renders an internal link', async () => {
 		const screen = await render(Link, {
 			props: {
@@ -20,10 +29,7 @@ describe('Link.svelte', () => {
 		const link = screen.getByRole('link', { name: 'Test link' });
 
 		await expect.element(link).toHaveAttribute('href', '/projects');
-		await expect.element(link).not.toHaveAttribute(
-			'rel',
-			expect.stringContaining('external')
-		);
+		await expect.element(link).not.toHaveAttribute('rel', expect.stringContaining('external'));
 	});
 
 	it('renders an external HTTPS link', async () => {
@@ -36,14 +42,8 @@ describe('Link.svelte', () => {
 
 		const link = screen.getByRole('link', { name: 'Test link' });
 
-		await expect.element(link).toHaveAttribute(
-			'href',
-			'https://example.com'
-		);
-		await expect.element(link).toHaveAttribute(
-			'rel',
-			expect.stringContaining('external')
-		);
+		await expect.element(link).toHaveAttribute('href', 'https://example.com');
+		await expect.element(link).toHaveAttribute('rel', expect.stringContaining('external'));
 	});
 
 	it('renders a protocol-relative link as external', async () => {
@@ -56,14 +56,8 @@ describe('Link.svelte', () => {
 
 		const link = screen.getByRole('link', { name: 'Test link' });
 
-		await expect.element(link).toHaveAttribute(
-			'href',
-			'//example.com'
-		);
-		await expect.element(link).toHaveAttribute(
-			'rel',
-			expect.stringContaining('external')
-		);
+		await expect.element(link).toHaveAttribute('href', '//example.com');
+		await expect.element(link).toHaveAttribute('rel', expect.stringContaining('external'));
 	});
 
 	it('renders a mailto link as external', async () => {
@@ -76,14 +70,8 @@ describe('Link.svelte', () => {
 
 		const link = screen.getByRole('link', { name: 'Test link' });
 
-		await expect.element(link).toHaveAttribute(
-			'href',
-			'mailto:hello@example.com'
-		);
-		await expect.element(link).toHaveAttribute(
-			'rel',
-			expect.stringContaining('external')
-		);
+		await expect.element(link).toHaveAttribute('href', 'mailto:hello@example.com');
+		await expect.element(link).toHaveAttribute('rel', expect.stringContaining('external'));
 	});
 
 	it('renders a telephone link as external', async () => {
@@ -96,14 +84,8 @@ describe('Link.svelte', () => {
 
 		const link = screen.getByRole('link', { name: 'Test link' });
 
-		await expect.element(link).toHaveAttribute(
-			'href',
-			'tel:+49123456789'
-		);
-		await expect.element(link).toHaveAttribute(
-			'rel',
-			expect.stringContaining('external')
-		);
+		await expect.element(link).toHaveAttribute('href', 'tel:+49123456789');
+		await expect.element(link).toHaveAttribute('rel', expect.stringContaining('external'));
 	});
 
 	it('renders a fragment link without resolving it', async () => {
@@ -117,10 +99,7 @@ describe('Link.svelte', () => {
 		const link = screen.getByRole('link', { name: 'Test link' });
 
 		await expect.element(link).toHaveAttribute('href', '#contact');
-		await expect.element(link).not.toHaveAttribute(
-			'rel',
-			expect.stringContaining('external')
-		);
+		await expect.element(link).not.toHaveAttribute('rel', expect.stringContaining('external'));
 	});
 
 	it('preserves additional rel values for external links', async () => {
@@ -134,18 +113,9 @@ describe('Link.svelte', () => {
 
 		const link = screen.getByRole('link', { name: 'Test link' });
 
-		await expect.element(link).toHaveAttribute(
-			'rel',
-			expect.stringContaining('external')
-		);
-		await expect.element(link).toHaveAttribute(
-			'rel',
-			expect.stringContaining('noopener')
-		);
-		await expect.element(link).toHaveAttribute(
-			'rel',
-			expect.stringContaining('noreferrer')
-		);
+		await expect.element(link).toHaveAttribute('rel', expect.stringContaining('external'));
+		await expect.element(link).toHaveAttribute('rel', expect.stringContaining('noopener'));
+		await expect.element(link).toHaveAttribute('rel', expect.stringContaining('noreferrer'));
 	});
 
 	it('forwards anchor attributes', async () => {
@@ -162,18 +132,9 @@ describe('Link.svelte', () => {
 
 		const link = screen.getByRole('link', { name: 'Projects' });
 
-		await expect.element(link).toHaveAttribute(
-			'title',
-			'Open projects'
-		);
+		await expect.element(link).toHaveAttribute('title', 'Open projects');
 		await expect.element(link).toHaveClass('custom-link');
-		await expect.element(link).toHaveAttribute(
-			'target',
-			'_blank'
-		);
-		await expect.element(link).toHaveAttribute(
-			'aria-label',
-			'Projects'
-		);
+		await expect.element(link).toHaveAttribute('target', '_blank');
+		await expect.element(link).toHaveAttribute('aria-label', 'Projects');
 	});
 });

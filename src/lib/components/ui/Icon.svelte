@@ -9,10 +9,12 @@
 
 	let { id, size = 24 }: Props = $props();
 
-	const icon = feather.icons[id].toSvg({
-		width: size,
-		height: size
-	});
+	const icon = $derived(
+		feather.icons[id].toSvg({
+			width: size,
+			height: size
+		})
+	);
 </script>
 
 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
