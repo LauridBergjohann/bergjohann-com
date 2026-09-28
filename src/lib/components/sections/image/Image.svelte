@@ -9,6 +9,7 @@ Supports configurable image position, aspect ratio, and object fit.
 <script lang="ts">
 	import type { ImageSection, ImageAspect } from '../interface';
 	import Section from '../base/Section.svelte';
+	import ThemeImage from '../../helper/ThemeImage.svelte';
 
 	type Props = {
 		/**
@@ -70,8 +71,9 @@ Supports configurable image position, aspect ratio, and object fit.
 		<div
 			class={`w-full overflow-hidden rounded bg-background shadow-lg ring-1 ring-slate-900/10 md:flex-[1.7] ${ratioClass}`}
 		>
-			<img
+			<ThemeImage
 				src={section.image.src}
+				srcDark={section.image.srcDark}
 				alt={section.image.alt}
 				class={`h-full w-full ${fitClass}`}
 			/>

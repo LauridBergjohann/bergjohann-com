@@ -78,7 +78,7 @@ Adapts typography to the configured card size and supports cover or contain imag
 			</h2>
 
 			{#if card.subtitle}
-				<p class={`text-foreground mt-1 leading-snug ${subtitleClass}`}>
+				<p class={`text-foreground-soft mt-1 leading-snug ${subtitleClass}`}>
 					{card.subtitle}
 				</p>
 			{/if}

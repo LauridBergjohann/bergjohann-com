@@ -18,7 +18,6 @@
 			alt: "Hero Image"
 		},
 		headline: "Welcome to My Site",
-		headlineAlign: "right",
 		layout: "full",
 		size: "sm"
 	};

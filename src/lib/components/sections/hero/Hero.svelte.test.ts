@@ -1,9 +1,110 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-svelte';
+import ThemeSwitch from '../../ui/ThemeSwitch.svelte';
 
 import HeroImageSection from './Hero.svelte';
 
 describe('HeroImageSection.svelte', () => {
+	it('renders a page title and introduction after the hero image', async () => {
+		const screen = await render(HeroImageSection, {
+			props: {
+				headingLevel: 1,
+				section: {
+					id: 'hero',
+					layout: 'full',
+					headline: 'Blog',
+					introduction: 'Work in progress.',
+					image: { src: '/hero.jpg', alt: 'Workshop' }
+				}
+			}
+		});
+		const heading = screen.getByRole('heading', { level: 1, name: 'Blog' });
+		await expect.element(heading).toBeInTheDocument();
+		await expect.element(screen.getByText('Work in progress.')).toBeInTheDocument();
+		const image = screen.getByRole('img', { name: 'Workshop' }).element();
+		expect(
+			image.compareDocumentPosition(heading.element()) & Node.DOCUMENT_POSITION_FOLLOWING
+		).toBeTruthy();
+	});
+	let originalTheme: string | undefined;
+	let originalPreference: string | null;
+
+	beforeEach(() => {
+		originalTheme = document.documentElement.dataset.theme;
+		originalPreference = localStorage.getItem('bergjohann-theme');
+	});
+
+	afterEach(() => {
+		if (originalTheme === undefined) {
+			delete document.documentElement.dataset.theme;
+		} else {
+			document.documentElement.dataset.theme = originalTheme;
+		}
+		if (originalPreference === null) {
+			localStorage.removeItem('bergjohann-theme');
+		} else {
+			localStorage.setItem('bergjohann-theme', originalPreference);
+		}
+	});
+
+	it.each(['light', 'dark'])('uses the configured image in %s mode', async (theme) => {
+		document.documentElement.dataset.theme = theme;
+		const screen = await render(HeroImageSection, {
+			props: {
+				section: {
+					id: 'themed-image',
+					image: { src: '/light.jpg', srcDark: '/dark.jpg', alt: 'Themed image' }
+				}
+			}
+		});
+
+		const image = screen.getByRole('img', { name: 'Themed image' });
+		await expect.element(image).toBeVisible();
+		await expect.element(image).toHaveAttribute('src', `/${theme}.jpg`);
+	});
+
+	it('keeps the light image visible in dark mode when srcDark is omitted', async () => {
+		document.documentElement.dataset.theme = 'dark';
+		const screen = await render(HeroImageSection, {
+			props: {
+				section: {
+					id: 'fallback-image',
+					image: { src: '/light.jpg', alt: 'Fallback image' }
+				}
+			}
+		});
+
+		const image = screen.getByRole('img', { name: 'Fallback image' });
+		await expect.element(image).toBeVisible();
+		await expect.element(image).toHaveAttribute('src', '/light.jpg');
+		expect(screen.container.querySelectorAll('img')).toHaveLength(1);
+	});
+
+	it('updates the visible image when ThemeSwitch changes the theme', async () => {
+		localStorage.setItem('bergjohann-theme', 'light');
+		const switchScreen = await render(ThemeSwitch);
+		const screen = await render(HeroImageSection, {
+			props: {
+				section: {
+					id: 'switchable-image',
+					image: { src: '/light.jpg', srcDark: '/dark.jpg', alt: 'Switchable image' }
+				}
+			}
+		});
+		const image = screen.getByRole('img', { name: 'Switchable image' });
+
+		await expect.element(image).toHaveAttribute('src', '/light.jpg');
+		await switchScreen.getByRole('button', { name: 'Use dark theme' }).click();
+		await expect.element(image).toHaveAttribute('src', '/dark.jpg');
+		await switchScreen.getByRole('button', { name: 'Use light theme' }).click();
+		await expect.element(image).toHaveAttribute('src', '/light.jpg');
+		await switchScreen.getByRole('button', { name: 'Use system theme' }).click();
+		const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+			? 'dark'
+			: 'light';
+		await expect.element(image).toHaveAttribute('src', `/${systemTheme}.jpg`);
+	});
+
 	it('renders the hero image', async () => {
 		const screen = await render(HeroImageSection, {
 			props: {
@@ -21,10 +122,7 @@ describe('HeroImageSection.svelte', () => {
 			name: 'Mountain landscape'
 		});
 
-		await expect.element(image).toHaveAttribute(
-			'src',
-			'/images/hero.jpg'
-		);
+		await expect.element(image).toHaveAttribute('src', '/images/hero.jpg');
 	});
 
 	it('uses medium size by default', async () => {
@@ -126,82 +224,6 @@ describe('HeroImageSection.svelte', () => {
 			}
 		});
 
-		await expect
-			.element(screen.getByRole('heading', { level: 2 }))
-			.not.toBeInTheDocument();
-	});
-
-	it('aligns the headline to the right by default', async () => {
-		const screen = await render(HeroImageSection, {
-			props: {
-				section: {
-					id: 'hero',
-					headline: 'Welcome',
-					image: {
-						src: '/images/hero.jpg',
-						alt: 'Hero'
-					}
-				}
-			}
-		});
-
-		const heading = screen.getByRole('heading', {
-			level: 2,
-			name: 'Welcome'
-		});
-
-		const overlay = heading.element().parentElement?.parentElement?.parentElement;
-
-		expect(overlay).toHaveClass('justify-end');
-	});
-
-	it('aligns the headline to the left', async () => {
-		const screen = await render(HeroImageSection, {
-			props: {
-				section: {
-					id: 'hero',
-					headline: 'Welcome',
-					headlineAlign: 'left',
-					image: {
-						src: '/images/hero.jpg',
-						alt: 'Hero'
-					}
-				}
-			}
-		});
-
-		const heading = screen.getByRole('heading', {
-			level: 2,
-			name: 'Welcome'
-		});
-
-		const overlay = heading.element().parentElement?.parentElement?.parentElement;
-
-		expect(overlay).toHaveClass('justify-start');
-	});
-
-	it('aligns the headline to the center', async () => {
-		const screen = await render(HeroImageSection, {
-			props: {
-				section: {
-					id: 'hero',
-					headline: 'Welcome',
-					headlineAlign: 'center',
-					image: {
-						src: '/images/hero.jpg',
-						alt: 'Hero'
-					}
-				}
-			}
-		});
-
-		const heading = screen.getByRole('heading', {
-			level: 2,
-			name: 'Welcome'
-		});
-
-		const overlay = heading.element().parentElement?.parentElement?.parentElement;
-
-		expect(overlay).toHaveClass('justify-center');
+		await expect.element(screen.getByRole('heading', { level: 2 })).not.toBeInTheDocument();
 	});
 });
