@@ -1,12 +1,9 @@
 <script lang="ts">
-	type AnchorAction = (
-		node: HTMLAnchorElement,
-		param?: any
-	) => { destroy?: () => void } | void;
+	type AnchorAction = (node: HTMLAnchorElement, param?: any) => { destroy?: () => void } | void;
 
 	const {
-		href = "/",
-		currentPath = "/",
+		href = '/',
+		currentPath = '/',
 		children,
 		action,
 		actionParam,
@@ -21,8 +18,8 @@
 	}>();
 
 	const normalize = (p: string) => {
-		if (!p) return "/";
-		return p !== "/" && p.endsWith("/") ? p.slice(0, -1) : p;
+		if (!p) return '/';
+		return p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p;
 	};
 
 	const current = $derived(normalize(currentPath));
@@ -30,27 +27,27 @@
 
 	// aktiv wenn exakt oder prefix-match (für Unterseiten)
 	const active = $derived(
-		current === target || current.startsWith(target + (target === "/" ? "" : "/"))
+		current === target || current.startsWith(target + (target === '/' ? '' : '/'))
 	);
 </script>
 
 <a
-	href={href}
+	{href}
 	use:action={actionParam}
 	{...rest}
-	aria-current={active ? "page" : undefined}
+	aria-current={active ? 'page' : undefined}
 	data-active={active}
 	data-navtab="true"
 	data-tab-href={href}
 	class="
-		relative inline-flex h-18 items-center
-		rounded-md px-4
-		text-lg text-foreground-soft
-		hover:bg-background-alt hover:text-foreground
-		focus:outline-none focus:ring-2 focus:ring-accent
+		data-[active=true]:text-on-accent relative inline-flex h-[var(--header-height)]
+		items-center rounded-md
+		px-4 text-lg
+		text-foreground-soft hover:bg-background-alt
+		hover:text-foreground focus:ring-2 focus:ring-accent
 
-		data-[active=true]:bg-background-alt
-		data-[active=true]:text-on-accent
+		focus:outline-none
+		data-[active=true]:bg-selection
 		data-[active=true]:font-medium
 	"
 >

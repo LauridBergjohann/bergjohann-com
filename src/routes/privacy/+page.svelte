@@ -11,8 +11,8 @@
 <svelte:head><title>Privacy Policy</title></svelte:head>
 
 <HeaderSpacer />
-<main id="privacy" aria-labelledby="privacy-title" class="pt-8 pb-16 sm:pt-12 sm:pb-24">
-	<Container width="narrow" class="space-y-10">
+<main id="privacy" aria-labelledby="privacy-title">
+	<Container width="narrow" class="space-y-10 bg-section pt-8 pb-16 sm:pt-12 sm:pb-24">
 		<PageIntro
 			id="privacy-title"
 			title="Privacy Policy"

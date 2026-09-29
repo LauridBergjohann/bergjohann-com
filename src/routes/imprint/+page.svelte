@@ -11,8 +11,8 @@
 <svelte:head><title>Imprint</title></svelte:head>
 
 <HeaderSpacer />
-<main id="imprint" aria-labelledby="imprint-title" class="pt-8 pb-16 sm:pt-12 sm:pb-24">
-	<Container width="narrow" class="space-y-10">
+<main id="imprint" aria-labelledby="imprint-title">
+	<Container width="narrow" class="space-y-10 bg-section pt-8 pb-16 sm:pt-12 sm:pb-24">
 		<PageIntro
 			id="imprint-title"
 			title="Imprint"

@@ -51,6 +51,7 @@
 			title: 'What I’m exploring.',
 			introduction: 'The screen and the workbench have more in common than you might think.',
 			variant: 'feature',
+			layout: 'narrow',
 			spacing: 'spacious',
 			divider: 'none'
 		}}
@@ -81,6 +82,7 @@
 			title: 'On my workbench.',
 			introduction: 'A first look at my projects. More detailed write-ups will follow over time.',
 			variant: 'feature',
+			layout: 'narrow',
 			spacing: 'spacious',
 			divider: 'top'
 		}}
@@ -114,6 +116,7 @@
 			eyebrow: '03 / About me',
 			title: 'Hi, I’m Laurid.',
 			variant: 'feature',
+			layout: 'narrow',
 			spacing: 'spacious',
 			divider: 'top'
 		}}

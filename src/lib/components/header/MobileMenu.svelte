@@ -1,15 +1,20 @@
 <script lang="ts">
 	import type { NavigationEntry } from '$lib/api/navigation-api';
-	import Searchbox from './Searchbox.svelte';
-	import ThemeSwitch from '../ui/ThemeSwitch.svelte';
 
-	const { navigation, open, closeTick } = $props<{
+	const { navigation, currentPath, open, closeTick } = $props<{
 		navigation: NavigationEntry[];
+		currentPath: string;
 		open: boolean;
 		closeTick: number;
 	}>();
 
 	let expanded = $state<Record<string, boolean>>({});
+	const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
+	const current = $derived(normalize(currentPath));
+	function isActive(href: string) {
+		const target = normalize(href);
+		return current === target || (target !== '/' && current.startsWith(target + '/'));
+	}
 
 	$effect(() => {
 		closeTick; // dependency
@@ -24,18 +29,23 @@
 {#if open}
 	<div
 		id="mobile-menu"
-		class="max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-b-2xl border-t border-border bg-background/95 md:max-h-[calc(100dvh-7rem)] xl:hidden"
+		class="max-h-[calc(100dvh-var(--header-height)-1px)] overflow-y-auto border-t border-border bg-header/95 xl:hidden"
 	>
 		<div class="mx-auto max-w-7xl space-y-3 px-4 py-3">
-			<Searchbox variant="mobile" {closeTick} />
-
 			<nav class="text-base" aria-label="Mobile Navigation">
 				<ul role="list" class="space-y-1">
 					{#each navigation as item (item.href)}
 						<li>
-							<div class="flex items-center justify-between gap-2 rounded hover:bg-surface-hover">
+							<div
+								class={`flex items-center justify-between gap-2 rounded border-l-[3px] ${isActive(item.href) ? 'border-accent bg-selection font-medium' : 'border-transparent hover:bg-surface-hover'}`}
+							>
 								<a
 									href={item.href}
+									aria-current={current === normalize(item.href)
+										? 'page'
+										: isActive(item.href)
+											? 'location'
+											: undefined}
 									class="flex-1 rounded px-2 py-2 text-foreground-soft hover:text-foreground focus:ring-2 focus:ring-accent focus:outline-none"
 								>
 									{item.label}
@@ -80,8 +90,12 @@
 											<li>
 												<a
 													href={child.href}
-													class="flex items-center gap-2 rounded px-2 py-2 text-foreground-soft
-                               hover:text-foreground focus:ring-2 focus:ring-accent focus:outline-none"
+													aria-current={current === normalize(child.href)
+														? 'page'
+														: isActive(child.href)
+															? 'location'
+															: undefined}
+													class={`flex items-center gap-2 rounded border-l-[3px] px-2 py-2 text-foreground-soft hover:text-foreground focus:ring-2 focus:ring-accent focus:outline-none ${isActive(child.href) ? 'border-accent bg-selection font-medium' : 'border-transparent hover:bg-surface-hover'}`}
 												>
 													{#if child.icon}
 														<img
@@ -102,10 +116,6 @@
 					{/each}
 				</ul>
 			</nav>
-			<div class="space-y-3 border-t border-border pt-4 pb-2">
-				<p class="text-xs font-semibold tracking-wider text-muted uppercase">Appearance</p>
-				<ThemeSwitch labelled />
-			</div>
 		</div>
 	</div>
 {/if}

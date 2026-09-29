@@ -40,12 +40,12 @@ describe('Section.svelte', () => {
 		await expect.element(screen.getByText('Hosting information')).toBeVisible();
 		const wrapper = getSection(screen.container).firstElementChild;
 		expect(wrapper).not.toHaveClass('px-5');
-		expect(wrapper).not.toHaveClass('max-w-3xl');
+		expect(wrapper).not.toHaveClass('2xl:max-w-[var(--content-narrow-width)]');
 	});
 
 	it.each([
-		['narrow', 'max-w-3xl'],
-		['wide', 'max-w-6xl']
+		['narrow', '2xl:max-w-[var(--content-narrow-width)]'],
+		['wide', '2xl:max-w-[1800px]']
 	] as const)('constrains the %s layout', async (layout, widthClass) => {
 		const screen = await render(Section, {
 			props: { section: { id: 'example-section', layout }, children }
@@ -53,7 +53,7 @@ describe('Section.svelte', () => {
 		expect(getSection(screen.container).firstElementChild).toHaveClass(widthClass);
 	});
 
-	it('renders feature sections with their introduction and full-width divider', async () => {
+	it('renders feature sections with their introduction and content-width divider', async () => {
 		const screen = await render(Section, {
 			props: {
 				section: {
@@ -69,7 +69,7 @@ describe('Section.svelte', () => {
 		});
 		await expect.element(screen.getByRole('region', { name: 'Projects' })).toBeInTheDocument();
 		await expect.element(screen.getByText('From my workbench')).toBeVisible();
-		expect(getSection(screen.container)).toHaveClass('border-t', 'py-16');
+		expect(getSection(screen.container).firstElementChild).toHaveClass('border-t', 'py-16');
 	});
 	it('renders the section id and child content', async () => {
 		const screen = await render(Section, {
@@ -134,7 +134,8 @@ describe('Section.svelte', () => {
 
 		const section = getSection(screen.container);
 
-		expect(section).toHaveClass('bg-background');
+		expect(section).not.toHaveClass('bg-section');
+		expect(section.firstElementChild).toHaveClass('bg-section');
 	});
 
 	it('applies the configured background style', async () => {
@@ -150,7 +151,7 @@ describe('Section.svelte', () => {
 
 		const section = getSection(screen.container);
 
-		expect(section).toHaveClass('bg-background-alt');
+		expect(section.firstElementChild).toHaveClass('bg-surface');
 	});
 
 	it('uses normal spacing by default', async () => {
@@ -165,8 +166,8 @@ describe('Section.svelte', () => {
 
 		const section = getSection(screen.container);
 
-		expect(section).toHaveClass('py-2');
-		expect(section).toHaveClass('md:py-3');
+		expect(section.firstElementChild).toHaveClass('py-2');
+		expect(section.firstElementChild).toHaveClass('md:py-3');
 	});
 
 	it('applies configured section spacing', async () => {
@@ -182,8 +183,8 @@ describe('Section.svelte', () => {
 
 		const section = getSection(screen.container);
 
-		expect(section).toHaveClass('py-4');
-		expect(section).toHaveClass('md:py-5');
+		expect(section.firstElementChild).toHaveClass('py-4');
+		expect(section.firstElementChild).toHaveClass('md:py-5');
 	});
 
 	it('renders top and bottom dividers when divider is both', async () => {
@@ -252,8 +253,8 @@ describe('Section.svelte', () => {
 
 		const section = getSection(screen.container);
 
-		expect(section).not.toHaveClass('py-4');
-		expect(section).not.toHaveClass('md:py-5');
+		expect(section.firstElementChild).not.toHaveClass('py-4');
+		expect(section.firstElementChild).not.toHaveClass('md:py-5');
 
 		await expect
 			.element(
