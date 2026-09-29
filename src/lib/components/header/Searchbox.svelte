@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { tick } from 'svelte';
+	import Icon from '../ui/Icon.svelte';
 
 	import { shortcutLabel as getShortcutLabel } from '../helper/platform';
 	import type { SearchHitBase, SearchResults, FlatItem } from './search/types';
@@ -185,7 +186,11 @@
 
 	$effect(() => {
 		const onGlobal = (e: KeyboardEvent) => {
-			if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+			if (
+				(e.ctrlKey || e.metaKey) &&
+				e.key.toLowerCase() === 'k' &&
+				inputEl?.getClientRects().length
+			) {
 				e.preventDefault();
 				inputEl?.focus();
 				openWithHint();
@@ -205,7 +210,7 @@
 			id={'q-' + variant}
 			name="q"
 			placeholder="Suche"
-			class="h-[3.125rem] w-full rounded-xl border border-border-strong bg-surface/70 pr-12 pl-4 text-sm text-foreground transition-colors placeholder:text-muted hover:border-control-border focus:border-link focus:ring-2 focus:ring-link/20 focus:outline-none sm:pr-24"
+			class="peer h-[42px] w-full rounded-xl border border-border-strong bg-surface-raised pr-12 pl-4 text-sm text-foreground transition-colors placeholder:text-muted hover:border-control-border focus:border-link focus:ring-2 focus:ring-link/20 focus:outline-none lg:pr-32 lg:focus:pr-12"
 			bind:value={q}
 			autocomplete="off"
 			onfocus={openWithHint}
@@ -218,11 +223,11 @@
 		/>
 
 		<div
-			class="pointer-events-none absolute inset-y-0 right-12 hidden items-center sm:flex"
+			class="pointer-events-none absolute inset-y-0 right-10 hidden items-center peer-focus:hidden lg:flex"
 			aria-hidden="true"
 		>
 			<span
-				class="rounded-md border border-border bg-background/80 px-2 py-1 text-[11px] font-medium text-muted"
+				class="inline-flex h-8 items-center rounded-md border border-border-strong bg-surface px-2 text-[11px] font-medium text-foreground-soft"
 			>
 				{shortcutLabel}
 			</span>
@@ -230,20 +235,10 @@
 
 		<button
 			type="submit"
-			class="absolute top-1/2 right-1 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none"
+			class="absolute top-1/2 right-px inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[11px] text-foreground-soft transition-colors hover:bg-background-alt hover:text-foreground focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none"
 			aria-label="Suche absenden"
 		>
-			<svg
-				viewBox="0 0 24 24"
-				class="h-[18px] w-[18px]"
-				aria-hidden="true"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-			>
-				<circle cx="11" cy="11" r="7" />
-				<path d="M20 20l-3.5-3.5" />
-			</svg>
+			<span aria-hidden="true"><Icon id="search" size={18} /></span>
 		</button>
 	</form>
 

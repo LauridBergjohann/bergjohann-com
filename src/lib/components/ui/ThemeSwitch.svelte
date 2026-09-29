@@ -21,9 +21,9 @@
 <div
 	role="group"
 	aria-label="Appearance"
-	class="inline-flex shrink-0 items-center gap-1 rounded-xl border border-border-strong bg-surface/70 p-1"
+	class="inline-flex h-[42px] shrink-0 items-center divide-x divide-border-strong/70 rounded-lg border border-border-strong"
 >
-	{#each options as option (option.value)}
+	{#each options as option, index (option.value)}
 		<div class="group relative">
 			<button
 				type="button"
@@ -36,7 +36,7 @@
 				onkeydown={(event) => {
 					if (event.key === 'Escape') dismissed = true;
 				}}
-				class={`inline-flex min-h-10 items-center justify-center gap-2 rounded-lg text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-background text-foreground shadow-sm ring-1 ring-border' : 'text-muted hover:bg-surface-hover hover:text-foreground'}`}
+				class={`inline-flex h-10 items-center justify-center gap-2 ${index === 0 ? 'rounded-l-[7px]' : index === options.length - 1 ? 'rounded-r-[7px]' : ''} text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-selection text-foreground-soft' : 'text-foreground-soft hover:bg-background-alt hover:text-foreground'}`}
 			>
 				<span aria-hidden="true"><Icon id={option.icon} size={18} /></span>
 				{#if labelled}<span>{option.label}</span>{/if}

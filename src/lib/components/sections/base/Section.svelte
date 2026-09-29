@@ -8,8 +8,8 @@ Use layout="inherit" inside a container. Full layout preserves edge-to-edge medi
 	import type { Snippet } from 'svelte';
 	let { section, children }: { section: SectionBase; children: Snippet } = $props();
 	const backgrounds = {
-		normal: 'bg-background',
-		muted: 'bg-background-alt',
+		normal: 'bg-section',
+		muted: 'bg-surface',
 		transparent: 'bg-transparent'
 	};
 	const spacing = {
@@ -21,8 +21,8 @@ Use layout="inherit" inside a container. Full layout preserves edge-to-edge medi
 	};
 	const widths = {
 		full: '',
-		wide: 'mx-auto max-w-6xl px-5 sm:px-8',
-		narrow: 'mx-auto max-w-3xl px-5 sm:px-8',
+		wide: 'mx-auto w-full px-5 sm:px-8 2xl:max-w-[1800px]',
+		narrow: 'mx-auto w-full px-5 sm:px-8 2xl:max-w-[var(--content-narrow-width)]',
 		inherit: ''
 	};
 	const titles = {
@@ -39,12 +39,10 @@ Use layout="inherit" inside a container. Full layout preserves edge-to-edge medi
 	const headingId = $derived(section.title && !isFull ? section.id + '-title' : undefined);
 </script>
 
-<section
-	id={section.id}
-	aria-labelledby={headingId}
-	class={`relative w-full ${backgrounds[section.background ?? 'normal']} ${isFull ? '' : spacing[section.spacing ?? 'normal']} ${variant === 'feature' && topDivider ? 'border-t border-border' : ''} ${variant === 'feature' && bottomDivider ? 'border-b border-border' : ''}`}
->
-	<div class={widths[section.layout ?? 'wide']}>
+<section id={section.id} aria-labelledby={headingId} class="relative w-full">
+	<div
+		class={`${widths[section.layout ?? 'wide']} ${backgrounds[section.background ?? 'normal']} ${isFull ? '' : spacing[section.spacing ?? 'normal']} ${variant === 'feature' && topDivider ? 'border-t border-border' : ''} ${variant === 'feature' && bottomDivider ? 'border-b border-border' : ''}`}
+	>
 		{#if topDivider && variant !== 'feature'}
 			<div
 				class={`border-t border-border ${variant === 'content' ? 'mb-7' : 'mb-4'}`}

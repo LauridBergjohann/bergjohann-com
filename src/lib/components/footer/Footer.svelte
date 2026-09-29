@@ -6,7 +6,10 @@
 </script>
 
 <footer class="border-t border-border py-9">
-	<Container class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+	<Container
+		width="narrow"
+		class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"
+	>
 		<div>
 			<p class="text-xl font-bold tracking-tight">{site.name}</p>
 			<p class="mt-1 text-sm text-muted">UX &middot; Engineering &middot; Model Worlds</p>

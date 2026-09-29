@@ -3,11 +3,16 @@
 /* Midnight Workshop: light mode */
 :root {
   /* Shared dimensions for the floating header and HeaderSpacer. */
-  --header-top: 0.5rem;
-  --header-height: 4.5rem;
+  --header-top: 0rem;
+  --content-narrow-width: 1554px;
+  --header-height: 4rem;
   --header-clearance: calc(var(--header-top) + var(--header-height) + 2px + 1rem);
 
   color-scheme: light;
+  --page-background: #f3f6f9;
+  --section-background: #ffffff;
+  --header-background: #ffffff;
+  --selection-background: #e2e8f0;
 
   /* Page backgrounds */
   --background: #ffffff;           /* Main page background */
@@ -64,6 +69,10 @@
 /* Midnight Workshop: dark mode */
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --page-background: #080c11;
+  --section-background: #0e141d;
+  --header-background: #151f2d;
+  --selection-background: #0e141d;
 
   /* Page backgrounds */
   --background: #0b0f14;           /* Main page background */
@@ -121,6 +130,10 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
+    --page-background: #080c11;
+    --section-background: #0e141d;
+    --header-background: #151f2d;
+  --selection-background: #0e141d;
 
     --background: #0b0f14;
     --background-alt: #0e141d;
@@ -167,6 +180,10 @@
 
 /* Expose CSS variables as semantic Tailwind colors. */
 @theme inline {
+  --color-page: var(--page-background);
+  --color-section: var(--section-background);
+  --color-header: var(--header-background);
+  --color-selection: var(--selection-background);
   --color-background: var(--background);
   --color-background-alt: var(--background-alt);
 
@@ -200,8 +217,10 @@
   --color-info: var(--info);
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 96rem) {
   :root {
+    /* Keep the centered header clear of the separate theme controls. */
+    --content-narrow-width: min(1554px, calc(100vw - 356px));
     --header-top: 1rem;
   }
 }
@@ -214,7 +233,7 @@
   body {
     margin: 0;
     min-width: 320px;
-    background: var(--background);
+    background: var(--page-background);
     color: var(--foreground);
 
     font-family:

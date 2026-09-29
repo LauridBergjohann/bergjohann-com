@@ -4,5 +4,5 @@ export function isMacPlatform(): boolean {
 }
 
 export function shortcutLabel(): string {
-	return isMacPlatform() ? '⌘ K' : 'Ctrl K';
+	return isMacPlatform() ? '⌘ + K' : 'Ctrl + K';
 }

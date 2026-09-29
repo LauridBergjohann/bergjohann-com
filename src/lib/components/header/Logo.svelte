@@ -24,7 +24,7 @@
 	.brand {
 		display: block;
 		flex-shrink: 0;
-		width: clamp(144px, 24vw, 240px);
+		width: clamp(144px, 24vw, 192px);
 		max-width: 100%;
 	}
 

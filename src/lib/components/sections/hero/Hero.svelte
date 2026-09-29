@@ -37,7 +37,7 @@ A hero image followed by a page introduction aligned with the content.
 	/>
 	{#if section.headline}
 		{#if section.layout === 'full'}
-			<Container>{@render intro()}</Container>
+			<Container width="narrow">{@render intro()}</Container>
 		{:else}
 			{@render intro()}
 		{/if}
