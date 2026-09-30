@@ -41,7 +41,7 @@
 	data-tab-href={href}
 	class="
 		data-[active=true]:text-on-accent relative inline-flex h-[var(--header-height)]
-		items-center rounded-md
+		items-center 
 		px-4 text-lg
 		text-foreground-soft hover:bg-background-alt
 		hover:text-foreground focus:ring-2 focus:ring-accent
