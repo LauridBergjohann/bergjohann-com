@@ -1,8 +1,7 @@
 <script lang="ts">
-	import HeaderSpacer from '$lib/components/header/HeaderSpacer.svelte';
+	import Hero from '$lib/components/sections/hero/Hero.svelte';
 	import Container from '$lib/components/ui/Container.svelte';
 	import Section from '$lib/components/sections/base/Section.svelte';
-	import PageIntro from '$lib/components/content/PageIntro.svelte';
 	import Paragraph from '$lib/components/content/Paragraph.svelte';
 	import InfoPanel from '$lib/components/content/InfoPanel.svelte';
 	import TextLink from '$lib/components/content/TextLink.svelte';
@@ -10,16 +9,22 @@
 
 <svelte:head><title>Privacy Policy</title></svelte:head>
 
-<HeaderSpacer />
-<main id="privacy" aria-labelledby="privacy-title">
+<main id="privacy" aria-labelledby="privacy-hero-headline">
+	<Hero
+		headingLevel={1}
+		section={{
+			id: 'privacy-hero',
+			layout: 'full',
+			size: 'sm',
+			headline: 'Privacy Policy',
+			eyebrow: 'Legal information',
+			introduction:
+				'This privacy policy explains how personal data is processed when you visit bergjohann.com.',
+			textBackground: false,
+			image: { src: '/images/heroes/privacy.png', alt: '', objectFit: 'contain' }
+		}}
+	/>
 	<Container width="narrow" class="space-y-10 bg-section pt-8 pb-16 sm:pt-12 sm:pb-24">
-		<PageIntro
-			id="privacy-title"
-			title="Privacy Policy"
-			eyebrow="Legal information"
-			description="This privacy policy explains how personal data is processed when you visit bergjohann.com."
-		/>
-
 		<Section
 			section={{
 				id: 'privacy-controller',

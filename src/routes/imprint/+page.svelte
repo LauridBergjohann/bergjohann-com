@@ -1,8 +1,7 @@
 <script lang="ts">
-	import HeaderSpacer from '$lib/components/header/HeaderSpacer.svelte';
+	import Hero from '$lib/components/sections/hero/Hero.svelte';
 	import Container from '$lib/components/ui/Container.svelte';
 	import Section from '$lib/components/sections/base/Section.svelte';
-	import PageIntro from '$lib/components/content/PageIntro.svelte';
 	import Paragraph from '$lib/components/content/Paragraph.svelte';
 	import InfoPanel from '$lib/components/content/InfoPanel.svelte';
 	import TextLink from '$lib/components/content/TextLink.svelte';
@@ -10,16 +9,22 @@
 
 <svelte:head><title>Imprint</title></svelte:head>
 
-<HeaderSpacer />
-<main id="imprint" aria-labelledby="imprint-title">
+<main id="imprint" aria-labelledby="imprint-hero-headline">
+	<Hero
+		headingLevel={1}
+		section={{
+			id: 'imprint-hero',
+			layout: 'full',
+			size: 'sm',
+			headline: 'Imprint',
+			eyebrow: 'Legal information',
+			introduction:
+				'Information pursuant to Section 5 of the German Digital Services Act (DDG) and Section 18 (1) of the German Interstate Media Treaty (MStV).',
+			textBackground: false,
+			image: { src: '/images/heroes/imprint.png', alt: '', objectFit: 'contain' }
+		}}
+	/>
 	<Container width="narrow" class="space-y-10 bg-section pt-8 pb-16 sm:pt-12 sm:pb-24">
-		<PageIntro
-			id="imprint-title"
-			title="Imprint"
-			eyebrow="Legal information"
-			description="Information pursuant to Section 5 of the German Digital Services Act (DDG) and Section 18 (1) of the German Interstate Media Treaty (MStV)."
-		/>
-
 		<InfoPanel>
 			<address class="not-italic">
 				<strong class="font-semibold text-foreground">Laurid Bergjohann</strong><br />

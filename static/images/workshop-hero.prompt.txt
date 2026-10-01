@@ -1,0 +1,12 @@
+Generated with the built-in image_gen tool. Shared transparent artwork for both themes.
+Visual reference: https://svelte.dev/ (colors inspected on 2026-10-01).
+
+Use case: stylized-concept
+Asset type: transparent website hero illustration for a personal portfolio about UX, software architecture and model making.
+Primary request: An elegant minimal abstract 3D workshop sculpture, inspired by the understated isometric miniature-machine aesthetic of the Svelte homepage, with an original subject and no Svelte logo. A few precisely arranged modular silver-gray and porcelain-white blocks, one thin floating rounded interface panel, and a sweeping vivid orange ribbon/rail linking the modules into a small architectural assembly. Suggest the connection between digital design and hands-on building through pure abstract geometry.
+Scene/backdrop: genuinely transparent alpha background. No floor, no backdrop, no solid rectangle, no checkerboard.
+Composition/framing: wide landscape 1536x1024, complete isolated sculpture mostly in the right two-thirds, generous empty transparent left third, balanced low horizontal silhouette, subtle isometric perspective, all shapes within frame with generous margins. The main tall form on the right, a slim orange ribbon extending toward the lower left. Keep few objects and clean large shapes, no clutter.
+Lighting/mood: soft studio illumination, delicate self-shadowing and subtle ambient shadows, calm and tactile, polished editorial illustration.
+Color palette: cool silver, light slate, off-white and vivid Svelte-like orange #ff3e00. Midtone edges so the same transparent image reads on both white and charcoal backgrounds.
+Materials/textures: matte ceramic and satin aluminum, rounded machined edges, subtle fine details.
+Constraints: image only, no letters, no typography, no logos, no literal computer, no people, no scenery. True transparent background essential.

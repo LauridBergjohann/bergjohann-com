@@ -4,7 +4,7 @@
 
 <a href={resolve('/')} aria-label="bergjohann.com – Startseite" class="brand">
 	<img
-		src={asset('/branding/logo.svg')}
+		src={asset('/branding/logo-light.svg')}
 		alt=""
 		width="645"
 		height="154"

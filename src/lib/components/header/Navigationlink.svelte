@@ -40,7 +40,7 @@
 	data-navtab="true"
 	data-tab-href={href}
 	class="
-		data-[active=true]:text-on-accent relative inline-flex h-[var(--header-height)]
+		data-[active=true]:text-link relative inline-flex h-[var(--header-height)]
 		items-center 
 		px-4 text-lg
 		text-foreground-soft hover:bg-background-alt
@@ -58,7 +58,7 @@
 	<span
 		aria-hidden="true"
 		class="nav-underline pointer-events-none absolute bottom-2 left-1/2 h-[3px] w-10 -translate-x-1/2 rounded-full"
-		class:bg-wurm-50={active}
+		class:bg-accent={active}
 		class:bg-transparent={!active}
 	></span>
 </a>

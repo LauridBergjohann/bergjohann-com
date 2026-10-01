@@ -1,0 +1,12 @@
+Generated with the built-in image_gen tool. Final output is a transparent RGBA PNG.
+Logo palette source: static/branding/logo-light.svg.
+
+Generate a PNG illustration with a genuinely TRANSPARENT BACKGROUND (alpha channel).
+A clean isolated isometric 3D miniature sculpture for a website hero. Porcelain white, satin silver, and blue ONLY (#0a49a0, #3d8ef1, #72baff). Minimal, premium, calm, clear large shapes.
+The sculpture depicts software architecture connecting four domains with branching blue structural beams from a central stack of three white-and-blue modular blocks:
+- UX/UI: two floating rounded interface cards, with a user flow of three dots and one slider.
+- 3D interaction: one translucent blue cube in an elegant thin selection frame, an orbit ring and a small white pointer arrow.
+- Coding: a deep blue upright panel with white </> symbols and three short horizontal code lines.
+- Model building: one tiny sailboat and one tiny Dutch gabled model house standing together on a small blue cutting-mat tile.
+All four areas visibly connect to the central software architecture blocks. No more objects, no decorations.
+Wide landscape 1536x1024. Position sculpture in the RIGHT TWO THIRDS; the LEFT THIRD stays empty for webpage text. Keep generous margins. A low blue beam reaches toward the lower left. Tallest modules on the right. Tactile matte surfaces, soft studio light, delicate self-shadows. No environmental scene, no ground plane. This must be a transparent-background cutout suitable for overlay on both a white and a dark webpage. No words or labels except </>. No orange.

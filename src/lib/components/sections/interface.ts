@@ -116,9 +116,11 @@ export type ListSectionTyped = ListSection & {
 };
 
 /**
- * Section displaying a large hero image followed by an optional introduction.
+ * Section displaying text over a hero image and a theme-aware gradient.
  */
 export type HeroImageSection = SectionBase & {
+	/** Readable panel for photos. Disable for transparent artwork. Defaults to true. */
+	textBackground?: boolean;
 	/**
 	 * Hero image configuration.
 	 */
@@ -138,15 +140,18 @@ export type HeroImageSection = SectionBase & {
 		 * Alternative text describing the image.
 		 */
 		alt: string;
+
+		/** Use contain for transparent artwork; photos default to cover. */
+		objectFit?: 'cover' | 'contain';
 	};
 
 	/**
-	 * Optional headline displayed below the hero image.
+	 * Optional headline displayed over the hero image.
 	 */
 	headline?: string;
 
 	/**
-	 * Height of the hero image.
+	 * Minimum height of the hero; grows to accommodate content.
 	 *
 	 * @defaultValue `"md"`
 	 */
