@@ -5,7 +5,7 @@ import ThemeSwitch from '../../ui/ThemeSwitch.svelte';
 import HeroImageSection from './Hero.svelte';
 
 describe('HeroImageSection.svelte', () => {
-	it('renders a page title and introduction after the hero image', async () => {
+	it('places the page title and introduction within the hero image', async () => {
 		const screen = await render(HeroImageSection, {
 			props: {
 				headingLevel: 1,
@@ -22,9 +22,11 @@ describe('HeroImageSection.svelte', () => {
 		await expect.element(heading).toBeInTheDocument();
 		await expect.element(screen.getByText('Work in progress.')).toBeInTheDocument();
 		const image = screen.getByRole('img', { name: 'Workshop' }).element();
-		expect(
-			image.compareDocumentPosition(heading.element()) & Node.DOCUMENT_POSITION_FOLLOWING
-		).toBeTruthy();
+		const imageBounds = image.getBoundingClientRect();
+		const titleBounds = heading.element().getBoundingClientRect();
+		expect(titleBounds.top).toBeGreaterThanOrEqual(imageBounds.top);
+		expect(titleBounds.bottom).toBeLessThanOrEqual(imageBounds.bottom);
+		expect(screen.container.querySelector('.hero-panel')).not.toBeNull();
 	});
 	let originalTheme: string | undefined;
 	let originalPreference: string | null;
@@ -140,12 +142,10 @@ describe('HeroImageSection.svelte', () => {
 
 		const image = screen.getByRole('img', { name: 'Hero' });
 
-		await expect.element(image).toHaveClass('h-64');
-		await expect.element(image).toHaveClass('md:h-80');
-		await expect.element(image).toHaveClass('lg:h-[480px]');
+		expect(image.element().getBoundingClientRect().height).toBeGreaterThanOrEqual(512);
 	});
 
-	it('applies small size classes', async () => {
+	it('reserves a small hero area', async () => {
 		const screen = await render(HeroImageSection, {
 			props: {
 				section: {
@@ -161,12 +161,10 @@ describe('HeroImageSection.svelte', () => {
 
 		const image = screen.getByRole('img', { name: 'Hero' });
 
-		await expect.element(image).toHaveClass('h-32');
-		await expect.element(image).toHaveClass('md:h-48');
-		await expect.element(image).toHaveClass('lg:h-64');
+		expect(image.element().getBoundingClientRect().height).toBeGreaterThanOrEqual(384);
 	});
 
-	it('applies large size classes', async () => {
+	it('reserves a large hero area', async () => {
 		const screen = await render(HeroImageSection, {
 			props: {
 				section: {
@@ -182,9 +180,23 @@ describe('HeroImageSection.svelte', () => {
 
 		const image = screen.getByRole('img', { name: 'Hero' });
 
-		await expect.element(image).toHaveClass('h-72');
-		await expect.element(image).toHaveClass('md:h-[520px]');
-		await expect.element(image).toHaveClass('lg:h-[620px]');
+		expect(image.element().getBoundingClientRect().height).toBeGreaterThanOrEqual(672);
+	});
+
+	it('allows transparent artwork without a text panel', async () => {
+		const screen = await render(HeroImageSection, {
+			props: {
+				section: {
+					id: 'artwork',
+					headline: 'Build things',
+					textBackground: false,
+					image: { src: '/artwork.png', alt: 'Abstract workshop', objectFit: 'contain' }
+				}
+			}
+		});
+		await expect.element(screen.getByRole('heading', { name: 'Build things' })).toBeVisible();
+		expect(screen.container.querySelector('.hero-panel')).toBeNull();
+		expect(getComputedStyle(screen.getByRole('img').element()).objectFit).toBe('contain');
 	});
 
 	it('renders the optional headline', async () => {

@@ -39,9 +39,13 @@ Use layout="inherit" inside a container. Full layout preserves edge-to-edge medi
 	const headingId = $derived(section.title && !isFull ? section.id + '-title' : undefined);
 </script>
 
-<section id={section.id} aria-labelledby={headingId} class="relative w-full">
+<section
+	id={section.id}
+	aria-labelledby={headingId}
+	class={`relative w-full ${backgrounds[section.background ?? 'normal']}`}
+>
 	<div
-		class={`${widths[section.layout ?? 'wide']} ${backgrounds[section.background ?? 'normal']} ${isFull ? '' : spacing[section.spacing ?? 'normal']} ${variant === 'feature' && topDivider ? 'border-t border-border' : ''} ${variant === 'feature' && bottomDivider ? 'border-b border-border' : ''}`}
+		class={`${widths[section.layout ?? 'wide']} ${isFull ? '' : spacing[section.spacing ?? 'normal']} ${variant === 'feature' && topDivider ? 'border-t border-border' : ''} ${variant === 'feature' && bottomDivider ? 'border-b border-border' : ''}`}
 	>
 		{#if topDivider && variant !== 'feature'}
 			<div

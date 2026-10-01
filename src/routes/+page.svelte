@@ -1,5 +1,6 @@
 <script lang="ts">
-	import HeaderSpacer from '$lib/components/header/HeaderSpacer.svelte';
+	import Hero from '$lib/components/sections/hero/Hero.svelte';
+	import { resolve } from '$app/paths';
 	import { site } from '$lib/site';
 
 	import Section from '$lib/components/sections/base/Section.svelte';
@@ -41,9 +42,32 @@
 	<meta name="description" content={site.description} />
 </svelte:head>
 
-<HeaderSpacer />
-
 <main lang="en">
+	<Hero
+		headingLevel={1}
+		section={{
+			id: 'home-hero',
+			layout: 'full',
+			size: 'lg',
+			eyebrow: 'Laurid Bergjohann · A personal workshop',
+			headline: 'Stay curious. Build things.',
+			introduction:
+				'Exploring user experience, software architecture, and small worlds. A space for ideas, experiments, and things made by hand.',
+			textBackground: false,
+			image: { src: '/images/heroes/home.png', alt: '', objectFit: 'contain' }
+		}}
+	>
+		<div class="flex flex-wrap items-center gap-6 text-sm font-semibold">
+			<a
+				href={resolve('/projects')}
+				class="rounded-lg bg-primary px-5 py-3 text-on-primary transition-colors hover:bg-primary-hover"
+				>Explore my projects <span aria-hidden="true">→</span></a
+			>
+			<a href={resolve('/about')} class="text-link underline-offset-4 hover:underline"
+				>A little about me <span aria-hidden="true">→</span></a
+			>
+		</div>
+	</Hero>
 	<Section
 		section={{
 			id: 'themen',

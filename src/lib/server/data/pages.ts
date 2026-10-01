@@ -11,11 +11,12 @@ export const pages: Page[] = [
 				id: 'hero',
 				type: 'heroImage',
 				image: {
-					src: '/images/blog-hero-light.png',
-					srcDark: '/images/blog-hero-dark.png',
-					alt: 'Blog'
+					src: '/images/heroes/blog.png',
+					alt: '',
+					objectFit: 'contain'
 				},
 				layout: 'full',
+				textBackground: false,
 				headline: 'Blog',
 				size: 'sm',
 				introduction: 'This blog is a work in progress.'
@@ -32,11 +33,12 @@ export const pages: Page[] = [
 				id: 'hero',
 				type: 'heroImage',
 				image: {
-					src: '/images/projects-hero-light.png',
-					srcDark: '/images/projects-hero-dark.png',
-					alt: 'Projects'
+					src: '/images/heroes/projects.png',
+					alt: '',
+					objectFit: 'contain'
 				},
 				layout: 'full',
+				textBackground: false,
 				headline: 'Projects',
 				size: 'sm',
 				introduction: 'This Project-Section is a work in progress.'
@@ -53,11 +55,12 @@ export const pages: Page[] = [
 				id: 'hero',
 				type: 'heroImage',
 				image: {
-					src: '/images/workbench-hero-light.png',
-					srcDark: '/images/workbench-hero-dark.png',
-					alt: 'Workbench'
+					src: '/images/heroes/workbench.png',
+					alt: '',
+					objectFit: 'contain'
 				},
 				layout: 'full',
+				textBackground: false,
 				headline: 'Workbench',
 				size: 'sm',
 				introduction: 'This Workbench-Section is a work in progress.'
@@ -74,11 +77,12 @@ export const pages: Page[] = [
 				id: 'hero',
 				type: 'heroImage',
 				image: {
-					src: '/images/about-hero-light.png',
-					srcDark: '/images/about-hero-dark.png',
-					alt: 'About'
+					src: '/images/heroes/about.png',
+					alt: '',
+					objectFit: 'contain'
 				},
 				layout: 'full',
+				textBackground: false,
 				headline: 'About',
 				size: 'sm',
 				introduction: 'This Section about me is a work in progress.'

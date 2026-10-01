@@ -134,8 +134,8 @@ describe('Section.svelte', () => {
 
 		const section = getSection(screen.container);
 
-		expect(section).not.toHaveClass('bg-section');
-		expect(section.firstElementChild).toHaveClass('bg-section');
+		expect(section).toHaveClass('bg-section');
+		expect(section.firstElementChild).not.toHaveClass('bg-section');
 	});
 
 	it('applies the configured background style', async () => {
@@ -151,7 +151,7 @@ describe('Section.svelte', () => {
 
 		const section = getSection(screen.container);
 
-		expect(section.firstElementChild).toHaveClass('bg-surface');
+		expect(section).toHaveClass('bg-surface');
 	});
 
 	it('uses normal spacing by default', async () => {

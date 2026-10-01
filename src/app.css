@@ -1,270 +1,295 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-/* Midnight Workshop: light mode */
+/* Neutral surfaces inspired by Svelte; brand blues from static/branding/logo-light.svg. */
 :root {
-  /* Shared dimensions for the floating header and HeaderSpacer. */
-  --header-top: 0rem;
-  --content-narrow-width: 1554px;
-  --header-height: 4rem;
-  --header-clearance: calc(var(--header-top) + var(--header-height) + 2px + 1rem);
+	/* Shared logo colors. Keep light and dark accents tied to the same palette. */
+	--brand-navy: #073474;
+	--brand-deep: #0a49a0;
+	--brand-blue: #1e64d0;
+	--brand-medium: #3d8ef1;
+	--brand-light: #72baff;
+	--brand-pale: #b7dbff;
+	--brand-ice: #e9f5ff;
 
-  color-scheme: light;
-  --page-background: #f3f6f9;
-  --section-background: #ffffff;
-  --header-background: #ffffff;
-  --selection-background: #e2e8f0;
+	/* Shared dimensions for the floating header and HeaderSpacer. */
+	--header-top: 0rem;
+	--content-narrow-width: 1554px;
+	--header-height: 4rem;
+	--header-clearance: calc(var(--header-top) + var(--header-height) + 2px + 1rem);
 
-  /* Page backgrounds */
-  --background: #ffffff;           /* Main page background */
-  --background-alt: #f3f6f9;      /* Alternating section background */
+	color-scheme: light;
+	--page-background: #ffffff;
+	--section-background: #ffffff;
+	--header-background: #ffffff;
+	--hero-background:
+		linear-gradient(transparent, var(--section-background)),
+		radial-gradient(circle at 40% 30%, #ebf3f9, #d6dee4);
+	--hero-text-background: rgb(255 255 255 / 0.94);
+	--selection-background: var(--brand-ice);
 
-  /* Surfaces */
-  --surface: #f6f8fa;              /* Default surface for cards and panels */
-  --surface-raised: #ffffff;       /* Elevated surfaces such as dialogs or menus */
-  --surface-hover: #f1f5f9;        /* Hover state for interactive surfaces */
+	/* Page backgrounds */
+	--background: #ffffff;
+	--background-alt: #fafafa;
 
-  /* Text */
-  --foreground: #111827;           /* Primary text color */
-  --foreground-soft: #475569;      /* Softer body text and secondary content */
-  --muted: #6b7280;                /* Muted metadata and less important text */
-  --subtle: #94a3b8;               /* Very subtle text, eyebrows and timestamps */
+	/* Surfaces */
+	--surface: #f2f2f2;
+	--surface-raised: #ffffff;
+	--surface-hover: #ebebeb;
 
-  /* Borders */
-  --border: #e2e8f0;               /* Default border and divider color */
-  --border-strong: #cbd5e1;        /* Stronger borders for emphasis */
-  --control-border: #8592a2;       /* Form controls and interactive outlines */
+	/* Text */
+	--foreground: #141414;
+	--foreground-soft: #262626;
+	--muted: #666666;
+	--subtle: #767676;
 
-  /* Primary brand color */
-  --primary: #2f6ea6;              /* Primary actions and brand elements */
-  --primary-hover: #255c8c;        /* Hover state for primary elements */
-  --primary-soft: #eaf2f8;         /* Subtle primary-tinted backgrounds */
-  --on-primary: #ffffff;           /* Text and icons placed on primary color */
+	/* Borders */
+	--border: #ebebeb;
+	--border-strong: #d1d1d1;
+	--control-border: #808080;
 
-  /* Links */
-  --link: #2f6ea6;                 /* Default link color */
-  --link-hover: #255c8c;           /* Link hover color */
+	/* Primary brand color */
+	--primary: var(--brand-deep);
+	--primary-hover: var(--brand-navy);
+	--primary-soft: var(--brand-ice);
+	--on-primary: #ffffff;
 
-  /* Accent */
-  --accent: #ff7a00;               /* Secondary brand accent */
-  --accent-soft: #fff1e5;          /* Subtle accent-tinted background */
+	/* Links */
+	--link: var(--brand-deep);
+	--link-hover: var(--brand-navy);
 
-  /* Semantic states */
-  --success: #16a34a;              /* Successful or positive state */
-  --warning: #f59e0b;              /* Warning state */
-  --error: #dc2626;                /* Error or destructive state */
-  --info: #0ea5e9;                 /* Informational state */
+	/* Accent */
+	--accent: var(--brand-blue);
+	--accent-soft: var(--brand-ice);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);    /* Subtle resting shadow */
-  --shadow-md: 0 6px 18px rgb(15 23 42 / 0.10);   /* Card hover / medium elevation */
-  --shadow-lg: 0 14px 32px rgb(15 23 42 / 0.14);  /* Dialogs and strong elevation */
+	/* Semantic states */
+	--success: #16a34a; /* Successful or positive state */
+	--warning: #f59e0b; /* Warning state */
+	--error: #dc2626; /* Error or destructive state */
+	--info: #0ea5e9; /* Informational state */
 
-  /* Card semantics */
-  --card-background: var(--surface-raised);        /* Default card background */
-  --card-border: var(--border);                    /* Default card border */
-  --card-shadow: var(--shadow-sm);                 /* Resting card shadow */
-  --card-shadow-hover: var(--shadow-md);           /* Card hover shadow */
+	/* Shadows */
+	--shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06); /* Subtle resting shadow */
+	--shadow-md: 0 6px 18px rgb(15 23 42 / 0.1); /* Card hover / medium elevation */
+	--shadow-lg: 0 14px 32px rgb(15 23 42 / 0.14); /* Dialogs and strong elevation */
+
+	/* Card semantics */
+	--card-background: var(--surface-raised); /* Default card background */
+	--card-border: var(--border); /* Default card border */
+	--card-shadow: var(--shadow-sm); /* Resting card shadow */
+	--card-shadow-hover: var(--shadow-md); /* Card hover shadow */
 }
 
-/* Midnight Workshop: dark mode */
+/* Svelte-inspired dark palette. Reference: https://svelte.dev/ */
 :root[data-theme='dark'] {
-  color-scheme: dark;
-  --page-background: #080c11;
-  --section-background: #0e141d;
-  --header-background: #151f2d;
-  --selection-background: #0e141d;
+	color-scheme: dark;
+	--page-background: hsl(220, 10%, 12%);
+	--section-background: hsl(220, 10%, 12%);
+	--header-background: hsl(220, 14%, 16%);
+	--hero-background:
+		linear-gradient(transparent, var(--section-background)),
+		radial-gradient(64.14% 72.25% at 47.58% 31.75%, #71787f85 0%, #ffffff00 100%),
+		linear-gradient(92.4deg, #26292c 14.67%, #0000007a 54.37%, #1a22289e 92.49%),
+		linear-gradient(0deg, #203746, #e3e6e8);
+	--hero-text-background: rgb(28 30 34 / 0.94);
+	--selection-background: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
 
-  /* Page backgrounds */
-  --background: #0b0f14;           /* Main page background */
-  --background-alt: #0e141d;       /* Alternating section background */
+	/* Page backgrounds */
+	--background: hsl(220, 10%, 12%);
+	--background-alt: hsl(220, 12%, 14%);
 
-  /* Surfaces */
-  --surface: #111827;              /* Default surface for cards and panels */
-  --surface-raised: #151f2d;       /* Elevated surfaces such as dialogs or menus */
-  --surface-hover: #182233;        /* Hover state for interactive surfaces */
+	/* Surfaces */
+	--surface: hsl(220, 14%, 16%);
+	--surface-raised: hsl(220, 14%, 16%);
+	--surface-hover: hsl(220, 15%, 21%);
 
-  /* Text */
-  --foreground: #f8fafc;           /* Primary text color */
-  --foreground-soft: #cbd5e1;      /* Softer body text and secondary content */
-  --muted: #94a3b8;                /* Muted metadata and less important text */
-  --subtle: #64748b;               /* Very subtle text, eyebrows and timestamps */
+	/* Text */
+	--foreground: hsl(220, 2%, 90%);
+	--foreground-soft: hsl(220, 3%, 80%);
+	--muted: hsl(220, 5%, 65%);
+	--subtle: hsl(220, 5%, 55%);
 
-  /* Borders */
-  --border: #263446;               /* Default border and divider color */
-  --border-strong: #3a4a5f;        /* Stronger borders for emphasis */
-  --control-border: #62748b;       /* Form controls and interactive outlines */
+	/* Borders */
+	--border: hsl(220, 15%, 22%);
+	--border-strong: hsl(220, 15%, 32%);
+	--control-border: hsl(220, 5%, 55%);
 
-  /* Primary brand color */
-  --primary: #3b82f6;              /* Primary actions and brand elements */
-  --primary-hover: #60a5fa;        /* Hover state for primary elements */
-  --primary-soft: #0f2540;         /* Subtle primary-tinted backgrounds */
-  --on-primary: #0b0f14;           /* Text and icons placed on primary color */
+	/* Primary brand color */
+	--primary: var(--brand-light);
+	--primary-hover: var(--brand-pale);
+	--primary-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
+	--on-primary: var(--brand-navy);
 
-  /* Links */
-  --link: #93c5fd;                 /* Default link color */
-  --link-hover: #bfdbfe;           /* Link hover color */
+	/* Links */
+	--link: var(--brand-light);
+	--link-hover: var(--brand-pale);
 
-  /* Accent */
-  --accent: #ff7a00;               /* Secondary brand accent */
-  --accent-soft: #3a210d;          /* Subtle accent-tinted background */
+	/* Accent */
+	--accent: var(--brand-light);
+	--accent-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
 
-  /* Semantic states */
-  --success: #22c55e;              /* Successful or positive state */
-  --warning: #f59e0b;              /* Warning state */
-  --error: #ef4444;                /* Error or destructive state */
-  --info: #38bdf8;                 /* Informational state */
+	/* Semantic states */
+	--success: #22c55e; /* Successful or positive state */
+	--warning: #f59e0b; /* Warning state */
+	--error: #ef4444; /* Error or destructive state */
+	--info: #38bdf8; /* Informational state */
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28);       /* Subtle resting shadow */
-  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.35);      /* Card hover / medium elevation */
-  --shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45);     /* Dialogs and strong elevation */
+	/* Shadows */
+	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28); /* Subtle resting shadow */
+	--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35); /* Card hover / medium elevation */
+	--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45); /* Dialogs and strong elevation */
 
-  /* Card semantics */
-  --card-background: var(--surface);               /* Default card background */
-  --card-border: var(--border);                    /* Default card border */
-  --card-shadow: var(--shadow-sm);                 /* Resting card shadow */
-  --card-shadow-hover: var(--shadow-md);            /* Card hover shadow */
+	/* Card semantics */
+	--card-background: var(--surface); /* Default card background */
+	--card-border: var(--border); /* Default card border */
+	--card-shadow: var(--shadow-sm); /* Resting card shadow */
+	--card-shadow-hover: var(--shadow-md); /* Card hover shadow */
 }
 
 /* Respect the operating system theme even when JavaScript is unavailable. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    color-scheme: dark;
-    --page-background: #080c11;
-    --section-background: #0e141d;
-    --header-background: #151f2d;
-  --selection-background: #0e141d;
+	:root:not([data-theme]) {
+		color-scheme: dark;
+		--page-background: hsl(220, 10%, 12%);
+		--section-background: hsl(220, 10%, 12%);
+		--header-background: hsl(220, 14%, 16%);
+		--hero-background:
+			linear-gradient(transparent, var(--section-background)),
+			radial-gradient(64.14% 72.25% at 47.58% 31.75%, #71787f85 0%, #ffffff00 100%),
+			linear-gradient(92.4deg, #26292c 14.67%, #0000007a 54.37%, #1a22289e 92.49%),
+			linear-gradient(0deg, #203746, #e3e6e8);
+		--hero-text-background: rgb(28 30 34 / 0.94);
+		--selection-background: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
 
-    --background: #0b0f14;
-    --background-alt: #0e141d;
+		--background: hsl(220, 10%, 12%);
+		--background-alt: hsl(220, 12%, 14%);
 
-    --surface: #111827;
-    --surface-raised: #151f2d;
-    --surface-hover: #182233;
+		--surface: hsl(220, 14%, 16%);
+		--surface-raised: hsl(220, 14%, 16%);
+		--surface-hover: hsl(220, 15%, 21%);
 
-    --foreground: #f8fafc;
-    --foreground-soft: #cbd5e1;
-    --muted: #94a3b8;
-    --subtle: #64748b;
+		--foreground: hsl(220, 2%, 90%);
+		--foreground-soft: hsl(220, 3%, 80%);
+		--muted: hsl(220, 5%, 65%);
+		--subtle: hsl(220, 5%, 55%);
 
-    --border: #263446;
-    --border-strong: #3a4a5f;
-    --control-border: #62748b;
+		--border: hsl(220, 15%, 22%);
+		--border-strong: hsl(220, 15%, 32%);
+		--control-border: hsl(220, 5%, 55%);
 
-    --primary: #3b82f6;
-    --primary-hover: #60a5fa;
-    --primary-soft: #0f2540;
-    --on-primary: #0b0f14;
+		--primary: var(--brand-light);
+		--primary-hover: var(--brand-pale);
+		--primary-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
+		--on-primary: var(--brand-navy);
 
-    --link: #93c5fd;
-    --link-hover: #bfdbfe;
+		--link: var(--brand-light);
+		--link-hover: var(--brand-pale);
 
-    --accent: #ff7a00;
-    --accent-soft: #3a210d;
+		--accent: var(--brand-light);
+		--accent-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
 
-    --success: #22c55e;
-    --warning: #f59e0b;
-    --error: #ef4444;
-    --info: #38bdf8;
+		--success: #22c55e;
+		--warning: #f59e0b;
+		--error: #ef4444;
+		--info: #38bdf8;
 
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28);
-    --shadow-md: 0 8px 24px rgb(0 0 0 / 0.35);
-    --shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45);
+		--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28);
+		--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35);
+		--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45);
 
-    --card-background: var(--surface);
-    --card-border: var(--border);
-    --card-shadow: var(--shadow-sm);
-    --card-shadow-hover: var(--shadow-md);
-  }
+		--card-background: var(--surface);
+		--card-border: var(--border);
+		--card-shadow: var(--shadow-sm);
+		--card-shadow-hover: var(--shadow-md);
+	}
 }
 
 /* Expose CSS variables as semantic Tailwind colors. */
 @theme inline {
-  --color-page: var(--page-background);
-  --color-section: var(--section-background);
-  --color-header: var(--header-background);
-  --color-selection: var(--selection-background);
-  --color-background: var(--background);
-  --color-background-alt: var(--background-alt);
+	--color-page: var(--page-background);
+	--color-section: var(--section-background);
+	--color-header: var(--header-background);
+	--color-selection: var(--selection-background);
+	--color-background: var(--background);
+	--color-background-alt: var(--background-alt);
 
-  --color-surface: var(--surface);
-  --color-surface-raised: var(--surface-raised);
-  --color-surface-hover: var(--surface-hover);
+	--color-surface: var(--surface);
+	--color-surface-raised: var(--surface-raised);
+	--color-surface-hover: var(--surface-hover);
 
-  --color-foreground: var(--foreground);
-  --color-foreground-soft: var(--foreground-soft);
-  --color-muted: var(--muted);
-  --color-subtle: var(--subtle);
+	--color-foreground: var(--foreground);
+	--color-foreground-soft: var(--foreground-soft);
+	--color-muted: var(--muted);
+	--color-subtle: var(--subtle);
 
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
-  --color-control-border: var(--control-border);
+	--color-border: var(--border);
+	--color-border-strong: var(--border-strong);
+	--color-control-border: var(--control-border);
 
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-primary-soft: var(--primary-soft);
-  --color-on-primary: var(--on-primary);
+	--color-primary: var(--primary);
+	--color-primary-hover: var(--primary-hover);
+	--color-primary-soft: var(--primary-soft);
+	--color-on-primary: var(--on-primary);
 
-  --color-link: var(--link);
-  --color-link-hover: var(--link-hover);
+	--color-link: var(--link);
+	--color-link-hover: var(--link-hover);
 
-  --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
+	--color-accent: var(--accent);
+	--color-accent-soft: var(--accent-soft);
 
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-error: var(--error);
-  --color-info: var(--info);
+	--color-success: var(--success);
+	--color-warning: var(--warning);
+	--color-error: var(--error);
+	--color-info: var(--info);
 }
 
 @media (min-width: 96rem) {
-  :root {
-    /* Keep the centered header clear of the separate theme controls. */
-    --content-narrow-width: min(1554px, calc(100vw - 356px));
-    --header-top: 1rem;
-  }
+	:root {
+		/* Keep the centered header clear of the separate theme controls. */
+		--content-narrow-width: min(1554px, calc(100vw - 356px));
+		--header-top: 1rem;
+	}
 }
 
 @layer base {
-  html {
-    scroll-padding-top: 9rem;
-  }
+	html {
+		scroll-padding-top: 9rem;
+	}
 
-  body {
-    margin: 0;
-    min-width: 320px;
-    background: var(--page-background);
-    color: var(--foreground);
+	body {
+		margin: 0;
+		min-width: 320px;
+		background: var(--page-background);
+		color: var(--foreground);
 
-    font-family:
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      sans-serif;
+		font-family:
+			ui-sans-serif,
+			system-ui,
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			sans-serif;
 
-    -webkit-font-smoothing: antialiased;
-  }
+		-webkit-font-smoothing: antialiased;
+	}
 
-  a{
-    color: var(--link);
-    text-decoration: none;
-  }
+	a {
+		color: var(--link);
+		text-decoration: none;
+	}
 
-  :focus-visible {
-    outline: 2px solid var(--link);
-    outline-offset: 4px;
-  }
+	:focus-visible {
+		outline: 2px solid var(--link);
+		outline-offset: 4px;
+	}
 
-  ::selection {
-    background: var(--primary);
-    color: var(--on-primary);
-  }
+	::selection {
+		background: var(--primary);
+		color: var(--on-primary);
+	}
 
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: smooth;
-    }
-  }
+	@media (prefers-reduced-motion: no-preference) {
+		html {
+			scroll-behavior: smooth;
+		}
+	}
 }
