@@ -11,13 +11,13 @@
 		{
 			value: 'light',
 			label: messages.theme.light,
-			description: messages.theme.useLight,
+			description: preference === 'light' ? messages.theme.activeLight : messages.theme.useLight,
 			icon: 'sun'
 		},
 		{
 			value: 'dark',
 			label: messages.theme.dark,
-			description: messages.theme.useDark,
+			description: preference === 'dark' ? messages.theme.activeDark : messages.theme.useDark,
 			icon: 'moon'
 		}
 	] as const);
@@ -37,7 +37,7 @@
 		<div class="group relative">
 			<button
 				type="button"
-				aria-label={option.description}
+				aria-label={option.label}
 				aria-pressed={ready ? preference === option.value : undefined}
 				disabled={!ready}
 				onclick={() => changeTheme(option.value)}
@@ -46,7 +46,7 @@
 				onkeydown={(event) => {
 					if (event.key === 'Escape') dismissed = true;
 				}}
-				class={`inline-flex h-10 items-center justify-center gap-2 ${index === 0 ? 'rounded-l-[7px]' : index === options.length - 1 ? 'rounded-r-[7px]' : ''} text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-selection text-foreground-soft' : 'text-foreground-soft hover:bg-background-alt hover:text-foreground'}`}
+				class={`inline-flex h-10 cursor-pointer items-center justify-center gap-2 ${index === 0 ? 'rounded-l-[7px]' : index === options.length - 1 ? 'rounded-r-[7px]' : ''} text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:cursor-default disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-selection text-foreground-soft' : 'text-foreground-soft hover:bg-background-alt hover:text-foreground'}`}
 			>
 				<span aria-hidden="true"><Icon id={option.icon} size={18} /></span>
 				{#if labelled}<span>{option.label}</span>{/if}

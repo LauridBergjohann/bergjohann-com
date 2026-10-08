@@ -17,7 +17,9 @@ export interface Messages {
 		language: string;
 		appearance: string;
 		english: string;
+		englishSelected: string;
 		german: string;
+		germanSelected: string;
 		names: Record<'en' | 'de', string>;
 	};
 	theme: {
@@ -25,6 +27,8 @@ export interface Messages {
 		dark: string;
 		useLight: string;
 		useDark: string;
+		activeLight: string;
+		activeDark: string;
 	};
 	search: {
 		label: string;

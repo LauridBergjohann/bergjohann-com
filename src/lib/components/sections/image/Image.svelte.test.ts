@@ -77,9 +77,9 @@ describe('Image.svelte', () => {
 		const image = screen.getByRole('img', { name: 'Switchable image' });
 
 		await expect.element(image).toHaveAttribute('src', '/light.jpg');
-		await switchScreen.getByRole('button', { name: 'Use dark theme' }).click();
+		await switchScreen.getByRole('button', { name: 'Dark' }).click();
 		await expect.element(image).toHaveAttribute('src', '/dark.jpg');
-		await switchScreen.getByRole('button', { name: 'Use light theme' }).click();
+		await switchScreen.getByRole('button', { name: 'Light' }).click();
 		await expect.element(image).toHaveAttribute('src', '/light.jpg');
 	});
 

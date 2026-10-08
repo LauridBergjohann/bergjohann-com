@@ -27,13 +27,17 @@ const translations: Record<Locale, TextMessages> = {
 			language: 'Language',
 			appearance: 'Appearance',
 			english: 'Switch to English',
-			german: 'Switch to German'
+			englishSelected: 'English is selected as the language',
+			german: 'Switch to German',
+			germanSelected: 'German is selected as the language'
 		},
 		theme: {
 			light: 'Light',
 			dark: 'Dark',
-			useLight: 'Use light theme',
-			useDark: 'Use dark theme'
+			useLight: 'Switch to light theme',
+			useDark: 'Switch to dark theme',
+			activeLight: 'The light theme is in use',
+			activeDark: 'The dark theme is in use'
 		},
 		search: {
 			label: 'Search',
@@ -80,13 +84,17 @@ const translations: Record<Locale, TextMessages> = {
 			language: 'Sprache',
 			appearance: 'Darstellung',
 			english: 'Zu Englisch wechseln',
-			german: 'Zu Deutsch wechseln'
+			englishSelected: 'Englisch ist als Sprache ausgewählt',
+			german: 'Zu Deutsch wechseln',
+			germanSelected: 'Deutsch ist als Sprache ausgewählt'
 		},
 		theme: {
 			light: 'Hell',
 			dark: 'Dunkel',
-			useLight: 'Helles Design verwenden',
-			useDark: 'Dunkles Design verwenden'
+			useLight: 'Zum hellen Design wechseln',
+			useDark: 'Zum dunklen Design wechseln',
+			activeLight: 'Es wird das helle Design verwendet',
+			activeDark: 'Es wird das dunkle Design verwendet'
 		},
 		search: {
 			label: 'Suche',

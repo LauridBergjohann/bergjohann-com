@@ -317,6 +317,7 @@
 		text-underline-offset: 4px;
 	}
 
+	main a:not([data-button]),
 	a:hover:not([data-button]) {
 		text-decoration-line: underline;
 	}

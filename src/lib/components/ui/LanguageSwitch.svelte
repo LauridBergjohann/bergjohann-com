@@ -38,7 +38,14 @@
 	class="inline-flex h-[42px] shrink-0 items-center divide-x divide-border-strong/70 rounded-lg border border-border-strong"
 >
 	{#each languages as language, index (language)}
-		{@const description = language === 'en' ? messages.settings.english : messages.settings.german}
+		{@const description =
+			language === locale
+				? language === 'en'
+					? messages.settings.englishSelected
+					: messages.settings.germanSelected
+				: language === 'en'
+					? messages.settings.english
+					: messages.settings.german}
 		<div class="group relative">
 			<a
 				href={resolve((pathFor(language, slugs[language]) + suffix) as PathnameWithSearchOrHash)}
