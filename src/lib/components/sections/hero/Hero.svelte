@@ -133,7 +133,8 @@ Text over hero media with an optional readable panel for photography.
 		font-weight: 700;
 		letter-spacing: -0.055em;
 		text-wrap: balance;
-		overflow-wrap: anywhere;
+		hyphens: auto;
+		overflow-wrap: break-word;
 	}
 	.hero[data-size='sm'] :is(h1, h2) {
 		font-size: clamp(2.75rem, 5vw, 4.5rem);
@@ -147,6 +148,11 @@ Text over hero media with an optional readable panel for photography.
 	}
 	.hero-actions {
 		margin-top: 2rem;
+	}
+	@media (min-width: 1024px) {
+		.hero-artwork[data-size='sm'] .hero-copy {
+			width: min(100%, 44rem);
+		}
 	}
 	@media (max-width: 1023px) {
 		.hero {
