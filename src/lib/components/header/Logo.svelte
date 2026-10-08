@@ -1,10 +1,17 @@
 <script lang="ts">
+	import type { Asset, PathnameWithSearchOrHash } from '$app/types';
 	import { asset, resolve } from '$app/paths';
+	import type { Messages } from '$lib/i18n/messages';
+	let { messages }: { messages: Messages } = $props();
 </script>
 
-<a href={resolve('/')} aria-label="bergjohann.com – Startseite" class="brand">
+<a
+	href={resolve(messages.links.home as PathnameWithSearchOrHash)}
+	aria-label={messages.navigation.home}
+	class="brand"
+>
 	<img
-		src={asset('/branding/logo-light.svg')}
+		src={asset(messages.brand.logoLight as Asset)}
 		alt=""
 		width="645"
 		height="154"
@@ -12,7 +19,7 @@
 	/>
 
 	<img
-		src={asset('/branding/logo-dark.svg')}
+		src={asset(messages.brand.logoDark as Asset)}
 		alt=""
 		width="645"
 		height="154"

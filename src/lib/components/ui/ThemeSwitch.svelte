@@ -2,15 +2,31 @@
 	import { onMount } from 'svelte';
 	import Icon from './Icon.svelte';
 	import { themePreference, changeTheme, type ThemePreference } from '$lib/theme';
-	let { labelled = false }: { labelled?: boolean } = $props();
+	import type { Messages } from '$lib/i18n/messages';
+	let { labelled = false, messages }: { labelled?: boolean; messages: Messages } = $props();
 	let preference = $state<ThemePreference>('system');
 	let ready = $state(false);
 	let dismissed = $state(false);
-	const options = [
-		{ value: 'light', label: 'Light', description: 'Use light theme', icon: 'sun' },
-		{ value: 'dark', label: 'Dark', description: 'Use dark theme', icon: 'moon' },
-		{ value: 'system', label: 'System', description: 'Use system theme', icon: 'monitor' }
-	] as const;
+	const options = $derived([
+		{
+			value: 'light',
+			label: messages.theme.light,
+			description: messages.theme.useLight,
+			icon: 'sun'
+		},
+		{
+			value: 'dark',
+			label: messages.theme.dark,
+			description: messages.theme.useDark,
+			icon: 'moon'
+		},
+		{
+			value: 'system',
+			label: messages.theme.system,
+			description: messages.theme.useSystem,
+			icon: 'monitor'
+		}
+	] as const);
 	onMount(() => {
 		const unsubscribe = themePreference.subscribe((value) => (preference = value));
 		ready = true;
@@ -20,7 +36,7 @@
 
 <div
 	role="group"
-	aria-label="Appearance"
+	aria-label={messages.settings.appearance}
 	class="inline-flex h-[42px] shrink-0 items-center divide-x divide-border-strong/70 rounded-lg border border-border-strong"
 >
 	{#each options as option, index (option.value)}

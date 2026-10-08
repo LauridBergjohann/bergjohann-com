@@ -1,5 +1,9 @@
 <script lang="ts">
-	type AnchorAction = (node: HTMLAnchorElement, param?: any) => { destroy?: () => void } | void;
+	import { resolve } from '$app/paths';
+	import type { PathnameWithSearchOrHash } from '$app/types';
+	import type { Snippet } from 'svelte';
+	import type { HTMLAnchorAttributes } from 'svelte/elements';
+	type AnchorAction = (node: HTMLAnchorElement, param?: unknown) => { destroy?: () => void } | void;
 
 	const {
 		href = '/',
@@ -8,14 +12,16 @@
 		action,
 		actionParam,
 		...rest
-	} = $props<{
-		href?: string;
-		currentPath?: string;
-		children?: () => any;
-		action?: AnchorAction;
-		actionParam?: any;
-		[key: string]: any;
-	}>();
+	} = $props<
+		Omit<HTMLAnchorAttributes, 'href' | 'children'> & {
+			href?: string;
+			currentPath?: string;
+			children?: Snippet;
+			action?: AnchorAction;
+			actionParam?: unknown;
+			'data-tab-href'?: string;
+		}
+	>();
 
 	const normalize = (p: string) => {
 		if (!p) return '/';
@@ -32,7 +38,7 @@
 </script>
 
 <a
-	{href}
+	href={resolve(href as PathnameWithSearchOrHash)}
 	use:action={actionParam}
 	{...rest}
 	aria-current={active ? 'page' : undefined}
@@ -40,8 +46,8 @@
 	data-navtab="true"
 	data-tab-href={href}
 	class="
-		data-[active=true]:text-link relative inline-flex h-[var(--header-height)]
-		items-center 
+		relative inline-flex h-[var(--header-height)]
+		items-center
 		px-4 text-lg
 		text-foreground-soft hover:bg-background-alt
 		hover:text-foreground focus:ring-2 focus:ring-accent

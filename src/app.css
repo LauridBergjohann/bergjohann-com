@@ -1,15 +1,37 @@
 @import 'tailwindcss';
 
-/* Neutral surfaces inspired by Svelte; brand blues from static/branding/logo-light.svg. */
+/* Locally hosted Inter 4.1; license and provenance: static/fonts/inter/. */
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('/fonts/inter/InterVariable.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2');
+}
+
+@theme {
+	--font-sans:
+		'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Neutral surfaces inspired by Svelte; green-teal accents match the logo palette. */
 :root {
-	/* Shared logo colors. Keep light and dark accents tied to the same palette. */
-	--brand-navy: #073474;
-	--brand-deep: #0a49a0;
-	--brand-blue: #1e64d0;
-	--brand-medium: #3d8ef1;
-	--brand-light: #72baff;
-	--brand-pale: #b7dbff;
-	--brand-ice: #e9f5ff;
+	/* Shared logo colors. Retain token names for existing consumers. */
+	--brand-navy: #cae2dd;
+	--brand-deep: #007b5e;
+	--brand-blue: #00a57f;
+	--brand-medium: #00b38f;
+	--brand-light: #06795e;
+	--brand-pale: #0fac87;
+	--brand-ice: #fbfdfc;
 
 	/* Shared dimensions for the floating header and HeaderSpacer. */
 	--header-top: 0rem;
@@ -23,13 +45,13 @@
 	--header-background: #ffffff;
 	--hero-background:
 		linear-gradient(transparent, var(--section-background)),
-		radial-gradient(circle at 40% 30%, #ebf3f9, #d6dee4);
+		radial-gradient(circle at 40% 30%, #ebeeed, #dee2e1);
 	--hero-text-background: rgb(255 255 255 / 0.94);
-	--selection-background: var(--brand-ice);
+	--selection-background: #eeeeee;
 
 	/* Page backgrounds */
 	--background: #ffffff;
-	--background-alt: #fafafa;
+	--background-alt: #f0f0f0;
 
 	/* Surfaces */
 	--surface: #f2f2f2;
@@ -65,7 +87,7 @@
 	--success: #16a34a; /* Successful or positive state */
 	--warning: #f59e0b; /* Warning state */
 	--error: #dc2626; /* Error or destructive state */
-	--info: #0ea5e9; /* Informational state */
+	--info: #00a57f; /* Informational state */
 
 	/* Shadows */
 	--shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06); /* Subtle resting shadow */
@@ -79,23 +101,20 @@
 	--card-shadow-hover: var(--shadow-md); /* Card hover shadow */
 }
 
-/* Svelte-inspired dark palette. Reference: https://svelte.dev/ */
 :root[data-theme='dark'] {
 	color-scheme: dark;
 	--page-background: hsl(220, 10%, 12%);
 	--section-background: hsl(220, 10%, 12%);
 	--header-background: hsl(220, 14%, 16%);
 	--hero-background:
-		linear-gradient(transparent, var(--section-background)),
-		radial-gradient(64.14% 72.25% at 47.58% 31.75%, #71787f85 0%, #ffffff00 100%),
-		linear-gradient(92.4deg, #26292c 14.67%, #0000007a 54.37%, #1a22289e 92.49%),
-		linear-gradient(0deg, #203746, #e3e6e8);
+			linear-gradient(transparent, var(--section-background)),
+			radial-gradient(circle at 40% 30%, rgb(50 54 62), rgb(59 62 69));
 	--hero-text-background: rgb(28 30 34 / 0.94);
-	--selection-background: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
+	--selection-background: rgba(72, 77, 83, 0.5);
 
 	/* Page backgrounds */
 	--background: hsl(220, 10%, 12%);
-	--background-alt: hsl(220, 12%, 14%);
+	--background-alt: rgb(55, 59, 63);
 
 	/* Surfaces */
 	--surface: hsl(220, 14%, 16%);
@@ -131,7 +150,7 @@
 	--success: #22c55e; /* Successful or positive state */
 	--warning: #f59e0b; /* Warning state */
 	--error: #ef4444; /* Error or destructive state */
-	--info: #38bdf8; /* Informational state */
+	--info: #72dfc6; /* Informational state */
 
 	/* Shadows */
 	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28); /* Subtle resting shadow */
@@ -154,52 +173,60 @@
 		--header-background: hsl(220, 14%, 16%);
 		--hero-background:
 			linear-gradient(transparent, var(--section-background)),
-			radial-gradient(64.14% 72.25% at 47.58% 31.75%, #71787f85 0%, #ffffff00 100%),
-			linear-gradient(92.4deg, #26292c 14.67%, #0000007a 54.37%, #1a22289e 92.49%),
-			linear-gradient(0deg, #203746, #e3e6e8);
+			radial-gradient(circle at 40% 30%, rgb(50 54 62), rgb(59 62 69));
 		--hero-text-background: rgb(28 30 34 / 0.94);
-		--selection-background: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
+		--selection-background: rgba(72, 77, 83, 0.5);
 
+		/* Page backgrounds */
 		--background: hsl(220, 10%, 12%);
-		--background-alt: hsl(220, 12%, 14%);
+		--background-alt: rgb(55, 59, 63);
 
+		/* Surfaces */
 		--surface: hsl(220, 14%, 16%);
 		--surface-raised: hsl(220, 14%, 16%);
 		--surface-hover: hsl(220, 15%, 21%);
 
+		/* Text */
 		--foreground: hsl(220, 2%, 90%);
 		--foreground-soft: hsl(220, 3%, 80%);
 		--muted: hsl(220, 5%, 65%);
 		--subtle: hsl(220, 5%, 55%);
 
+		/* Borders */
 		--border: hsl(220, 15%, 22%);
 		--border-strong: hsl(220, 15%, 32%);
 		--control-border: hsl(220, 5%, 55%);
 
+		/* Primary brand color */
 		--primary: var(--brand-light);
 		--primary-hover: var(--brand-pale);
 		--primary-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
 		--on-primary: var(--brand-navy);
 
+		/* Links */
 		--link: var(--brand-light);
 		--link-hover: var(--brand-pale);
 
+		/* Accent */
 		--accent: var(--brand-light);
 		--accent-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
 
-		--success: #22c55e;
-		--warning: #f59e0b;
-		--error: #ef4444;
-		--info: #38bdf8;
+		/* Semantic states */
+		--success: #22c55e; /* Successful or positive state */
+		--warning: #f59e0b; /* Warning state */
+		--error: #ef4444; /* Error or destructive state */
+		--info: #72dfc6; /* Informational state */
 
-		--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28);
-		--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35);
-		--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45);
+		/* Shadows */
+		--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28); /* Subtle resting shadow */
+		--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35); /* Card hover / medium elevation */
+		--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45); /* Dialogs and strong elevation */
 
-		--card-background: var(--surface);
-		--card-border: var(--border);
-		--card-shadow: var(--shadow-sm);
-		--card-shadow-hover: var(--shadow-md);
+		/* Card semantics */
+		--card-background: var(--surface); /* Default card background */
+		--card-border: var(--border); /* Default card border */
+		--card-shadow: var(--shadow-sm); /* Resting card shadow */
+		--card-shadow-hover: var(--shadow-md); /* Card hover shadow */
 	}
 }
 
@@ -261,15 +288,27 @@
 		background: var(--page-background);
 		color: var(--foreground);
 
-		font-family:
-			ui-sans-serif,
-			system-ui,
-			-apple-system,
-			BlinkMacSystemFont,
-			'Segoe UI',
-			sans-serif;
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-optical-sizing: auto;
+		line-height: 1.65;
 
 		-webkit-font-smoothing: antialiased;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	button,
+	nav a {
+		font-weight: 500;
 	}
 
 	a {

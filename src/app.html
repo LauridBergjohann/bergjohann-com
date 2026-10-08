@@ -1,36 +1,70 @@
 <!doctype html>
-<html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
+<html lang="%lang%">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light dark" />
+		<link
+			rel="preload"
+			href="%sveltekit.assets%/fonts/inter/InterVariable.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
 
-    <!-- Theme bereits vor dem ersten Rendern setzen. -->
-    <script>
-      (() => {
-        let preference = null;
+		<!-- Theme bereits vor dem ersten Rendern setzen. -->
+		<script>
+			(() => {
+				let preference = null;
 
-        try {
-          preference = localStorage.getItem('bergjohann-theme');
-        } catch {
-          // Die Website bleibt auch ohne verfügbaren Speicher nutzbar.
-        }
+				try {
+					preference = localStorage.getItem('bergjohann-theme');
+				} catch {
+					// Die Website bleibt auch ohne verfügbaren Speicher nutzbar.
+				}
 
-        const explicit =
-          preference === 'light' || preference === 'dark';
+				const explicit = preference === 'light' || preference === 'dark';
 
-        const dark = explicit
-          ? preference === 'dark'
-          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const dark = explicit
+					? preference === 'dark'
+					: window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-      })();
-    </script>
+				document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+			})();
+		</script>
 
-    %sveltekit.head%
-  </head>
+		%sveltekit.head%
+		<!-- Only automatically negotiated visits consult browser/local preferences. -->
+		<script>
+			(() => {
+				const url = new URL(window.location.href);
+				if (url.searchParams.get('__language') !== 'auto') return;
+				url.searchParams.delete('__language');
+				let preferred;
+				try {
+					preferred = localStorage.getItem('bergjohann-language');
+				} catch {
+					/* Storage is optional. */
+				}
+				if (preferred !== 'de' && preferred !== 'en') {
+					const first = navigator.languages?.[0] || navigator.language || '';
+					preferred = /^de(?:-|$)/i.test(first) ? 'de' : 'en';
+				}
+				const alternate = document.querySelector(
+					'link[rel="alternate"][hreflang="' + preferred + '"]'
+				);
+				if (alternate) {
+					// The metadata uses the production origin; navigation stays on this host.
+					url.pathname = new URL(alternate.href).pathname;
+				}
+				if (url.pathname !== window.location.pathname)
+					window.location.replace(url.pathname + url.search + url.hash);
+				else history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+			})();
+		</script>
+	</head>
 
-  <body data-sveltekit-preload-data="hover">
-    <div style="display: contents">%sveltekit.body%</div>
-  </body>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
 </html>

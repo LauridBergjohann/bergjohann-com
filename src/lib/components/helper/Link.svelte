@@ -8,6 +8,7 @@ Internal links are resolved through SvelteKit, while external URLs and fragments
 
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import type { PathnameWithSearchOrHash } from '$app/types';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
 
@@ -45,7 +46,7 @@ Internal links are resolved through SvelteKit, while external URLs and fragments
 		{@render children()}
 	</a>
 {:else}
-	<a {...attributes} href={resolve(href as `/${string}`)} {rel}>
+	<a {...attributes} href={resolve(href as PathnameWithSearchOrHash)} {rel}>
 		{@render children()}
 	</a>
 {/if}

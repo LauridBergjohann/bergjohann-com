@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import ThemeSwitch from '../../ui/ThemeSwitch.svelte';
+import { themeMessages } from '../../ui/theme-test-messages';
 
 import HeroImageSection from './Hero.svelte';
 
@@ -84,7 +85,7 @@ describe('HeroImageSection.svelte', () => {
 
 	it('updates the visible image when ThemeSwitch changes the theme', async () => {
 		localStorage.setItem('bergjohann-theme', 'light');
-		const switchScreen = await render(ThemeSwitch);
+		const switchScreen = await render(ThemeSwitch, { props: { messages: themeMessages } });
 		const screen = await render(HeroImageSection, {
 			props: {
 				section: {

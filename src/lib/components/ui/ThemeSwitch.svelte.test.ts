@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, expect, it } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import ThemeSwitch from './ThemeSwitch.svelte';
+import { themeMessages as messages } from './theme-test-messages';
 
 let saved: string | null;
 let originalTheme: string | undefined;
@@ -17,8 +18,8 @@ afterEach(() => {
 });
 
 it('synchronizes header and labelled controls and persists the selection', async () => {
-	const header = await render(ThemeSwitch);
-	const mobile = await render(ThemeSwitch, { props: { labelled: true } });
+	const header = await render(ThemeSwitch, { props: { messages } });
+	const mobile = await render(ThemeSwitch, { props: { labelled: true, messages } });
 	await mobile.getByRole('button', { name: 'Use dark theme' }).nth(1).click();
 	await expect
 		.element(header.getByRole('button', { name: 'Use dark theme' }).nth(0))
@@ -39,7 +40,7 @@ it('synchronizes header and labelled controls and persists the selection', async
 
 it('restores a saved preference on mount', async () => {
 	localStorage.setItem('bergjohann-theme', 'dark');
-	const screen = await render(ThemeSwitch);
+	const screen = await render(ThemeSwitch, { props: { messages } });
 	await expect
 		.element(screen.getByRole('button', { name: 'Use dark theme' }))
 		.toHaveAttribute('aria-pressed', 'true');
