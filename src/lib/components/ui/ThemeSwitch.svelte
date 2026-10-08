@@ -4,7 +4,7 @@
 	import { themePreference, changeTheme, type ThemePreference } from '$lib/theme';
 	import type { Messages } from '$lib/i18n/messages';
 	let { labelled = false, messages }: { labelled?: boolean; messages: Messages } = $props();
-	let preference = $state<ThemePreference>('system');
+	let preference = $state<ThemePreference | null>(null);
 	let ready = $state(false);
 	let dismissed = $state(false);
 	const options = $derived([
@@ -19,12 +19,6 @@
 			label: messages.theme.dark,
 			description: messages.theme.useDark,
 			icon: 'moon'
-		},
-		{
-			value: 'system',
-			label: messages.theme.system,
-			description: messages.theme.useSystem,
-			icon: 'monitor'
 		}
 	] as const);
 	onMount(() => {
@@ -44,7 +38,7 @@
 			<button
 				type="button"
 				aria-label={option.description}
-				aria-pressed={preference === option.value}
+				aria-pressed={ready ? preference === option.value : undefined}
 				disabled={!ready}
 				onclick={() => changeTheme(option.value)}
 				onmouseenter={() => (dismissed = false)}

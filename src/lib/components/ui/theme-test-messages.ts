@@ -5,9 +5,7 @@ export const themeMessages = {
 	theme: {
 		light: 'Light',
 		dark: 'Dark',
-		system: 'System',
 		useLight: 'Use light theme',
-		useDark: 'Use dark theme',
-		useSystem: 'Use system theme'
+		useDark: 'Use dark theme'
 	}
 } as Messages;

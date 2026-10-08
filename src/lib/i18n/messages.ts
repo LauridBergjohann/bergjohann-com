@@ -18,14 +18,13 @@ export interface Messages {
 		appearance: string;
 		english: string;
 		german: string;
+		names: Record<'en' | 'de', string>;
 	};
 	theme: {
 		light: string;
 		dark: string;
-		system: string;
 		useLight: string;
 		useDark: string;
-		useSystem: string;
 	};
 	search: {
 		label: string;

@@ -67,7 +67,7 @@
 								<li>
 									<Link
 										href={data.messages.links.search + '?q=' + encodeURIComponent(suggestion)}
-										class="text-link underline">{suggestion}</Link
+										class="text-link hover:underline">{suggestion}</Link
 									>
 								</li>
 							{/each}

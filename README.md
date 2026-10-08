@@ -77,3 +77,10 @@ npm run build
 The i18n browser suite starts or reuses the development server on port 5173.
 On Windows, Vercel packaging may fail with EPERM when the OS does not allow
 symlinks; this occurs after successful client/server compilation.
+
+Theme choices follow the operating system until the user selects Light or Dark.
+An explicit choice is stored only in sessionStorage (bergjohann-theme) and
+synchronized across open same-origin tabs via BroadcastChannel. New tabs request
+the latest choice from existing tabs; without an open tab or saved session choice,
+the system appearance is used. The former persistent theme setting is discarded.
+Language preferences continue to use localStorage.

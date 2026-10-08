@@ -2,7 +2,9 @@ import { site } from '$lib/site';
 import { pathFor, type Locale } from '$lib/i18n/locale';
 import type { Messages } from '$lib/i18n/messages';
 
-type TextMessages = Omit<Messages, 'links' | 'brand'>;
+type TextMessages = Omit<Messages, 'links' | 'brand' | 'settings'> & {
+	settings: Omit<Messages['settings'], 'names'>;
+};
 const translations: Record<Locale, TextMessages> = {
 	en: {
 		error: {
@@ -30,10 +32,8 @@ const translations: Record<Locale, TextMessages> = {
 		theme: {
 			light: 'Light',
 			dark: 'Dark',
-			system: 'System',
 			useLight: 'Use light theme',
-			useDark: 'Use dark theme',
-			useSystem: 'Use system theme'
+			useDark: 'Use dark theme'
 		},
 		search: {
 			label: 'Search',
@@ -85,10 +85,8 @@ const translations: Record<Locale, TextMessages> = {
 		theme: {
 			light: 'Hell',
 			dark: 'Dunkel',
-			system: 'System',
 			useLight: 'Helles Design verwenden',
-			useDark: 'Dunkles Design verwenden',
-			useSystem: 'Systemeinstellung verwenden'
+			useDark: 'Dunkles Design verwenden'
 		},
 		search: {
 			label: 'Suche',
@@ -119,6 +117,10 @@ const translations: Record<Locale, TextMessages> = {
 export function getMessages(locale: Locale): Messages {
 	return {
 		...translations[locale],
+		settings: {
+			...translations[locale].settings,
+			names: { en: 'english', de: 'deutsch' }
+		},
 		brand: {
 			name: site.name,
 			logoLight: '/branding/logo-light.svg',

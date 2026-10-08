@@ -18,7 +18,15 @@
 				let preference = null;
 
 				try {
-					preference = localStorage.getItem('bergjohann-theme');
+					const saved = JSON.parse(sessionStorage.getItem('bergjohann-theme') ?? 'null');
+					if (
+						typeof saved?.changedAt === 'number' &&
+						Number.isFinite(saved.changedAt) &&
+						saved.changedAt > 0 &&
+						typeof saved?.source === 'string' &&
+						saved.source.length > 0
+					)
+						preference = saved.theme;
 				} catch {
 					// Die Website bleibt auch ohne verfügbaren Speicher nutzbar.
 				}

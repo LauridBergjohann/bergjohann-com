@@ -6,18 +6,28 @@ import { themeMessages as messages } from './theme-test-messages';
 let saved: string | null;
 let originalTheme: string | undefined;
 beforeEach(() => {
-	saved = localStorage.getItem('bergjohann-theme');
+	saved = sessionStorage.getItem('bergjohann-theme');
 	originalTheme = document.documentElement.dataset.theme;
-	localStorage.removeItem('bergjohann-theme');
+	sessionStorage.removeItem('bergjohann-theme');
 });
 afterEach(() => {
-	if (saved === null) localStorage.removeItem('bergjohann-theme');
-	else localStorage.setItem('bergjohann-theme', saved);
+	if (saved === null) sessionStorage.removeItem('bergjohann-theme');
+	else sessionStorage.setItem('bergjohann-theme', saved);
 	if (originalTheme === undefined) delete document.documentElement.dataset.theme;
 	else document.documentElement.dataset.theme = originalTheme;
 });
 
-it('synchronizes header and labelled controls and persists the selection', async () => {
+it('selects the system appearance without saving a preference', async () => {
+	const screen = await render(ThemeSwitch, { props: { messages } });
+	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	await expect
+		.element(screen.getByRole('button', { name: 'Use ' + theme + ' theme' }))
+		.toHaveAttribute('aria-pressed', 'true');
+	expect(screen.container.querySelectorAll('button')).toHaveLength(2);
+	expect(sessionStorage.getItem('bergjohann-theme')).toBeNull();
+});
+
+it('synchronizes header and labelled controls and keeps the choice in session storage', async () => {
 	const header = await render(ThemeSwitch, { props: { messages } });
 	const mobile = await render(ThemeSwitch, { props: { labelled: true, messages } });
 	await mobile.getByRole('button', { name: 'Use dark theme' }).nth(1).click();
@@ -25,21 +35,20 @@ it('synchronizes header and labelled controls and persists the selection', async
 		.element(header.getByRole('button', { name: 'Use dark theme' }).nth(0))
 		.toHaveAttribute('aria-pressed', 'true');
 	expect(document.documentElement.dataset.theme).toBe('dark');
-	expect(localStorage.getItem('bergjohann-theme')).toBe('dark');
+	expect(JSON.parse(sessionStorage.getItem('bergjohann-theme')!).theme).toBe('dark');
+	expect(localStorage.getItem('bergjohann-theme')).toBeNull();
 	await header.getByRole('button', { name: 'Use light theme' }).nth(0).click();
 	await expect
 		.element(mobile.getByRole('button', { name: 'Use light theme' }).nth(1))
 		.toHaveAttribute('aria-pressed', 'true');
 	expect(document.documentElement.dataset.theme).toBe('light');
-	await header.getByRole('button', { name: 'Use system theme' }).nth(0).click();
-	expect(localStorage.getItem('bergjohann-theme')).toBeNull();
-	expect(document.documentElement.dataset.theme).toBe(
-		window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-	);
 });
 
-it('restores a saved preference on mount', async () => {
-	localStorage.setItem('bergjohann-theme', 'dark');
+it('restores a saved session choice on mount', async () => {
+	sessionStorage.setItem(
+		'bergjohann-theme',
+		JSON.stringify({ theme: 'dark', changedAt: 1, source: 'test' })
+	);
 	const screen = await render(ThemeSwitch, { props: { messages } });
 	await expect
 		.element(screen.getByRole('button', { name: 'Use dark theme' }))

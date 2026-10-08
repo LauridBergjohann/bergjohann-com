@@ -21,7 +21,7 @@
 				<Link
 					href={messages.links.github}
 					target="_blank"
-					class="inline-flex items-center gap-2 text-sm text-link underline underline-offset-4"
+					class="inline-flex items-center gap-2 text-sm text-link underline-offset-4 hover:underline"
 				>
 					<span aria-hidden="true"><Icon id="github" size={18} /></span>
 					{messages.footer.source}
@@ -29,17 +29,21 @@
 				<Link
 					href={messages.links.linkedin}
 					target="_blank"
-					class="inline-flex items-center gap-2 text-sm text-link underline underline-offset-4"
+					class="inline-flex items-center gap-2 text-sm text-link underline-offset-4 hover:underline"
 				>
 					<span aria-hidden="true"><Icon id="linkedin" size={18} /></span>
 					{messages.footer.linkedin}
 				</Link>
 			</div>
 			<div class="flex flex-wrap items-center gap-x-6 gap-y-3">
-				<Link href={messages.links.imprint} class="text-sm text-link underline underline-offset-4"
+				<Link
+					href={messages.links.imprint}
+					class="text-sm text-link underline-offset-4 hover:underline"
 					>{messages.footer.imprint}</Link
 				>
-				<Link href={messages.links.privacy} class="text-sm text-link underline underline-offset-4"
+				<Link
+					href={messages.links.privacy}
+					class="text-sm text-link underline-offset-4 hover:underline"
 					>{messages.footer.privacy}</Link
 				>
 			</div>

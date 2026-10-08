@@ -74,7 +74,7 @@
 						<p class="mt-3 text-sm leading-7 text-muted">{section.panel.text}</p>
 						<Link
 							href={section.panel.href}
-							class="mt-5 inline-block text-sm text-link underline underline-offset-4"
+							class="mt-5 inline-block text-sm text-link underline-offset-4 hover:underline"
 						>
 							{section.panel.label} <span aria-hidden="true">→</span>
 						</Link>
@@ -102,6 +102,7 @@
 				{#each page.actions as action (action.href)}
 					<Link
 						href={action.href}
+						data-button={action.primary ? '' : undefined}
 						class={action.primary
 							? 'rounded-lg bg-primary px-5 py-3 text-on-primary transition-colors hover:bg-primary-hover'
 							: 'text-link underline-offset-4 hover:underline'}

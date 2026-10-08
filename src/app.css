@@ -71,7 +71,7 @@
 
 	/* Primary brand color */
 	--primary: var(--brand-deep);
-	--primary-hover: var(--brand-navy);
+	--primary-hover: #059271;
 	--primary-soft: var(--brand-ice);
 	--on-primary: #ffffff;
 
@@ -314,6 +314,11 @@
 	a {
 		color: var(--link);
 		text-decoration: none;
+		text-underline-offset: 4px;
+	}
+
+	a:hover:not([data-button]) {
+		text-decoration-line: underline;
 	}
 
 	:focus-visible {

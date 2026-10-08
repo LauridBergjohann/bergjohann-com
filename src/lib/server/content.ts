@@ -333,8 +333,8 @@ const sources: PageSource[] = [
 				t('3. Theme and language preferences', '3. Darstellungs- und Spracheinstellungen'),
 				[
 					paragraph(
-						'This website allows you to choose between a light theme, a dark theme and your system preference, as well as between German and English. If you explicitly select a theme or a language, this preference is stored locally in your browser so that your choice can be retained when you revisit the website.',
-						'Auf dieser Website kannst du zwischen einer hellen und einer dunklen Darstellung sowie deiner Systemeinstellung wählen. Außerdem kannst du Deutsch oder Englisch als Sprache auswählen. Wenn du eine Darstellung oder Sprache ausdrücklich auswählst, wird diese Einstellung lokal in deinem Browser gespeichert, damit sie bei einem erneuten Besuch erhalten bleibt.'
+						'This website initially follows your system’s light or dark appearance. If you select a different theme, the choice is kept in session storage for the current browser session and synchronized between open tabs of this website. It is not saved as a permanent theme preference. Your explicit choice of German or English is saved in local storage so that it can be restored on future visits.',
+						'Diese Website übernimmt zunächst die helle oder dunkle Darstellung deines Systems. Wählst du ein anderes Design, wird die Auswahl im Session Storage für die aktuelle Browsersitzung gespeichert und zwischen geöffneten Tabs dieser Website synchronisiert. Sie wird nicht als dauerhafte Darstellungspräferenz gespeichert. Deine ausdrückliche Auswahl von Deutsch oder Englisch wird im Local Storage gespeichert, damit sie bei späteren Besuchen wiederhergestellt werden kann.'
 					),
 					paragraph(
 						'Without a saved language preference, the first preferred language of your browser determines the language: German for German language settings, English for all other settings.',

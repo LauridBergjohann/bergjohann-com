@@ -34,7 +34,7 @@ describe('HeroImageSection.svelte', () => {
 
 	beforeEach(() => {
 		originalTheme = document.documentElement.dataset.theme;
-		originalPreference = localStorage.getItem('bergjohann-theme');
+		originalPreference = sessionStorage.getItem('bergjohann-theme');
 	});
 
 	afterEach(() => {
@@ -44,9 +44,9 @@ describe('HeroImageSection.svelte', () => {
 			document.documentElement.dataset.theme = originalTheme;
 		}
 		if (originalPreference === null) {
-			localStorage.removeItem('bergjohann-theme');
+			sessionStorage.removeItem('bergjohann-theme');
 		} else {
-			localStorage.setItem('bergjohann-theme', originalPreference);
+			sessionStorage.setItem('bergjohann-theme', originalPreference);
 		}
 	});
 
@@ -84,7 +84,10 @@ describe('HeroImageSection.svelte', () => {
 	});
 
 	it('updates the visible image when ThemeSwitch changes the theme', async () => {
-		localStorage.setItem('bergjohann-theme', 'light');
+		sessionStorage.setItem(
+			'bergjohann-theme',
+			JSON.stringify({ theme: 'light', changedAt: 1, source: 'test' })
+		);
 		const switchScreen = await render(ThemeSwitch, { props: { messages: themeMessages } });
 		const screen = await render(HeroImageSection, {
 			props: {
@@ -101,11 +104,6 @@ describe('HeroImageSection.svelte', () => {
 		await expect.element(image).toHaveAttribute('src', '/dark.jpg');
 		await switchScreen.getByRole('button', { name: 'Use light theme' }).click();
 		await expect.element(image).toHaveAttribute('src', '/light.jpg');
-		await switchScreen.getByRole('button', { name: 'Use system theme' }).click();
-		const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
-		await expect.element(image).toHaveAttribute('src', `/${systemTheme}.jpg`);
 	});
 
 	it('renders the hero image', async () => {

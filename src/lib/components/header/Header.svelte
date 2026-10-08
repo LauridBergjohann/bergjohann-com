@@ -141,7 +141,7 @@
 	>
 		<div class="space-y-2">
 			<p class="text-sm font-semibold">{messages.settings.language}</p>
-			<LanguageSwitch {locale} {messages} {slugs} />
+			<LanguageSwitch labelled {locale} {messages} {slugs} />
 		</div>
 		<div class="space-y-2">
 			<p class="text-sm font-semibold">{messages.settings.appearance}</p>

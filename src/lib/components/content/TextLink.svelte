@@ -6,6 +6,6 @@
 
 <Link
 	{...attributes}
-	class={`text-link underline underline-offset-4 hover:text-link-hover ${className}`}
+	class={`text-link underline-offset-4 hover:text-link-hover hover:underline ${className}`}
 	>{@render children()}</Link
 >

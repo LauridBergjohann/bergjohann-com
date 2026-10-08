@@ -21,7 +21,9 @@ function untranslatedObjects(value: unknown, path = ''): string[] {
 	if (Array.isArray(value))
 		return value.flatMap((item, index) => untranslatedObjects(item, `${path}[${index}]`));
 	const object = value as Record<string, unknown>;
-	const found = 'en' in object && 'de' in object && path !== 'slugs' ? [path] : [];
+	// Alternate URLs and language-picker autonyms intentionally include both language keys.
+	const sharedLanguageMap = path === 'slugs' || path === 'messages.settings.names';
+	const found = 'en' in object && 'de' in object && !sharedLanguageMap ? [path] : [];
 	return [
 		...found,
 		...Object.entries(object).flatMap(([key, item]) =>

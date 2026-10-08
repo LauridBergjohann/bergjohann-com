@@ -17,7 +17,7 @@
 			{page.status === 404 ? page.data.messages?.error.notFound : page.data.messages?.error.failed}
 		</h1>
 		<p class="mt-8">
-			<Link href={page.data.messages?.links.home ?? '/en'} class="text-link underline"
+			<Link href={page.data.messages?.links.home ?? '/en'} class="text-link hover:underline"
 				>{page.data.messages?.error.backHome}</Link
 			>
 		</p>
