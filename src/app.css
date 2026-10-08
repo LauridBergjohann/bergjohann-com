@@ -318,7 +318,7 @@
 	}
 
 	main a:not([data-button]),
-	a:hover:not([data-button]) {
+	a:hover:not([data-button], header nav a) {
 		text-decoration-line: underline;
 	}
 

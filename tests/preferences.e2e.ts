@@ -247,7 +247,7 @@ async function expectHoverUnderline(page: Page, link: Locator) {
 	await expect(link).toHaveCSS('text-decoration-line', 'underline');
 }
 
-test('content links stay underlined while header and footer underline on hover and CTA buttons stay undecorated', async ({
+test('content links stay underlined, footer links underline on hover, and main navigation and CTA buttons stay undecorated', async ({
 	page
 }) => {
 	await page.goto('/en');
@@ -255,7 +255,11 @@ test('content links stay underlined while header and footer underline on hover a
 	await expect(contentLink).toHaveCSS('text-decoration-line', 'underline');
 	await contentLink.hover();
 	await expect(contentLink).toHaveCSS('text-decoration-line', 'underline');
-	await expectHoverUnderline(page, page.locator('header a[data-navtab="true"]').first());
+	const navigationLink = page.locator('header a[data-navtab="true"]').first();
+	await page.mouse.move(0, 0);
+	await expect(navigationLink).toHaveCSS('text-decoration-line', 'none');
+	await navigationLink.hover();
+	await expect(navigationLink).toHaveCSS('text-decoration-line', 'none');
 	const cta = page.locator('.hero-actions a').first();
 	await page.mouse.move(0, 0);
 	await expect(cta).toHaveCSS('text-decoration-line', 'none');
