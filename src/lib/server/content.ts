@@ -98,7 +98,7 @@ const sources: PageSource[] = [
 				'Exploring user experience, software architecture, and small worlds. A space for ideas, experiments, and things made by hand.',
 				'User Experience, Softwarearchitektur und kleine Welten entdecken. Ein Ort für Ideen, Experimente und Dinge, die von Hand entstehen.'
 			),
-			t('Laurid Bergjohann · A personal workshop', 'Laurid Bergjohann · Eine persönliche Werkstatt')
+			t('Laurid Bergjohann |  UX · Architecture · Coding', 'Laurid Bergjohann | UX · Architektur · Coding')
 		),
 		actions: [
 			{
