@@ -66,3 +66,61 @@ Composition: landscape 1536x1024, three-quarter isometric, one restrained cohere
 
 Subject: Keep publisher/contact metaphor: main frosted-blue glass information card with simple white lowercase i WITHOUT a surrounding ring, short white detail strokes, second thinner translucent document behind; a small white and blue glass envelope beside it. Remove metal seal entirely, use one tiny square blue corner detail. Clean soft glass edges, no silver frame, no metallic finish, no names or addresses.
 
+
+
+=== Green-teal color-only edit, 2026-10-08 ===
+Tool: built-in image_gen (edit mode, transparent_background=true).
+Final assets: static/images/heroes/{home,blog,projects,workbench,about,privacy,imprint}.png
+Existing compositions retained; blue palette replaced with #00a57f / #00b38f and lighter mint shades.
+
+Initial shared recolor prompt (each original was its own edit target):
+Use case: precise-object-edit. Asset type: existing website hero PNG. Image 1 is the EDIT TARGET. Perform a STRICT COLOR-ONLY EDIT of this exact image: replace all blue hues with harmonious green-teal hues centered on #00a57f and #00b38f. Deep blue becomes deep green-teal; pale ice-blue becomes equally pale mint-teal. Preserve each region's relative lightness, glass translucency, fine detail, highlights and shading. Keep white and neutral gray regions unchanged. CRITICAL: preserve the exact existing composition, geometry, positions, proportions, all objects, panels, icons, lines, perspective, framing and original 1536x1024 canvas. Do not redesign, redraw, add, remove, crop or reposition anything. Preserve the existing genuine transparent background, alpha edges and translucent glass; no opaque background, no checkerboard, no added glow. Return the original artwork with only its blue color family recolored to this green-teal family.
+
+Final transparency-preserving correction prompt (image 1: original; image 2: corresponding green-teal color reference):
+Use case: precise-object-edit. Input image 1: original blue hero artwork, the exact EDIT TARGET and authoritative transparency reference. Input image 2: green-teal color reference ONLY; its background alpha is faulty, do not copy its background. Recolor ONLY image 1's blue accents to #00a57f/#00b38f green-teal as in image 2, keeping all geometry and white regions exact. CRITICAL TRANSPARENCY FIX: This must be a real transparent PNG cutout. The entire empty area and especially left third MUST have alpha = 0, completely invisible, NOT black, NOT a background gradient, NOT translucent fog. The dark cloud in preview is NOT part of the artwork. Keep only the original objects and glass surfaces with original soft alpha edges. Preserve ORIGINAL alpha from image 1 at every pixel if possible. The transparent region covers approximately 70 percent of the original canvas. Maintain exactly 1536x1024. No new background or glow. Do not alter, shift or redesign any of the objects. Keep white and gray unchanged. Output with genuine alpha transparency.
+
+Final Workbench correction:
+Use case: precise-object-edit. Image 1 is the EDIT TARGET. ONE COLOR CORRECTION ONLY: the cutting-mat glass base tiles underneath the helicopter, airplane, tugboat, semi truck and wrench are still BLUE/CYAN. Recolor ALL these pale-blue/cyan glass tiles, rims, grids and reflections to PALE MINT GREEN-TEAL matching the already-green #00a57f/#00b38f vehicles. Preserve their existing lightness, translucency and fine grid detail. All remaining blue/cyan hues in the image must become green-teal with green stronger than blue. Keep the already-correct green areas unchanged and all white and gray surfaces unchanged. CRITICAL preserve the exact geometry, composition, position, scale, shading, every model, rotor, wheel, plane wing, truck, boat and tool. Maintain 1536x1024. Preserve the existing alpha transparency EXACTLY: all empty areas MUST be alpha=0. The left third is completely empty transparent. No black background, no opaque background, no new fog, glow or backdrop. Output actual transparent PNG cutout. Do not redesign anything.
+
+
+
+=== Neutral gray with small green accents, 2026-10-08 ===
+Tool: built-in image_gen; edit mode; transparent_background=true.
+Final assets: static/images/heroes/{home,blog,projects,workbench,about,privacy,imprint}.png
+Palette reference: current src/app.css, unchanged by this image revision.
+Each asset uses the shared prompt below plus its asset-specific suffix; input image 1 is the previous hero for that same page.
+
+Shared prompt:
+Use case: precise-object-edit. Asset type: existing transparent website hero illustration. Image 1 is the exact EDIT TARGET. Change ONLY color and saturation; preserve the exact objects, geometry, composition, proportions, positions, fine linework, perspective, framing and 1536x1024 canvas. This artwork currently looks excessively green and luminous on charcoal websites. Make approximately 95% of its visible surfaces neutral GRAY: medium smoke-gray frosted glass with subtle neutral-gray shadows and soft gray-white highlights, not bright white sheets. Use the actual website CSS palette: #808080, #767676, #666666 for shaded glass; #d1d1d1 and #dee2e1 for gently lit edges; #ebeeed and #f2f2f2 only for small highlights. Neutralize ALL green/mint/turquoise casts on broad panels, glass slabs, base plates, large icons, outlines and reflections. Do not apply a green wash. Keep only a few SMALL restrained accents (at most 5% of visible area) in the dark muted greens #06795e and #007b5e, with #00a57f only as a tiny occasional detail. No saturated mint, luminous cyan, neon, emissive lighting, colored glow, halo or fog. All broad surfaces MUST read gray, not pale green. Preserve the original visual subject completely; do not add, remove, redraw, rearrange or crop any objects. CRITICAL alpha: preserve the original TRANSPARENT PNG cutout. All original empty background pixels, especially the entire left third, must remain alpha=0, fully invisible. The dark hazy preview backdrop is not artwork and must not become an actual background. Preserve soft alpha edges and glass translucency; no opaque or semitransparent full-canvas backdrop. Return a genuine transparent PNG, 1536x1024.
+
+=== home suffix ===
+ Specific home artwork: ALL five glass panels, the large central architecture module, small subordinate architecture cards, the large 3D cube, the landscape thumbnail, the UI button/slider, the tiny airplane and its tile become neutral gray/smoke glass. The cube must be gray. Keep muted dark green ONLY on tiny square diagram junctions, small window dots and the small checkmark. All long diagram lines, code brackets, text strokes and broad surfaces are neutral gray. The result must be predominantly gray with sparse small green details.
+
+=== blog suffix ===
+ Specific blog artwork: ALL article panels, landscape thumbnail, text strokes and the speech bubble become neutral gray. The pencil stays neutral gray-white. Keep muted dark green ONLY on the small bookmark ribbon and pencil end cap/tip. No green article backing panel, no green speech bubble, no green text, no green landscape thumbnail.
+
+=== projects suffix ===
+ Specific projects artwork: BOTH large UI/code panels, the central large cube and its selection frame, all lower base tiles, the folder, database and code brackets become neutral gray smoke glass. The cube MUST be gray, not green. Keep muted dark green ONLY on a few tiny square selection handles/window tabs and one small UI marker. All long connecting strokes and broad surfaces are neutral gray. Preserve all original modules and composition.
+
+=== workbench suffix ===
+ Specific workbench artwork: preserve all four exact models (helicopter, plane, tugboat, semi truck), wrench, platforms and connections. ALL glass cutting-mat platforms, their edges and grids must be neutral smoke gray, never green. Make the boat hull, all windows, truck trim, wheels, aircraft tails/rotors and wrench neutral gray; white bodies remain neutral white/light gray. Keep restrained dark green ONLY as tiny aircraft wingtip/rotor-tip details and a thin painted accent stripe on each model, at most 3% of visible area. No broad green boat hull, windows, panels, glass base plates or green glow.
+
+=== about suffix ===
+ Specific about artwork: ALL three large glass cards and both bottom glass layers become neutral smoke gray. The avatar portrait tile becomes gray; the avatar, code brackets and small airplane stay neutral gray-white. All document/text strokes, long lines and card edges are neutral gray. Keep restrained dark green ONLY on the three small timeline squares, tiny connection junctions and the tiny aircraft nose tip. No green portrait panel, green base plates or large green areas.
+
+=== privacy suffix ===
+ Specific privacy artwork: BOTH document panels and the ENTIRE large shield must become neutral smoky gray, including the shield rim. The padlock remains soft neutral gray-white. Keep green ONLY in the tiny keyhole and the small square centers of the three data nodes. Connecting strokes and large document strokes become neutral gray. Absolutely no large green shield or green panels.
+
+=== imprint suffix ===
+ Specific imprint artwork: BOTH large information/document panels and the complete envelope including its flap must become neutral smoke gray. The lowercase i and information strokes remain neutral gray-white. Keep green ONLY on the three tiny square corner/node details. All connecting lines and large glass faces are neutral gray. No large green area, green envelope, green i or green cast.
+
+
+
+=== Separate brighter light-mode variants, 2026-10-08 ===
+Tool: built-in image_gen; edit mode; transparent_background=true.
+Light assets: static/images/heroes/{home,blog,projects,workbench,about,privacy,imprint}-light.png
+Dark assets: existing {home,blog,projects,workbench,about,privacy,imprint}.png files, unchanged.
+Image 1 for each call: the matching existing dark-mode PNG.
+All seven variants used this prompt:
+Use case: precise-object-edit. Asset type: LIGHT-MODE variant of an existing transparent website hero illustration. Image 1 is the exact EDIT TARGET. Make a separate moderately brighter version for a WHITE/light-gray website background. Change ONLY tonal brightness of the existing neutral gray artwork: lift medium and dark gray glass faces approximately one tonal step (20-25%) toward light pearl gray, maintaining enough mid-gray contour contrast to remain readable on white. Use the actual website's neutral palette #d1d1d1, #dee2e1, #ebeeed and #f2f2f2 for broad glass surfaces and highlights; use #a0a0a0 to #b7b7b7 for gentle shaded faces, with restrained #808080 for tiny contour details. The result should feel lighter and airier than the input, still recognizably gray frosted glass, not whitewashed, overexposed, chrome, or metallic. Preserve the few EXISTING tiny dark green accents in #06795e / #007b5e exactly in their existing locations and extent; do not enlarge green areas, introduce green tints to gray surfaces or add green glow. CRITICAL invariants: preserve exactly the original objects, geometry, composition, perspective, framing, positions, proportions, all tiny details and canvas 1536x1024. No redesign, no additions/removals, no crop or repositioning. Preserve the real alpha TRANSPARENT background and glass translucency: all originally empty regions, especially the whole left third, must stay alpha=0. Do not render a white/gray/black backdrop, cloudy background, checkerboard, glow or fog. The dark fuzzy backdrop seen in the input preview is NOT artwork. Output a genuine transparent PNG cutout suitable over white. Brighten only the gray material tones; preserve motif and restrained green accent treatment.
+

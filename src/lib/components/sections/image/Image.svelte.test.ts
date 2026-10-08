@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import ThemeSwitch from '../../ui/ThemeSwitch.svelte';
+import { themeMessages } from '../../ui/theme-test-messages';
 
 import Image from './Image.svelte';
 
@@ -10,7 +11,7 @@ describe('Image.svelte', () => {
 
 	beforeEach(() => {
 		originalTheme = document.documentElement.dataset.theme;
-		originalPreference = localStorage.getItem('bergjohann-theme');
+		originalPreference = sessionStorage.getItem('bergjohann-theme');
 	});
 
 	afterEach(() => {
@@ -20,9 +21,9 @@ describe('Image.svelte', () => {
 			document.documentElement.dataset.theme = originalTheme;
 		}
 		if (originalPreference === null) {
-			localStorage.removeItem('bergjohann-theme');
+			sessionStorage.removeItem('bergjohann-theme');
 		} else {
-			localStorage.setItem('bergjohann-theme', originalPreference);
+			sessionStorage.setItem('bergjohann-theme', originalPreference);
 		}
 	});
 
@@ -60,8 +61,11 @@ describe('Image.svelte', () => {
 	});
 
 	it('updates the visible image when ThemeSwitch changes the theme', async () => {
-		localStorage.setItem('bergjohann-theme', 'light');
-		const switchScreen = await render(ThemeSwitch);
+		sessionStorage.setItem(
+			'bergjohann-theme',
+			JSON.stringify({ theme: 'light', changedAt: 1, source: 'test' })
+		);
+		const switchScreen = await render(ThemeSwitch, { props: { messages: themeMessages } });
 		const screen = await render(Image, {
 			props: {
 				section: {
@@ -73,15 +77,10 @@ describe('Image.svelte', () => {
 		const image = screen.getByRole('img', { name: 'Switchable image' });
 
 		await expect.element(image).toHaveAttribute('src', '/light.jpg');
-		await switchScreen.getByRole('button', { name: 'Use dark theme' }).click();
+		await switchScreen.getByRole('button', { name: 'Dark' }).click();
 		await expect.element(image).toHaveAttribute('src', '/dark.jpg');
-		await switchScreen.getByRole('button', { name: 'Use light theme' }).click();
+		await switchScreen.getByRole('button', { name: 'Light' }).click();
 		await expect.element(image).toHaveAttribute('src', '/light.jpg');
-		await switchScreen.getByRole('button', { name: 'Use system theme' }).click();
-		const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
-		await expect.element(image).toHaveAttribute('src', `/${systemTheme}.jpg`);
 	});
 
 	it('renders the configured image', async () => {

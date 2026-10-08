@@ -2,15 +2,25 @@
 	import { onMount } from 'svelte';
 	import Icon from './Icon.svelte';
 	import { themePreference, changeTheme, type ThemePreference } from '$lib/theme';
-	let { labelled = false }: { labelled?: boolean } = $props();
-	let preference = $state<ThemePreference>('system');
+	import type { Messages } from '$lib/i18n/messages';
+	let { labelled = false, messages }: { labelled?: boolean; messages: Messages } = $props();
+	let preference = $state<ThemePreference | null>(null);
 	let ready = $state(false);
 	let dismissed = $state(false);
-	const options = [
-		{ value: 'light', label: 'Light', description: 'Use light theme', icon: 'sun' },
-		{ value: 'dark', label: 'Dark', description: 'Use dark theme', icon: 'moon' },
-		{ value: 'system', label: 'System', description: 'Use system theme', icon: 'monitor' }
-	] as const;
+	const options = $derived([
+		{
+			value: 'light',
+			label: messages.theme.light,
+			description: preference === 'light' ? messages.theme.activeLight : messages.theme.useLight,
+			icon: 'sun'
+		},
+		{
+			value: 'dark',
+			label: messages.theme.dark,
+			description: preference === 'dark' ? messages.theme.activeDark : messages.theme.useDark,
+			icon: 'moon'
+		}
+	] as const);
 	onMount(() => {
 		const unsubscribe = themePreference.subscribe((value) => (preference = value));
 		ready = true;
@@ -20,15 +30,15 @@
 
 <div
 	role="group"
-	aria-label="Appearance"
+	aria-label={messages.settings.appearance}
 	class="inline-flex h-[42px] shrink-0 items-center divide-x divide-border-strong/70 rounded-lg border border-border-strong"
 >
 	{#each options as option, index (option.value)}
 		<div class="group relative">
 			<button
 				type="button"
-				aria-label={option.description}
-				aria-pressed={preference === option.value}
+				aria-label={option.label}
+				aria-pressed={ready ? preference === option.value : undefined}
 				disabled={!ready}
 				onclick={() => changeTheme(option.value)}
 				onmouseenter={() => (dismissed = false)}
@@ -36,7 +46,7 @@
 				onkeydown={(event) => {
 					if (event.key === 'Escape') dismissed = true;
 				}}
-				class={`inline-flex h-10 items-center justify-center gap-2 ${index === 0 ? 'rounded-l-[7px]' : index === options.length - 1 ? 'rounded-r-[7px]' : ''} text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-selection text-foreground-soft' : 'text-foreground-soft hover:bg-background-alt hover:text-foreground'}`}
+				class={`peer inline-flex h-10 cursor-pointer items-center justify-center gap-2 ${index === 0 ? 'rounded-l-[7px]' : index === options.length - 1 ? 'rounded-r-[7px]' : ''} text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:cursor-default disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-selection text-foreground-soft' : 'text-foreground-soft hover:bg-background-alt hover:text-foreground'}`}
 			>
 				<span aria-hidden="true"><Icon id={option.icon} size={18} /></span>
 				{#if labelled}<span>{option.label}</span>{/if}
@@ -44,7 +54,7 @@
 			{#if !labelled && !dismissed}
 				<span
 					aria-hidden="true"
-					class="pointer-events-none absolute top-full right-0 z-50 pt-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100"
+					class="pointer-events-none absolute top-full right-0 z-50 pt-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 peer-focus-visible:opacity-100"
 				>
 					<span
 						class="block rounded-lg border border-border bg-surface-raised px-3 py-2 text-xs whitespace-nowrap text-foreground shadow-md"

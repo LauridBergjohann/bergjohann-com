@@ -1,18 +1,17 @@
 <!-- desktop-menu.svelte -->
 <script lang="ts">
-	import { onMount, tick } from "svelte";
-	import Navigationlink from "./Navigationlink.svelte";
-	import type { NavigationEntry } from "$lib/api/navigation-api";
+	import type { PathnameWithSearchOrHash } from '$app/types';
+	import { onMount, tick } from 'svelte';
+	import { resolve } from '$app/paths';
+	import type { Messages } from '$lib/i18n/messages';
+	import Navigationlink from './Navigationlink.svelte';
+	import type { NavigationEntry } from '$lib/api/navigation-api';
 
-	const {
-		currentPath,
-		navigation,
-		closeTick,
-		onDropdownOpenChange
-	} = $props<{
+	const { currentPath, navigation, closeTick, messages, onDropdownOpenChange } = $props<{
 		currentPath: string;
 		navigation: NavigationEntry[];
 		closeTick: number;
+		messages: Messages;
 		onDropdownOpenChange?: (open: boolean) => void;
 	}>();
 
@@ -42,7 +41,7 @@
 	}
 
 	$effect(() => {
-		closeTick;
+		void closeTick;
 		openHref = null;
 	});
 
@@ -64,8 +63,8 @@
 	let indicatorReady = $state(false);
 
 	const normalize = (p: string) => {
-		if (!p) return "/";
-		return p !== "/" && p.endsWith("/") ? p.slice(0, -1) : p;
+		if (!p) return '/';
+		return p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p;
 	};
 
 	const current = $derived(normalize(currentPath));
@@ -79,7 +78,7 @@
 
 		for (const item of navigation) {
 			const href = normalize(item.href);
-			const isMatch = cur === href || cur.startsWith(href + (href === "/" ? "" : "/"));
+			const isMatch = cur === href || cur.startsWith(href + (href === '/' ? '' : '/'));
 
 			if (isMatch && href.length > bestLen) {
 				best = item.href;
@@ -140,7 +139,7 @@
 	}
 
 	$effect(() => {
-		activeTopHref;
+		void activeTopHref;
 		tick().then(() => updateIndicator());
 	});
 
@@ -148,16 +147,16 @@
 		tick().then(() => updateIndicator());
 
 		const onResize = () => updateIndicator();
-		window.addEventListener("resize", onResize);
+		window.addEventListener('resize', onResize);
 
-		return () => window.removeEventListener("resize", onResize);
+		return () => window.removeEventListener('resize', onResize);
 	});
 </script>
 
 <nav
 	class="hidden flex-1 justify-center text-base lg:text-lg xl:flex"
-	aria-label="Mainnavigation"
-	data-indicator-ready={indicatorReady ? "true" : "false"}
+	aria-label={messages.navigation.main}
+	data-indicator-ready={indicatorReady ? 'true' : 'false'}
 >
 	<ul bind:this={tabsInner} class="relative flex items-stretch" role="list">
 		{#each navigation as item (item.href)}
@@ -172,7 +171,7 @@
 					href={item.href}
 					{currentPath}
 					data-tab-href={item.href}
-					aria-haspopup={item.children ? "menu" : undefined}
+					aria-haspopup={item.children ? 'menu' : undefined}
 					aria-expanded={openHref === item.href}
 				>
 					{item.label}
@@ -182,7 +181,7 @@
 					<div
 						role="menu"
 						tabindex="-1"
-						aria-label={`${item.label} Untermenü`}
+						aria-label={`${item.label} ${messages.navigation.submenu}`}
 						data-open={openHref === item.href}
 						class="
 							pointer-events-none absolute top-full left-1/2 z-50
@@ -198,13 +197,13 @@
 							{#each item.children as child (child.href)}
 								<li>
 									<a
-										href={child.href}
+										href={resolve(child.href as PathnameWithSearchOrHash)}
 										role="menuitem"
 										class="
 											flex items-center gap-4
 											rounded-md px-3 py-3
 											text-lg font-medium text-foreground
-											hover:bg-surface-hover 
+											hover:bg-surface-hover
 											focus:ring-2 focus:ring-accent focus:outline-none
 										"
 									>
@@ -224,10 +223,8 @@
 		<!-- ✅ nur rendern, wenn wirklich ein aktiver Hauptnav-Link existiert -->
 		{#if indicatorReady}
 			<div
-				class={
-					"pointer-events-none absolute bottom-2 h-[3px] rounded-full bg-accent " +
-					(indicatorAnimate ? "transition-[left,width] duration-200 ease-out" : "")
-				}
+				class={'pointer-events-none absolute bottom-2 h-[3px] rounded-full bg-accent ' +
+					(indicatorAnimate ? 'transition-[left,width] duration-200 ease-out' : '')}
 				style={`width:${indicatorWidth}px; left:${indicatorLeft}px`}
 				aria-hidden="true"
 			></div>

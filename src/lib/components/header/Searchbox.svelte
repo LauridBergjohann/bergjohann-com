@@ -1,12 +1,23 @@
 <script lang="ts">
+	import type { PathnameWithSearchOrHash } from '$app/types';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import type { Locale } from '$lib/i18n/locale';
+	import type { Messages } from '$lib/i18n/messages';
 	import { tick } from 'svelte';
 	import Icon from '../ui/Icon.svelte';
 
 	import { shortcutLabel as getShortcutLabel } from '../helper/platform';
 	import type { SearchHitBase, SearchResults, FlatItem } from './search/types';
 
-	const { variant = 'desktop', closeTick = 0 } = $props<{
+	const {
+		variant = 'desktop',
+		closeTick = 0,
+		locale,
+		messages
+	} = $props<{
+		locale: Locale;
+		messages: Messages;
 		variant?: 'desktop' | 'mobile';
 		closeTick?: number;
 	}>();
@@ -31,7 +42,9 @@
 
 	async function navigateToSearchPage() {
 		closePopup();
-		await goto(`/search?q=${encodeURIComponent(q)}`);
+		await goto(
+			resolve(`${messages.links.search}?q=${encodeURIComponent(q)}` as PathnameWithSearchOrHash)
+		);
 	}
 
 	function getThumb(item: SearchHitBase) {
@@ -54,7 +67,7 @@
 
 	// ✅ Navigation/closeTick: Popup schließen + Query leeren (altes Verhalten)
 	$effect(() => {
-		closeTick;
+		void closeTick;
 
 		closePopup();
 		results = null;
@@ -118,7 +131,9 @@
 		ctrl = new AbortController();
 
 		try {
-			const res = await fetch(`/api/search?q=${encodeURIComponent(term)}`, { signal: ctrl.signal });
+			const res = await fetch(`/api/search?lang=${locale}&q=${encodeURIComponent(term)}`, {
+				signal: ctrl.signal
+			});
 			if (!res.ok) return;
 			results = (await res.json()) as SearchResults;
 		} catch {
@@ -134,12 +149,14 @@
 
 	async function navigateTo(href: string) {
 		closePopup();
-		await goto(href);
+		await goto(resolve(href as PathnameWithSearchOrHash));
 	}
 
 	async function navigateToSuggestion(s: string) {
 		closePopup();
-		await goto(`/search?q=${encodeURIComponent(s)}`);
+		await goto(
+			resolve(`${messages.links.search}?q=${encodeURIComponent(s)}` as PathnameWithSearchOrHash)
+		);
 	}
 
 	function onKeydown(e: KeyboardEvent) {
@@ -202,14 +219,19 @@
 </script>
 
 <div bind:this={rootEl} class="relative min-w-0">
-	<form method="GET" action="/search" role="search" class="relative">
-		<label class="sr-only" for={'q-' + variant}>Suche</label>
+	<form
+		method="GET"
+		action={resolve(messages.links.search as PathnameWithSearchOrHash)}
+		role="search"
+		class="relative"
+	>
+		<label class="sr-only" for={'q-' + variant}>{messages.search.label}</label>
 
 		<input
 			bind:this={inputEl}
 			id={'q-' + variant}
 			name="q"
-			placeholder="Suche"
+			placeholder={messages.search.label}
 			class="peer h-[42px] w-full rounded-xl border border-border-strong bg-surface-raised pr-12 pl-4 text-sm text-foreground transition-colors placeholder:text-muted hover:border-control-border focus:border-link focus:ring-2 focus:ring-link/20 focus:outline-none lg:pr-32 lg:focus:pr-12"
 			bind:value={q}
 			autocomplete="off"
@@ -236,7 +258,7 @@
 		<button
 			type="submit"
 			class="absolute top-1/2 right-px inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[11px] text-foreground-soft transition-colors hover:bg-background-alt hover:text-foreground focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none"
-			aria-label="Suche absenden"
+			aria-label={messages.search.submit}
 		>
 			<span aria-hidden="true"><Icon id="search" size={18} /></span>
 		</button>
@@ -250,13 +272,12 @@
 		>
 			{#if q.trim().length < 2}
 				<div class="px-3 py-3 text-sm text-muted">
-					Tip: Enter a <span class="font-medium">Keyword</span> (e.g.,
-					<span class="font-mono">UX</span>) or search for terms.
+					{messages.search.hint}
 				</div>
 			{:else if !hasModels && !hasPages}
 				{#if hasDidYouMean}
 					<div class="px-3 py-3 text-sm text-foreground-soft">
-						<span class="font-medium">Meinten Sie:</span>
+						<span class="font-medium">{messages.search.didYouMean}</span>
 						<div class="mt-2 flex flex-wrap gap-2">
 							{#each didYouMean as s (s)}
 								<button
@@ -274,12 +295,12 @@
 						</div>
 					</div>
 				{:else}
-					<div class="px-3 py-3 text-sm text-muted">Keine Treffer</div>
+					<div class="px-3 py-3 text-sm text-muted">{messages.search.noResults}</div>
 				{/if}
 			{:else}
 				{#if hasModels}
 					{#if mixed}
-						<div class="px-3 py-2 text-xs font-semibold text-muted">Produkte</div>
+						<div class="px-3 py-2 text-xs font-semibold text-muted">{messages.search.models}</div>
 					{/if}
 
 					<ul class="pb-2">
@@ -291,7 +312,7 @@
 									aria-selected={activeIndex === i}
 									class={'flex items-center gap-3 px-3 py-2 text-sm hover:bg-surface ' +
 										(activeIndex === i ? 'bg-surface-hover' : '')}
-									href={r.href}
+									href={resolve(r.href as PathnameWithSearchOrHash)}
 									onmouseenter={() => onItemMouseEnter(i)}
 									onpointerdown={(e) => {
 										e.preventDefault();
@@ -317,13 +338,17 @@
 							<li class="px-3 pt-1">
 								<a
 									class="text-sm text-link hover:underline"
-									href={'/search?q=' + encodeURIComponent(q)}
+									href={resolve(
+										(messages.links.search +
+											'?q=' +
+											encodeURIComponent(q)) as PathnameWithSearchOrHash
+									)}
 									onpointerdown={(e) => {
 										e.preventDefault();
 										void navigateToSearchPage();
 									}}
 								>
-									Alle Produkttreffer anzeigen →
+									{messages.search.allModels}
 								</a>
 							</li>
 						{/if}
@@ -336,7 +361,7 @@
 
 				{#if hasPages}
 					{#if mixed}
-						<div class="px-3 py-2 text-xs font-semibold text-muted">Seiten</div>
+						<div class="px-3 py-2 text-xs font-semibold text-muted">{messages.search.pages}</div>
 					{/if}
 
 					<ul class="pb-3">
@@ -350,7 +375,7 @@
 									aria-selected={activeIndex === idx}
 									class={'flex items-center gap-3 px-3 py-2 text-sm hover:bg-surface ' +
 										(activeIndex === idx ? 'bg-surface-hover' : '')}
-									href={r.href}
+									href={resolve(r.href as PathnameWithSearchOrHash)}
 									onmouseenter={() => onItemMouseEnter(idx)}
 									onpointerdown={(e) => {
 										e.preventDefault();
@@ -376,13 +401,17 @@
 							<li class="px-3 pt-1">
 								<a
 									class="text-sm text-link hover:underline"
-									href={'/search?q=' + encodeURIComponent(q)}
+									href={resolve(
+										(messages.links.search +
+											'?q=' +
+											encodeURIComponent(q)) as PathnameWithSearchOrHash
+									)}
 									onpointerdown={(e) => {
 										e.preventDefault();
 										void navigateToSearchPage();
 									}}
 								>
-									Alle Seitentreffer anzeigen →
+									{messages.search.allPages}
 								</a>
 							</li>
 						{/if}
