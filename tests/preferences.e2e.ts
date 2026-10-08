@@ -192,8 +192,22 @@ test('desktop controls describe selected languages and themes and offer the alte
 						useLight: 'Zum hellen Design wechseln',
 						useDark: 'Zum dunklen Design wechseln'
 					};
+		await dark.click();
 		for (const active of ['light', 'dark'] as const) {
-			await (active === 'light' ? light : dark).click();
+			const selectedTheme = active === 'light' ? light : dark;
+			const selectedTooltip = selectedTheme.locator('+ span');
+			await selectedTheme.hover();
+			await expect(selectedTooltip).toHaveText(
+				active === 'light' ? themeDescriptions.useLight : themeDescriptions.useDark
+			);
+			await selectedTheme.click();
+			await expect(selectedTooltip).toHaveText(
+				active === 'light' ? themeDescriptions.activeLight : themeDescriptions.activeDark
+			);
+			await page.mouse.move(900, 900);
+			await expect(selectedTooltip).toHaveCSS('opacity', '0');
+			await selectedTheme.hover();
+			await expect(selectedTooltip).toHaveCSS('opacity', '1');
 			for (const [theme, button] of [
 				['light', light],
 				['dark', dark]
@@ -214,8 +228,16 @@ test('desktop controls describe selected languages and themes and offer the alte
 				await expect(button).toHaveAttribute('aria-pressed', String(active === theme));
 			}
 		}
-		await light.focus();
 		await page.mouse.move(900, 900);
+		await expect(dark).toBeFocused();
+		await page.keyboard.press('Shift+Tab');
+		await expect(light).toBeFocused();
+		await expect(light.locator('+ span')).toHaveCSS('opacity', '1');
+		await page.keyboard.press('Tab');
+		await expect(dark).toBeFocused();
+		await expect(dark.locator('+ span')).toHaveCSS('opacity', '1');
+		await page.keyboard.press('Shift+Tab');
+		await expect(light).toBeFocused();
 		await expect(light.locator('+ span')).toHaveCSS('opacity', '1');
 		await page.keyboard.press('Escape');
 		await expect(light.locator('+ span')).toHaveCount(0);
