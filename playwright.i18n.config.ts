@@ -2,7 +2,7 @@
 
 export default defineConfig({
 	testDir: './tests',
-	testMatch: ['i18n.e2e.ts', 'preferences.e2e.ts'],
+	testMatch: ['i18n.e2e.ts', 'preferences.e2e.ts', 'header-scroll.e2e.ts'],
 	fullyParallel: true,
 	workers: 2,
 	use: {

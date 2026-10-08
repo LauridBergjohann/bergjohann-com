@@ -84,3 +84,10 @@ synchronized across open same-origin tabs via BroadcastChannel. New tabs request
 the latest choice from existing tabs; without an open tab or saved session choice,
 the system appearance is used. The former persistent theme setting is discarded.
 Language preferences continue to use localStorage.
+
+The favicon source is static/branding/favicon.svg. Regenerate its PNG exports and
+multi-resolution ICO fallback with npm run generate:icons (requires Playwright
+Chromium; install it with npx playwright install chromium if needed). The exports
+include Apple Touch 180px, PWA icons at 192px/512px, and opaque maskable variants
+with a protected logo area. static/site.webmanifest links the app icons and starts
+at / so the existing language detection remains available.

@@ -63,7 +63,7 @@
 <svelte:window onkeydown={onKeydown} onresize={onResize} />
 
 <header
-	class="fixed inset-x-0 top-[var(--header-top)] z-40 mx-auto border-b border-border/60 bg-header/95 shadow-md backdrop-blur-xl 2xl:max-w-[var(--content-narrow-width)] 2xl:rounded-2xl 2xl:border 2xl:shadow-lg"
+	class="absolute inset-x-0 top-[var(--header-top)] z-40 mx-auto border-b border-border/60 bg-header/95 shadow-md backdrop-blur-xl 2xl:max-w-[var(--content-narrow-width)] 2xl:rounded-2xl 2xl:border 2xl:shadow-lg"
 >
 	<div class="flex h-[var(--header-height)] w-full items-center gap-2 px-[11px] sm:gap-4">
 		<div class="flex min-w-0 items-center gap-1 sm:gap-3">
@@ -118,7 +118,7 @@
 		id="mobile-menu-panel"
 		popover="auto"
 		ontoggle={(event) => (mobileOpen = event.newState === 'open')}
-		class="fixed inset-x-0 top-[calc(var(--header-top)+var(--header-height))] bottom-auto m-0 w-full max-w-none border-0 bg-transparent p-0 text-foreground shadow-lg xl:hidden"
+		class="absolute inset-x-0 top-[calc(var(--header-top)+var(--header-height))] bottom-auto m-0 w-full max-w-none border-0 bg-transparent p-0 text-foreground shadow-lg xl:hidden"
 	>
 		<MobileMenu {navigation} {currentPath} {messages} closeTick={navTick} />
 	</div>
@@ -127,7 +127,7 @@
 		id="mobile-search"
 		popover="auto"
 		ontoggle={onSearchToggle}
-		class="fixed inset-x-0 top-[calc(var(--header-top)+var(--header-height))] bottom-auto m-0 w-full max-w-none overflow-visible border-0 border-t border-border bg-header p-3 text-foreground shadow-lg lg:hidden"
+		class="absolute inset-x-0 top-[calc(var(--header-top)+var(--header-height))] bottom-auto m-0 w-full max-w-none overflow-visible border-0 border-t border-border bg-header p-3 text-foreground shadow-lg lg:hidden"
 	>
 		<Searchbox variant="mobile" closeTick={navTick} {locale} {messages} />
 	</div>
@@ -137,7 +137,7 @@
 		popover="auto"
 		role="dialog"
 		aria-label={messages.settings.title}
-		class="fixed inset-auto top-[calc(var(--header-top)+var(--header-height)+0.5rem)] right-2 m-0 max-w-[calc(100vw-1rem)] space-y-4 rounded-2xl border border-border-strong bg-surface-raised p-4 text-foreground shadow-lg sm:right-4 2xl:hidden"
+		class="absolute inset-auto top-[calc(var(--header-top)+var(--header-height)+0.5rem)] right-2 m-0 max-w-[calc(100vw-1rem)] space-y-4 rounded-2xl border border-border-strong bg-surface-raised p-4 text-foreground shadow-lg sm:right-4 2xl:hidden"
 	>
 		<div class="space-y-2">
 			<p class="text-sm font-semibold">{messages.settings.language}</p>
@@ -151,7 +151,7 @@
 </header>
 
 <div
-	class="fixed top-[var(--header-top)] left-6 z-40 hidden h-[calc(var(--header-height)+2px)] items-center 2xl:flex"
+	class="absolute top-[var(--header-top)] left-6 z-40 hidden h-[calc(var(--header-height)+2px)] items-center 2xl:flex"
 	data-header-language
 >
 	<div class="rounded-lg bg-header/95 shadow-md backdrop-blur-xl">
@@ -159,14 +159,14 @@
 	</div>
 </div>
 <div
-	class="fixed top-[var(--header-top)] right-6 z-40 hidden h-[calc(var(--header-height)+2px)] items-center 2xl:flex"
+	class="absolute top-[var(--header-top)] right-6 z-40 hidden h-[calc(var(--header-height)+2px)] items-center 2xl:flex"
 	data-header-appearance
 >
 	<div class="rounded-lg bg-header/95 shadow-md backdrop-blur-xl"><ThemeSwitch {messages} /></div>
 </div>
 
 <div
-	class={'pointer-events-none fixed inset-x-0 top-[calc(var(--header-top)+var(--header-height)+2px)] bottom-0 z-30 backdrop-blur-[3px] transition-opacity duration-200 ' +
+	class={'pointer-events-none absolute inset-x-0 top-[calc(var(--header-top)+var(--header-height)+2px)] bottom-0 z-30 backdrop-blur-[3px] transition-opacity duration-200 ' +
 		(navDropdownOpen ? 'opacity-100' : 'opacity-0')}
 	aria-hidden="true"
 ></div>

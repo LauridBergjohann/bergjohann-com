@@ -279,7 +279,7 @@
 
 @layer base {
 	html {
-		scroll-padding-top: 9rem;
+		scroll-padding-top: 1rem;
 	}
 
 	body {
