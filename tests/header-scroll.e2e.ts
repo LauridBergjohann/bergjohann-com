@@ -9,7 +9,8 @@ for (const javaScriptEnabled of [true, false]) {
 	test.describe(javaScriptEnabled ? 'with JavaScript' : 'without JavaScript', () => {
 		test.use({ javaScriptEnabled });
 
-		test('desktop header and preference controls scroll with the document', async ({ page }) => {
+		test('desktop header and preference controls delay scrolling by 112px', async ({ page }) => {
+			await page.setViewportSize({ width: 1920, height: 1080 });
 			await page.goto('/en');
 			const controls = [
 				page.getByRole('banner'),
@@ -25,11 +26,20 @@ for (const javaScriptEnabled of [true, false]) {
 			}
 			expect(initial[1].y).toBe(initial[0].y);
 			expect(initial[2].y).toBe(initial[0].y);
+			for (const amount of [48, 112, 140, 300, 112, 48]) {
+				await scrollDocument(page, amount);
+				const displacement = Math.max(0, amount - 112);
+				for (const [index, control] of controls.entries()) {
+					await expect
+						.poll(async () => (await control.boundingBox())!.y)
+						.toBeCloseTo(initial[index].y - displacement, 1);
+				}
+			}
 			await scrollDocument(page, 300);
 			for (const [index, control] of controls.entries()) {
 				const box = await control.boundingBox();
 				expect(box).not.toBeNull();
-				expect(box!.y).toBeCloseTo(initial[index].y - 300, 1);
+				expect(box!.y).toBeCloseTo(initial[index].y - 188, 1);
 				expect(box!.y + box!.height).toBeLessThan(0);
 			}
 			await scrollDocument(page, 0);
@@ -52,10 +62,20 @@ for (const javaScriptEnabled of [true, false]) {
 				expect(initial.y).toBeGreaterThanOrEqual(header.y + header.height - 1);
 				expect(initial.x).toBeGreaterThanOrEqual(0);
 				expect(initial.x + initial.width).toBeLessThanOrEqual(390);
+				for (const amount of [48, 112, 140, 300, 112, 48]) {
+					await scrollDocument(page, amount);
+					const displacement = Math.max(0, amount - 112);
+					await expect
+						.poll(async () => (await panel.boundingBox())!.y)
+						.toBeCloseTo(initial.y - displacement, 1);
+					await expect
+						.poll(async () => (await page.getByRole('banner').boundingBox())!.y)
+						.toBeCloseTo(header.y - displacement, 1);
+				}
 				await scrollDocument(page, 300);
 				const scrolled = (await panel.boundingBox())!;
-				expect(scrolled.y).toBeCloseTo(initial.y - 300, 1);
-				expect((await page.getByRole('banner').boundingBox())!.y).toBeCloseTo(header.y - 300, 1);
+				expect(scrolled.y).toBeCloseTo(initial.y - 188, 1);
+				expect((await page.getByRole('banner').boundingBox())!.y).toBeCloseTo(header.y - 188, 1);
 				await scrollDocument(page, 0);
 				await expect(panel).toBeVisible();
 				expect((await panel.boundingBox())!.y).toBeCloseTo(initial.y, 1);
