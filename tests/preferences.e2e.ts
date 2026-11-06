@@ -273,16 +273,16 @@ test('content links stay underlined, footer links underline on hover, and main n
 	page
 }) => {
 	await page.goto('/en');
-	const contentLink = page.locator('.site-hero .actions a').nth(1);
+	const contentLink = page.locator('.ps-hero-section .ps-actions a').nth(1);
 	await expect(contentLink).toHaveCSS('text-decoration-line', 'underline');
 	await contentLink.hover();
 	await expect(contentLink).toHaveCSS('text-decoration-line', 'underline');
-	const navigationLink = page.locator('.site-desktop-menu a').first();
+	const navigationLink = page.locator('.desktop-menu a').first();
 	await page.mouse.move(0, 0);
 	await expect(navigationLink).toHaveCSS('text-decoration-line', 'none');
 	await navigationLink.hover();
 	await expect(navigationLink).toHaveCSS('text-decoration-line', 'none');
-	const cta = page.locator('.site-hero .actions a').first();
+	const cta = page.locator('.ps-hero-section .ps-actions a').first();
 	await page.mouse.move(0, 0);
 	await expect(cta).toHaveCSS('text-decoration-line', 'none');
 	await cta.hover();

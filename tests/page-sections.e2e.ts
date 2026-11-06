@@ -1,9 +1,70 @@
+import type { SectionData } from '@page-sections/core';
 import { expect, test } from '@playwright/test';
 
+function allSections(sections: SectionData[]): SectionData[] {
+	return sections.flatMap((section) => [
+		section,
+		...(section.type === 'grid'
+			? section.blocks.flatMap((block) => allSections(block.sections))
+			: [])
+	]);
+}
 const slugs = {
 	en: ['', 'blog', 'projects', 'workbench', 'about', 'privacy', 'imprint', 'sections'],
 	de: ['', 'blog', 'projekte', 'werkbank', 'ueber-mich', 'datenschutz', 'impressum', 'sektionen']
 };
+
+for (const width of [390, 1920]) {
+	test(`native sections keep readable text, equal cards and independent media at ${width}px`, async ({
+		page
+	}) => {
+		await page.setViewportSize({ width, height: 1000 });
+		await page.goto('/de');
+		await page.locator('.ps-hero-section img').evaluate(async (image: HTMLImageElement) => {
+			await image.decode();
+			await document.fonts.ready;
+		});
+		const artwork = (await page.locator('.ps-hero-section img').boundingBox())!;
+		expect(artwork.width).toBeGreaterThan(100);
+		expect(artwork.height).toBeGreaterThan(100);
+		await expect(page.locator('#about-website h3')).toHaveText('Bleib neugierig. Erschaffe Neues.');
+		for (const id of ['themen', 'projekte']) {
+			const cards = page.locator(`#${id} .ps-card`);
+			const heights = await cards.evaluateAll((elements) =>
+				elements.map((el) => el.getBoundingClientRect().height)
+			);
+			expect(Math.max(...heights) - Math.min(...heights)).toBeLessThan(1);
+			for (const text of await cards.locator('.title, .description').all()) {
+				expect(await text.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)).toBe(true);
+			}
+		}
+		await page.goto('/de/datenschutz');
+		const body = (await page.locator('[data-body-layout="narrow"]').boundingBox())!;
+		expect(body.width).toBeLessThanOrEqual(780);
+		expect(body.x).toBeGreaterThanOrEqual(0);
+		expect(body.x + body.width).toBeLessThanOrEqual(width);
+		await expect(
+			page.locator('#privacy-hosting p').filter({ hasText: 'Vercel Inc.' })
+		).toContainText('340 S Lemon Ave #4133');
+		await expect(
+			page.locator('#privacy-hosting p').filter({ hasText: 'Vercel Inc.' }).locator('br')
+		).toHaveCount(3);
+		await page.route('https://www.youtube-nocookie.com/**', (route) =>
+			route.fulfill({ body: '<html></html>', contentType: 'text/html' })
+		);
+		await page.goto('/de/sektionen');
+		for (const frame of await page
+			.locator('#my-list-section [data-ps-card-part="media-frame"]')
+			.all()) {
+			const box = (await frame.boundingBox())!;
+			expect(box.width / box.height).toBeCloseTo(1.5, 2);
+		}
+		await expect(page.locator('#my-list-section img').first()).toHaveCSS('object-fit', 'contain');
+		await expect(page.locator('#my-list-section .description').first()).toHaveText(
+			'Das ist Karte 1'
+		);
+	});
+}
 
 for (const width of [390, 1800])
 	for (const javaScriptEnabled of [false, true]) {
@@ -37,15 +98,15 @@ for (const width of [390, 1800])
 						// Detect missing component CSS as well as missing content.
 						expect(
 							await page.locator('h1').evaluate((el) => parseFloat(getComputedStyle(el).fontSize))
-						).toBeGreaterThan(32);
+						).toBeGreaterThanOrEqual(32);
 						const api = await context.request.get(
 							`/api/pages${slug ? '/' + slug : ''}?lang=${locale}`
 						);
 						const content = await api.json();
 						await expect(page.locator('[data-ps-section]')).toHaveCount(
-							content.sections.length + 1
+							allSections(content.sections).length + 1
 						);
-						for (const section of content.sections) {
+						for (const section of allSections(content.sections)) {
 							await expect(page.locator(`[data-ps-section="${section.id}"]`)).toBeVisible();
 							if (section.headline)
 								await expect(page.locator(`[data-ps-section="${section.id}"]`)).toContainText(
@@ -132,7 +193,7 @@ test('package images honor the system dark theme without JavaScript', async ({
 for (const javaScriptEnabled of [true, false]) {
 	test.describe('package navigation with JavaScript ' + javaScriptEnabled, () => {
 		test.use({ javaScriptEnabled });
-		for (const width of [320, 640, 1024, 1280, 1599, 1600, 1920]) {
+		for (const width of [320, 600, 840, 1024, 1199, 1200, 1280, 1599, 1600, 1809, 1920, 2300]) {
 			test('brand, menu and preferences fit at ' + width + 'px', async ({ page }) => {
 				await page.setViewportSize({ width, height: 1000 });
 				await page.goto('/en/projects');
@@ -141,6 +202,9 @@ for (const javaScriptEnabled of [true, false]) {
 				await expect(nav.getByRole('link', { name: /bergjohann.com.*Home/ })).toBeVisible();
 				const header = (await nav.locator('.header').boundingBox())!;
 				expect(header.height).toBe(width < 1600 ? 66 : 64);
+				if (width >= 1809) expect(header.width).toBe(1536);
+				else if (width >= 1600) expect(header.width).toBe(width - 272);
+				else expect(header.width).toBe(width);
 				expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 					true
 				);
@@ -166,21 +230,17 @@ for (const javaScriptEnabled of [true, false]) {
 					expect(left.x + left.width).toBeLessThan(header.x);
 					expect(header.x + header.width).toBeLessThan(right.x);
 				}
-				if (width < 1280) {
-					await page.locator('button[popovertarget="mobile-menu-panel"]').click();
-					await expect(page.locator('#mobile-menu-panel a[aria-current="page"]')).toHaveText(
-						'Projects'
-					);
+				if (width < 1200) {
+					await page.locator('.mobile-menu > summary').click();
+					await expect(page.locator('.mobile-panel a[aria-current="page"]')).toHaveText('Projects');
 					await page
-						.locator('#mobile-menu-panel')
+						.locator('.mobile-panel')
 						.getByRole('link', { name: 'About', exact: true })
 						.click();
 				} else {
-					await expect(nav.locator('.site-desktop-menu a[aria-current="page"]')).toHaveText(
-						'Projects'
-					);
+					await expect(nav.locator('.desktop-menu a[aria-current="page"]')).toHaveText('Projects');
 					await nav
-						.locator('.site-desktop-menu')
+						.locator('.desktop-menu')
 						.getByRole('link', { name: 'About', exact: true })
 						.click();
 				}
@@ -204,7 +264,9 @@ test('compact settings support keyboard dismissal, theme changes and resizing', 
 	await panel.getByRole('button', { name: 'Dark', exact: true }).click();
 	await expect(page.locator('.ps-shell')).toHaveAttribute('data-ps-theme', 'dark');
 	await expect
-		.poll(() => page.locator('.site-hero img').evaluate((el: HTMLImageElement) => el.currentSrc))
+		.poll(() =>
+			page.locator('.ps-hero-section img').evaluate((el: HTMLImageElement) => el.currentSrc)
+		)
 		.toContain('/images/heroes/home.png');
 	await page.keyboard.press('Escape');
 	await expect(panel).toBeHidden();

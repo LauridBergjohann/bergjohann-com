@@ -11,7 +11,8 @@
 </script>
 
 <div
-	class={`mx-auto w-full ${width === 'narrow' ? '2xl:max-w-[var(--content-narrow-width)]' : '2xl:max-w-[1800px]'} px-5 sm:px-8 ${className}`}
+	class={`ps-content-width mx-auto px-5 sm:px-8 ${className}`}
+	style:max-width={width === 'narrow' ? 'var(--ps-narrow-max)' : undefined}
 >
 	{@render children()}
 </div>

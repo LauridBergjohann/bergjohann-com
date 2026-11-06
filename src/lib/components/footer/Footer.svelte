@@ -8,7 +8,7 @@
 
 <footer class="border-t border-border py-9">
 	<Container
-		width="narrow"
+		width="wide"
 		class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"
 	>
 		<div>

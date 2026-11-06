@@ -60,15 +60,21 @@ for (const javaScriptEnabled of [true, false]) {
 					.locator(
 						panelId === 'appearance-settings'
 							? '.settings > summary'
-							: 'button[popovertarget="' + panelId + '"]'
+							: panelId === 'mobile-menu-panel'
+								? '.mobile-menu > summary'
+								: 'button[popovertarget="' + panelId + '"]'
 					)
 					.click();
 				const panel = page.locator(
-					panelId === 'appearance-settings' ? '.settings-panel' : '#' + panelId
+					panelId === 'appearance-settings'
+						? '.settings-panel'
+						: panelId === 'mobile-menu-panel'
+							? '.mobile-panel'
+							: '#' + panelId
 				);
 				await expect(panel).toBeVisible();
 				const initial = (await panel.boundingBox())!;
-				const header = (await page.getByRole('banner').boundingBox())!;
+				const header = (await page.locator('.ps-navigation > .header').boundingBox())!;
 				expect(initial.y).toBeGreaterThanOrEqual(header.y + header.height - 1);
 				expect(initial.x).toBeGreaterThanOrEqual(0);
 				expect(initial.x + initial.width).toBeLessThanOrEqual(390);
@@ -79,7 +85,7 @@ for (const javaScriptEnabled of [true, false]) {
 						.poll(async () => (await panel.boundingBox())!.y)
 						.toBeCloseTo(initial.y - displacement, 1);
 					await expect
-						.poll(async () => (await page.getByRole('banner').boundingBox())!.y)
+						.poll(async () => (await page.locator('.ps-navigation > .header').boundingBox())!.y)
 						.toBeCloseTo(header.y - displacement, 1);
 				}
 				await scrollDocument(page, 300);
@@ -88,7 +94,10 @@ for (const javaScriptEnabled of [true, false]) {
 					.toBeCloseTo(initial.y - 188, 1);
 				const scrolled = (await panel.boundingBox())!;
 				expect(scrolled.y).toBeCloseTo(initial.y - 188, 1);
-				expect((await page.getByRole('banner').boundingBox())!.y).toBeCloseTo(header.y - 188, 1);
+				expect((await page.locator('.ps-navigation > .header').boundingBox())!.y).toBeCloseTo(
+					header.y - 188,
+					1
+				);
 				await scrollDocument(page, 0);
 				await expect(panel).toBeVisible();
 				expect((await panel.boundingBox())!.y).toBeCloseTo(initial.y, 1);

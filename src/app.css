@@ -35,11 +35,6 @@
 	--brand-pale: #0fac87;
 	--brand-ice: #fbfdfc;
 
-	/* Shared dimensions for the floating header and HeaderSpacer. */
-	--content-narrow-width: 1554px;
-	--header-height: 66px;
-	--header-clearance: calc(var(--header-height) + 1rem);
-
 	color-scheme: light;
 	--page-background: #ffffff;
 	--section-background: #ffffff;
@@ -268,14 +263,6 @@
 	--color-warning: var(--warning);
 	--color-error: var(--error);
 	--color-info: var(--info);
-}
-
-@media (min-width: 1600px) {
-	:root {
-		/* Keep the centered header clear of the separate theme controls. */
-		--content-narrow-width: min(1554px, calc(100vw - 356px));
-		--header-height: 80px;
-	}
 }
 
 @layer base {

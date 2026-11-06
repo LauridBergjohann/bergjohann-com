@@ -46,25 +46,29 @@ You can preview the production build with `npm run preview`.
 ### Page Sections integration
 
 Content pages use the published `@page-sections/core` and `@page-sections/svelte`
-packages, pinned to 0.1.1. No sibling checkout or workspace alias is needed.
+packages, pinned to 0.2.0. No sibling checkout or workspace alias is needed.
 
-- The localized content API uses the published section models directly. Standard
-  sections need no adapter. Website-specific topics, project previews, about panels
-  and structured legal text extend `SectionTypeMap` in `src/lib/api/content.ts`.
-- `ContentPage.svelte` uses the package's `ContentPage`, `HeroSection` and `Sections`.
-  Text, cards, images and video use the built-in renderers. `SiteSection.svelte`
-  supplies website-specific content inside the package's `Section`.
-- `Header.svelte` composes the package's `Navigation` and `MainMenu` with the website
-  logo, search, language and theme controls. Below 1600px the package exposes the
-  satellite controls through its native settings disclosure. The mobile menu also
-  uses `MainMenu`, inside a native popover. Navigation works without JavaScript.
-- The old `components/sections` directory, duplicate menu renderers, obsolete DTOs
-  and section adapter have been removed. The package hero owns the single h1;
-  SvelteKit routes continue to own document titles and SEO.
-- `PageSectionsTheme.svelte` wraps the app layout and connects all package components
-  to the website theme store after mounting. Before hydration and without JavaScript,
-  media follow the system preference. `src/lib/content/page-sections.css` supplies
-  website typography, spacing, palette and artwork composition.
+- The localized content API serves public `PageData` and `SectionData` models with
+  site routing and SEO metadata. There is no `SectionTypeMap` augmentation or custom
+  renderer. The bilingual source remains in `src/lib/server/content.ts`.
+- `ContentPage.svelte` composes the package's `ContentPage` and `Sections`.
+  Artwork heroes, editorial card grids (topics/projects), nested grids with text
+  and panels (about), and structured rich text/panels (privacy/imprint) all use
+  built-in renderers. Legal bodies use `bodyLayout: 'narrow'`; addresses and email
+  links remain semantic HTML. SvelteKit owns document titles and SEO.
+- Editorial cards retain complete descriptions and equal heights. Demo images use
+  a separate 3:2 media area with `mediaFit: 'contain'`, independent of text height.
+- `Header.svelte` supplies items, logo, search and preference controls to
+  `Navigation`. The package owns the mobile menu below 1200px, settings below
+  1600px, and delayed scrolling (112px). Its canonical header is 1536px at 2XL.
+  Native disclosures and the site's search popover work without JavaScript.
+- `PageSectionsTheme.svelte` connects package components to the website theme
+  store after mounting. Before hydration and without JavaScript, media follow
+  the system preference. `src/lib/content/page-sections.css` contains brand
+  presentation only; responsive widths, spacing, hero composition, card sizing
+  and heading hierarchy come from the package.
+- Search, locale routing, preferences, footer and error pages remain application
+  responsibilities. Their container uses the package's shared width rules.
 
 `tests/page-sections.e2e.ts` checks all localized pages, single h1/main landmarks,
 metadata, legal semantics, mobile overflow and theme-aware package media with and
@@ -95,7 +99,7 @@ Every public page has an English and German URL. Examples: /en, /de,
   the flag. No language cookie is required.
 - Language controls are ordinary links with a full document reload. They preserve
   the page identity, query string and (with JavaScript) fragment. Mobile settings,
-  navigation and search use native popovers and work without JavaScript.
+  navigation use native disclosures; search uses a native popover. All work without JavaScript.
 - Canonical URLs, reciprocal hreflang links and document language are server-rendered.
 
 Validation (Node.js 24 or newer):

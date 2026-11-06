@@ -266,9 +266,9 @@ test('mobile navigation and search remain usable without JavaScript', async ({
 	const page = await context.newPage();
 	try {
 		await page.goto('/de');
-		await page.locator('button[popovertarget="mobile-menu-panel"]').click();
+		await page.locator('.mobile-menu > summary').click();
 		await page
-			.locator('#mobile-menu-panel')
+			.locator('.mobile-panel')
 			.getByRole('link', { name: 'Projekte', exact: true })
 			.click();
 		await expect(page).toHaveURL(/\/de\/projekte$/);

@@ -1,5 +1,5 @@
-﻿import type { ContentBlock, ContentPage, ContentSection } from '$lib/api/content';
-import type { HeroSectionData } from '@page-sections/core';
+﻿import type { ContentPage, ContentSection } from '$lib/api/content';
+import type { HeroSectionData, RichTextBlock, InlineRun } from '@page-sections/core';
 import { pathFor, type Locale } from '$lib/i18n/locale';
 import { site } from '$lib/site';
 
@@ -17,23 +17,32 @@ type PageSource = Translatable<Omit<ContentPage, 'locale' | 'slug' | 'slugs'>> &
 const t = (en: string, de: string): Text => ({ en, de });
 
 // Structure, media and page identities are shared. Only text leaves are translated.
-const address: Translatable<ContentBlock> = {
+const address: Translatable<RichTextBlock> = {
 	type: 'address',
 	name: 'Laurid Bergjohann',
 	lines: ['Geschwister-Scholl-Straße 6', '42897 Remscheid', t('Germany', 'Deutschland')]
 };
-const contact: Translatable<ContentBlock> = {
-	type: 'contact',
-	label: t('Email:', 'E-Mail:'),
-	email: 'info@bergjohann.com'
+const contact: Translatable<RichTextBlock> = {
+	type: 'paragraph',
+	text: [
+		{ type: 'text', text: t('Email: ', 'E-Mail: ') },
+		{ type: 'link', text: 'info@bergjohann.com', href: 'mailto:info@bergjohann.com' }
+	]
 };
 const paragraph = (
 	en: string,
 	de: string,
 	variant?: 'default' | 'lead' | 'muted'
-): Translatable<ContentBlock> => ({
+): Translatable<RichTextBlock> => ({
 	type: 'paragraph',
-	text: t(en, de),
+	text: en.includes('\n')
+		? en
+				.split('\n')
+				.flatMap<Translatable<InlineRun>>((line, index) => [
+					...(index ? [{ type: 'break' as const }] : []),
+					{ type: 'text', text: t(line, de.split('\n')[index]) }
+				])
+		: t(en, de),
 	...(variant ? { variant } : {})
 });
 
@@ -46,6 +55,7 @@ function hero(
 	return {
 		id: `${id}-hero`,
 		type: 'hero',
+		composition: 'artwork',
 		title: headline,
 		headingLevel: 1,
 		spacing: 'none',
@@ -68,16 +78,16 @@ function hero(
 function legalSection(
 	id: string,
 	title: Text,
-	blocks: Translatable<ContentBlock>[]
+	blocks: Translatable<RichTextBlock>[]
 ): Translatable<ContentSection> {
 	return {
 		id,
-		type: 'prose',
+		type: 'richText',
 		title,
 		headline: title,
 		variant: 'content',
 		layout: 'inherit',
-		spacing: 'none',
+		spacing: 'loose',
 		divider: 'top',
 		background: { color: 'transparent', size: 'full' },
 		blocks
@@ -96,7 +106,6 @@ const sources: PageSource[] = [
 			'A personal workshop for user experience, user interfaces, software architecture, and model making.',
 			'Eine persönliche Werkstatt für User Experience, Benutzeroberflächen, Softwarearchitektur und Modellbau.'
 		),
-		layout: 'landing',
 		hero: {
 			...hero(
 				'home',
@@ -113,7 +122,8 @@ const sources: PageSource[] = [
 			actions: [
 				{
 					href: '/projects',
-					label: t('Explore my projects', 'Entdecke meine Projekte')
+					label: t('Explore my projects', 'Entdecke meine Projekte'),
+					variant: 'primary'
 				},
 				{ href: '/about', label: t('A little about me', 'Ein wenig über mich') }
 			]
@@ -121,7 +131,9 @@ const sources: PageSource[] = [
 		sections: [
 			{
 				id: 'themen',
-				type: 'topics',
+				type: 'cardGrid',
+				cardVariant: 'editorial',
+				itemSpan: { xs: 4, s: 3, m: 4, l: 4 },
 				eyebrow: t('01 / Topics', '01 / Themen'),
 				title: t('Topics', 'Themen'),
 				background: { color: 'standard', size: 'full' },
@@ -131,33 +143,33 @@ const sources: PageSource[] = [
 					'Bildschirm und Werkbank haben mehr gemeinsam, als man vielleicht denkt.'
 				),
 				variant: 'feature',
-				layout: 'narrow',
+				layout: 'wide',
 				spacing: 'spacious',
 				divider: 'none',
-				items: [
+				list: [
 					{
 						id: 'ux',
-						number: '01',
+						eyebrow: '01',
 						title: t('User Experience & Interfaces', 'User Experience & Benutzeroberflächen'),
-						text: t(
+						description: t(
 							'What makes digital products intuitive and enjoyable to use? Thoughts on interaction, design, and the details in between.',
 							'Was macht digitale Produkte intuitiv und angenehm bedienbar? Gedanken zu Interaktion, Gestaltung und den Details dazwischen.'
 						)
 					},
 					{
 						id: 'architecture',
-						number: '02',
+						eyebrow: '02',
 						title: t('Software Architecture', 'Softwarearchitektur'),
-						text: t(
+						description: t(
 							'Structures that work beyond the drawing board. Exploring frontends, platforms, and the reasoning behind technical decisions.',
 							'Strukturen, die auch jenseits des Reißbretts funktionieren. Einblicke in Frontends, Plattformen und die Überlegungen hinter technischen Entscheidungen.'
 						)
 					},
 					{
 						id: 'model-making',
-						number: '03',
+						eyebrow: '03',
 						title: t('Model Making & Small Worlds', 'Modellbau & kleine Welten'),
-						text: t(
+						description: t(
 							'Ships, helicopters, planes, trucks, and a Dutch town in H0 scale. Projects, repairs, and fresh ideas from the workshop.',
 							'Schiffe, Hubschrauber, Flugzeuge, Lkw und eine niederländische Stadt im Maßstab H0. Projekte, Reparaturen und frische Ideen aus der Werkstatt.'
 						)
@@ -166,7 +178,9 @@ const sources: PageSource[] = [
 			},
 			{
 				id: 'projekte',
-				type: 'projects',
+				type: 'cardGrid',
+				cardVariant: 'editorial',
+				itemSpan: { xs: 4, s: 6, m: 4, l: 6 },
 				eyebrow: t('02 / Projects', '02 / Projekte'),
 				title: t('Projects', 'Projekte'),
 				background: { color: 'standard', size: 'full' },
@@ -176,28 +190,32 @@ const sources: PageSource[] = [
 					'Ein erster Einblick in meine Projekte. Ausführliche Berichte folgen nach und nach.'
 				),
 				variant: 'feature',
-				layout: 'narrow',
+				layout: 'wide',
 				spacing: 'spacious',
 				divider: 'top',
-				footer: t(
-					'Project preview · Full write-up coming soon',
-					'Projektvorschau · Ausführlicher Bericht folgt'
-				),
-				items: [
+				list: [
 					{
 						id: 'products-in-3d',
-						category: 'WEB / THREE.JS',
+						footer: t(
+							'Project preview · Full write-up coming soon',
+							'Projektvorschau · Ausführlicher Bericht folgt'
+						),
+						eyebrow: 'WEB / THREE.JS',
 						title: t('Exploring Products in 3D', 'Produkte in 3D entdecken'),
-						text: t(
+						description: t(
 							'Experiments with interactive 3D product views and interfaces that make digital objects feel more tangible.',
 							'Experimente mit interaktiven 3D-Produktansichten und Oberflächen, die digitale Objekte greifbarer machen.'
 						)
 					},
 					{
 						id: 'zeewijk',
-						category: t('MODEL MAKING / H0', 'MODELLBAU / H0'),
+						footer: t(
+							'Project preview · Full write-up coming soon',
+							'Projektvorschau · Ausführlicher Bericht folgt'
+						),
+						eyebrow: t('MODEL MAKING / H0', 'MODELLBAU / H0'),
 						title: 'Zeewijk',
-						text: t(
+						description: t(
 							'A fictional Dutch town growing piece by piece, with architecture, little stories, and close attention to detail.',
 							'Eine fiktive niederländische Stadt, die Stück für Stück wächst – mit Architektur, kleinen Geschichten und viel Liebe zum Detail.'
 						)
@@ -206,34 +224,77 @@ const sources: PageSource[] = [
 			},
 			{
 				id: 'ueber-mich',
-				type: 'about',
+				type: 'grid',
 				eyebrow: t('03 / About me', '03 / Über mich'),
 				title: t('About me', 'Über mich'),
 				background: { color: 'standard', size: 'full' },
 				headline: t('Hi, I’m Laurid.', 'Hallo, ich bin Laurid.'),
 				variant: 'feature',
-				layout: 'narrow',
+				layout: 'wide',
 				spacing: 'spacious',
 				divider: 'top',
-				paragraphs: [
-					t(
-						'I enjoy figuring out how things are put together and how to improve them. That applies just as much to an interface or a software architecture as it does to a model I build myself.',
-						'Ich finde gerne heraus, wie Dinge aufgebaut sind und wie sie sich verbessern lassen. Das gilt für eine Benutzeroberfläche oder eine Softwarearchitektur genauso wie für ein Modell, das ich selbst baue.'
-					),
-					t(
-						'This site is meant to be a personal space for ideas, experiences, and conversations, rather than a glossy portfolio. Over time, I hope it will grow into a blog and a journal of my projects.',
-						'Diese Website soll ein persönlicher Ort für Ideen, Erfahrungen und Gespräche sein, kein Hochglanzportfolio. Mit der Zeit soll daraus ein Blog und ein Tagebuch meiner Projekte entstehen.'
-					)
-				],
-				panel: {
-					headline: t('Stay curious. Build things.', 'Bleib neugierig. Erschaffe Neues.'),
-					text: t(
-						'This website is built with SvelteKit, TypeScript and Tailwind.',
-						'Diese Website entsteht mit SvelteKit, TypeScript und Tailwind.'
-					),
-					href: site.github,
-					label: t('View the website repository', 'Zum Quellcode der Website')
-				}
+				blocks: [
+					{
+						id: 'about-copy',
+						span: { xs: 4, s: 6, m: 5, l: 8 },
+						sections: [
+							{
+								id: 'about-text',
+								type: 'richText',
+								title: t('About me', 'Über mich'),
+								layout: 'inherit',
+								spacing: 'none',
+								blocks: [
+									{
+										type: 'paragraph',
+										text: t(
+											'I enjoy figuring out how things are put together and how to improve them. That applies just as much to an interface or a software architecture as it does to a model I build myself.',
+											'Ich finde gerne heraus, wie Dinge aufgebaut sind und wie sie sich verbessern lassen. Das gilt für eine Benutzeroberfläche oder eine Softwarearchitektur genauso wie für ein Modell, das ich selbst baue.'
+										)
+									},
+									{
+										type: 'paragraph',
+										text: t(
+											'This site is meant to be a personal space for ideas, experiences, and conversations, rather than a glossy portfolio. Over time, I hope it will grow into a blog and a journal of my projects.',
+											'Diese Website soll ein persönlicher Ort für Ideen, Erfahrungen und Gespräche sein, kein Hochglanzportfolio. Mit der Zeit soll daraus ein Blog und ein Tagebuch meiner Projekte entstehen.'
+										)
+									}
+								]
+							}
+						]
+					},
+					{
+						id: 'about-aside',
+						span: { xs: 4, s: 6, m: 3, l: 4 },
+						sections: [
+							{
+								id: 'about-website',
+								type: 'panel',
+								title: t('Stay curious. Build things.', 'Bleib neugierig. Erschaffe Neues.'),
+								headline: t('Stay curious. Build things.', 'Bleib neugierig. Erschaffe Neues.'),
+								layout: 'inherit',
+								spacing: 'none',
+								tone: 'muted',
+								blocks: [
+									{
+										type: 'paragraph',
+										text: t(
+											'This website is built with SvelteKit, TypeScript and Tailwind.',
+											'Diese Website entsteht mit SvelteKit, TypeScript und Tailwind.'
+										)
+									}
+								],
+								actions: [
+									{
+										href: site.github,
+										label: t('View the website repository', 'Zum Quellcode der Website'),
+										variant: 'text'
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		]
 	},
@@ -245,7 +306,6 @@ const sources: PageSource[] = [
 			'Ideas and experiences from my personal workshop.',
 			'Ideen und Erfahrungen aus meiner persönlichen Werkstatt.'
 		),
-		layout: 'simple',
 		hero: hero(
 			'blog',
 			t('Blog', 'Blog'),
@@ -261,7 +321,6 @@ const sources: PageSource[] = [
 			'Projects in software, user experience and model making.',
 			'Projekte rund um Software, User Experience und Modellbau.'
 		),
-		layout: 'simple',
 		hero: hero(
 			'projects',
 			t('Projects', 'Projekte'),
@@ -277,7 +336,6 @@ const sources: PageSource[] = [
 			'Experiments, repairs and ideas from the workbench.',
 			'Experimente, Reparaturen und Ideen von der Werkbank.'
 		),
-		layout: 'simple',
 		hero: hero(
 			'workbench',
 			t('Workbench', 'Werkbank'),
@@ -293,7 +351,6 @@ const sources: PageSource[] = [
 			'A little about Laurid Bergjohann and this personal workshop.',
 			'Ein wenig über Laurid Bergjohann und diese persönliche Werkstatt.'
 		),
-		layout: 'simple',
 		hero: hero(
 			'about',
 			t('About', 'Über mich'),
@@ -309,7 +366,8 @@ const sources: PageSource[] = [
 			'Information about how personal data is processed when you visit bergjohann.com.',
 			'Informationen zur Verarbeitung personenbezogener Daten beim Besuch von bergjohann.com.'
 		),
-		layout: 'legal',
+		bodyLayout: 'narrow',
+		bodySpacing: 'loose',
 		hero: hero(
 			'privacy',
 			t('Privacy Policy', 'Datenschutzerklärung'),
@@ -421,7 +479,8 @@ const sources: PageSource[] = [
 			'Legal notice and contact information for bergjohann.com.',
 			'Anbieterkennzeichnung und Kontaktinformationen für bergjohann.com.'
 		),
-		layout: 'legal',
+		bodyLayout: 'narrow',
+		bodySpacing: 'loose',
 		hero: hero(
 			'imprint',
 			t('Imprint', 'Impressum'),
@@ -431,8 +490,15 @@ const sources: PageSource[] = [
 			),
 			t('Legal information', 'Rechtliche Informationen')
 		),
-		introBlocks: [address],
 		sections: [
+			{
+				id: 'imprint-publisher',
+				type: 'panel',
+				title: t('Publisher', 'Anbieter'),
+				layout: 'inherit',
+				spacing: 'loose',
+				blocks: [address]
+			},
 			legalSection('imprint-contact', t('Contact', 'Kontakt'), [contact]),
 			legalSection(
 				'imprint-responsible-for-editorial-content',
@@ -455,7 +521,6 @@ const sources: PageSource[] = [
 			'Examples of the content sections used on this website.',
 			'Beispiele für die Inhaltsabschnitte dieser Website.'
 		),
-		layout: 'demo',
 		hero: {
 			id: 'my-hero-section',
 			type: 'hero',
@@ -486,20 +551,24 @@ const sources: PageSource[] = [
 				title: t('Cards', 'Karten'),
 				layout: 'wide',
 				cardSize: 'm',
+				cardVariant: 'editorial',
+				mediaAspect: '3/2',
+				mediaFit: 'contain',
+				itemSpan: { xs: 4, s: 3, m: 4, l: 6 },
 				list: [
 					{
 						id: 'card-1',
 						href: '/projects',
 						title: t('Card 1', 'Karte 1'),
 						subtitle: t('This is card 1', 'Das ist Karte 1'),
-						image: { src: '/images/heroes/projects-light.png', alt: '', objectFit: 'cover' }
+						image: { src: '/images/heroes/projects-light.png', alt: '' }
 					},
 					{
 						id: 'card-2',
 						href: '/workbench',
 						title: t('Card 2', 'Karte 2'),
 						subtitle: t('This is card 2', 'Das ist Karte 2'),
-						image: { src: '/images/heroes/workbench-light.png', alt: '', objectFit: 'contain' }
+						image: { src: '/images/heroes/workbench-light.png', alt: '' }
 					}
 				]
 			},

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Navigation, MainMenu } from '@page-sections/svelte';
+	import { Navigation } from '@page-sections/svelte';
 	import type { MenuItem } from '@page-sections/core';
 	import { afterNavigate } from '$app/navigation';
 	import { tick } from 'svelte';
@@ -26,18 +26,11 @@
 			children: item.children ? markCurrent(item.children) : undefined
 		}));
 	}
-	let header = $state<HTMLElement>();
-	let mobileOpen = $state(false);
 	let navTick = $state(0);
-	let mobilePanel = $state<HTMLDivElement>();
 	let searchPanel = $state<HTMLDivElement>();
 	let searchButton = $state<HTMLButtonElement>();
 	function closePanels() {
-		mobilePanel?.hidePopover();
 		searchPanel?.hidePopover();
-		header
-			?.querySelectorAll('details[open]')
-			.forEach((el) => ((el as HTMLDetailsElement).open = false));
 	}
 	afterNavigate(() => {
 		closePanels();
@@ -60,108 +53,79 @@
 		}
 	}
 	function onClick(event: MouseEvent) {
-		if (event.target instanceof Element && event.target.closest('.settings > summary')) {
-			mobilePanel?.hidePopover();
+		if (event.target instanceof Element && event.target.closest('.ps-navigation summary')) {
 			searchPanel?.hidePopover();
 		}
 	}
 	function onResize() {
 		if (window.innerWidth >= 1024) searchPanel?.hidePopover();
-		if (window.innerWidth >= 1280) mobilePanel?.hidePopover();
 	}
 </script>
 
 <svelte:window onkeydown={onKeydown} onclick={onClick} onresize={onResize} />
-
-<!-- Website behavior: the package navigation remains sticky for the first 112px. -->
-<div class="header-scroll-range">
-	<div class="header-sticky">
-		<header bind:this={header} class="site-header">
-			<Navigation label={messages.navigation.main} settingsLabel={messages.settings.title}>
-				{#snippet brand()}
-					<div class="flex items-center gap-1 sm:gap-3">
-						<button
-							type="button"
-							class="site-header-button xl:hidden"
-							aria-label={mobileOpen ? messages.navigation.close : messages.navigation.open}
-							aria-controls="mobile-menu-panel"
-							popovertarget="mobile-menu-panel"
-						>
-							<Icon id="menu" size={28} />
-						</button>
-						<Logo {messages} />
-					</div>
-				{/snippet}
-				{#snippet menu()}
-					<div class="flex min-w-0 items-center justify-end gap-4">
-						<div class="site-desktop-menu hidden min-w-0 flex-1 xl:block">
-							<MainMenu items={menuItems} />
-						</div>
-						<div class="hidden w-[22rem] min-w-0 shrink lg:block">
-							<Searchbox variant="desktop" closeTick={navTick} {locale} {messages} />
-						</div>
-						<button
-							bind:this={searchButton}
-							type="button"
-							class="site-header-button lg:hidden"
-							aria-label={messages.search.label}
-							aria-controls="mobile-search"
-							popovertarget="mobile-search"
-						>
-							<Icon id="search" size={18} />
-						</button>
-					</div>
-				{/snippet}
-				{#snippet left()}
-					<div data-header-language>
-						<p class="preference-heading">{messages.settings.language}</p>
-						<LanguageSwitch labelled="responsive" {locale} {messages} {slugs} />
-					</div>
-				{/snippet}
-				{#snippet right()}
-					<div data-header-appearance>
-						<p class="preference-heading">{messages.settings.appearance}</p>
-						<ThemeSwitch labelled="responsive" {messages} />
-					</div>
-				{/snippet}
-				{#snippet settingsIcon()}<Icon id="settings" size={18} />{/snippet}
-			</Navigation>
-			<div
-				bind:this={mobilePanel}
-				id="mobile-menu-panel"
-				popover="auto"
-				ontoggle={(event) => (mobileOpen = event.newState === 'open')}
-				class="site-header-panel site-mobile-menu xl:hidden"
-			>
-				<nav aria-label={messages.navigation.mobile}><MainMenu items={menuItems} /></nav>
+<header class="site-header">
+	<Navigation
+		items={menuItems}
+		closeKey={currentPath}
+		scrollBehavior="delayed"
+		label={messages.navigation.main}
+		menuLabel={messages.navigation.open}
+		settingsLabel={messages.settings.title}
+	>
+		{#snippet brand()}<Logo {messages} />{/snippet}
+		{#snippet menuIcon()}<Icon id="menu" size={24} />{/snippet}
+		{#snippet tools()}
+			<div class="desktop-search">
+				<Searchbox variant="desktop" closeTick={navTick} {locale} {messages} />
 			</div>
-			<div
-				bind:this={searchPanel}
-				id="mobile-search"
-				popover="auto"
-				ontoggle={onSearchToggle}
-				class="site-header-panel overflow-visible p-3 lg:hidden"
+			<button
+				bind:this={searchButton}
+				type="button"
+				class="site-header-button mobile-search-button"
+				aria-label={messages.search.label}
+				aria-controls="mobile-search"
+				popovertarget="mobile-search"
 			>
-				<Searchbox variant="mobile" closeTick={navTick} {locale} {messages} />
+				<Icon id="search" size={18} />
+			</button>
+		{/snippet}
+		{#snippet left()}
+			<div data-header-language>
+				<p class="preference-heading">{messages.settings.language}</p>
+				<LanguageSwitch labelled="responsive" {locale} {messages} {slugs} />
 			</div>
-		</header>
+		{/snippet}
+		{#snippet right()}
+			<div data-header-appearance>
+				<p class="preference-heading">{messages.settings.appearance}</p>
+				<ThemeSwitch labelled="responsive" {messages} />
+			</div>
+		{/snippet}
+		{#snippet settingsIcon()}<Icon id="settings" size={18} />{/snippet}
+	</Navigation>
+	<div
+		bind:this={searchPanel}
+		id="mobile-search"
+		popover="auto"
+		ontoggle={onSearchToggle}
+		class="site-header-panel overflow-visible p-3 lg:hidden"
+	>
+		<Searchbox variant="mobile" closeTick={navTick} {locale} {messages} />
 	</div>
-</div>
+</header>
 
 <style>
-	.header-scroll-range {
-		position: absolute;
-		inset-inline: 0;
-		top: 0;
-		height: calc(var(--header-height) + 112px);
-		z-index: 40;
-		pointer-events: none;
+	.desktop-search {
+		display: none;
+		width: clamp(14rem, 22vw, 22rem);
 	}
-	.header-sticky {
-		position: sticky;
-		top: 0;
-		height: var(--header-height);
-		pointer-events: auto;
+	@media (min-width: 1024px) {
+		.desktop-search {
+			display: block;
+		}
+		.mobile-search-button {
+			display: none;
+		}
 	}
 	.site-header-panel {
 		position: absolute;
@@ -176,10 +140,5 @@
 		color: var(--foreground);
 		background: var(--header-background);
 		box-shadow: 0 12px 32px #0002;
-	}
-	.site-mobile-menu {
-		max-height: calc(100dvh - var(--header-height));
-		overflow-y: auto;
-		padding: 1rem;
 	}
 </style>

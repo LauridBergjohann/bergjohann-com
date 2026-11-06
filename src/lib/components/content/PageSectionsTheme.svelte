@@ -21,12 +21,11 @@
 			ink: 'var(--foreground)',
 			body: 'var(--muted)',
 			accent: 'var(--link)',
+			onAccent: 'var(--on-primary)',
 			standard: 'var(--section-background)',
 			muted: 'var(--surface)',
 			radius: '12px',
-			fontFamily: 'var(--font-sans)',
-			contentMax: '1800px',
-			narrowMax: 'var(--content-narrow-width)'
+			fontFamily: 'var(--font-sans)'
 		}}
 	>
 		{@render children()}
