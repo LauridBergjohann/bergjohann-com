@@ -100,7 +100,7 @@ describe('localized page content', () => {
 				});
 			}
 		}
-		expect(getPage('de', '')?.actions?.[0].href).toBe('/de/projekte');
-		expect(getPage('en', '')?.actions?.[0].href).toBe('/en/projects');
+		expect(getPage('de', '')?.hero.actions?.[0].href).toBe('/de/projekte');
+		expect(getPage('en', '')?.hero.actions?.[0].href).toBe('/en/projects');
 	});
 });

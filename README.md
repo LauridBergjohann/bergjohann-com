@@ -48,23 +48,23 @@ You can preview the production build with `npm run preview`.
 Content pages use the published `@page-sections/core` and `@page-sections/svelte`
 packages, pinned to 0.1.1. No sibling checkout or workspace alias is needed.
 
-- `src/lib/content/page-sections.ts` adapts the localized API into the package's
-  serializable section models. It maps visible titles, backgrounds, card sizes,
-  image fitting and localized links without changing the API or search index.
-- `src/lib/components/content/ContentPage.svelte` uses the package's `ContentPage`
-  and `Sections`. Text, cards, images and video use the built-in renderers.
-  `SiteSection.svelte` renders topics, project previews, about panels and structured
-  legal text using the package's `Section` component and an augmented SectionTypeMap.
-- The existing artwork hero is supplied through the custom page header. It owns
-  the single h1; the SvelteKit route continues to own document titles and SEO.
-  The website header, search, language controls and footer remain host components.
-- `PageSectionsTheme.svelte` connects the package to the existing theme store only
-  after mounting. Before hydration and without JavaScript, images and the site
-  palette follow the system preference. `src/lib/content/page-sections.css` maps
-  website spacing, typography and widths onto the package components.
-- The earlier components under `components/sections` remain for their existing
-  isolated examples/tests and the custom hero. Standard content pages no longer
-  use their text, list, image, video or base-section renderers.
+- The localized content API uses the published section models directly. Standard
+  sections need no adapter. Website-specific topics, project previews, about panels
+  and structured legal text extend `SectionTypeMap` in `src/lib/api/content.ts`.
+- `ContentPage.svelte` uses the package's `ContentPage`, `HeroSection` and `Sections`.
+  Text, cards, images and video use the built-in renderers. `SiteSection.svelte`
+  supplies website-specific content inside the package's `Section`.
+- `Header.svelte` composes the package's `Navigation` and `MainMenu` with the website
+  logo, search, language and theme controls. Below 1600px the package exposes the
+  satellite controls through its native settings disclosure. The mobile menu also
+  uses `MainMenu`, inside a native popover. Navigation works without JavaScript.
+- The old `components/sections` directory, duplicate menu renderers, obsolete DTOs
+  and section adapter have been removed. The package hero owns the single h1;
+  SvelteKit routes continue to own document titles and SEO.
+- `PageSectionsTheme.svelte` wraps the app layout and connects all package components
+  to the website theme store after mounting. Before hydration and without JavaScript,
+  media follow the system preference. `src/lib/content/page-sections.css` supplies
+  website typography, spacing, palette and artwork composition.
 
 `tests/page-sections.e2e.ts` checks all localized pages, single h1/main landmarks,
 metadata, legal semantics, mobile overflow and theme-aware package media with and

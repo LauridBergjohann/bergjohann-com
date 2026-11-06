@@ -42,12 +42,14 @@ for (const width of [390, 1800])
 							`/api/pages${slug ? '/' + slug : ''}?lang=${locale}`
 						);
 						const content = await api.json();
-						await expect(page.locator('[data-ps-section]')).toHaveCount(content.sections.length);
+						await expect(page.locator('[data-ps-section]')).toHaveCount(
+							content.sections.length + 1
+						);
 						for (const section of content.sections) {
 							await expect(page.locator(`[data-ps-section="${section.id}"]`)).toBeVisible();
-							if (section.title)
+							if (section.headline)
 								await expect(page.locator(`[data-ps-section="${section.id}"]`)).toContainText(
-									section.title
+									section.headline
 								);
 						}
 						expect(await page.title()).toBeTruthy();
@@ -79,7 +81,7 @@ test('package media and surfaces follow the host theme', async ({ page }) => {
 	await image.scrollIntoViewIfNeeded();
 	for (const theme of ['dark', 'light'] as const) {
 		await page
-			.locator('[data-header-appearance]')
+			.locator('[data-header-appearance]:visible')
 			.getByRole('button', { name: theme === 'dark' ? 'Dark' : 'Light', exact: true })
 			.click();
 		await expect(page.locator('.site-page-sections .ps-shell')).toHaveAttribute(
@@ -125,4 +127,95 @@ test('package images honor the system dark theme without JavaScript', async ({
 	} finally {
 		await context.close();
 	}
+});
+
+for (const javaScriptEnabled of [true, false]) {
+	test.describe('package navigation with JavaScript ' + javaScriptEnabled, () => {
+		test.use({ javaScriptEnabled });
+		for (const width of [320, 640, 1024, 1280, 1599, 1600, 1920]) {
+			test('brand, menu and preferences fit at ' + width + 'px', async ({ page }) => {
+				await page.setViewportSize({ width, height: 1000 });
+				await page.goto('/en/projects');
+				const nav = page.locator('.ps-navigation');
+				await expect(nav).toBeVisible();
+				await expect(nav.getByRole('link', { name: /bergjohann.com.*Home/ })).toBeVisible();
+				const header = (await nav.locator('.header').boundingBox())!;
+				expect(header.height).toBe(width < 1600 ? 66 : 64);
+				expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+					true
+				);
+				const settings = nav.locator('.settings > summary');
+				if (width < 1600) {
+					await expect(nav.locator('.satellite')).toHaveCount(2);
+					await expect(nav.locator('.satellite.left')).toBeHidden();
+					await expect(nav.locator('.satellite.right')).toBeHidden();
+					await settings.click();
+					const panel = nav.locator('.settings-panel');
+					await expect(panel).toBeVisible();
+					await expect(panel.locator('a[hreflang="de"]')).toBeVisible();
+					await expect(panel.getByRole('button', { name: 'Dark', exact: true })).toBeVisible();
+					const box = (await panel.boundingBox())!;
+					expect(box.x).toBeGreaterThanOrEqual(0);
+					expect(box.x + box.width).toBeLessThanOrEqual(width);
+					await settings.click();
+					await expect(panel).toBeHidden();
+				} else {
+					await expect(settings).toBeHidden();
+					const left = (await nav.locator('.satellite.left').boundingBox())!;
+					const right = (await nav.locator('.satellite.right').boundingBox())!;
+					expect(left.x + left.width).toBeLessThan(header.x);
+					expect(header.x + header.width).toBeLessThan(right.x);
+				}
+				if (width < 1280) {
+					await page.locator('button[popovertarget="mobile-menu-panel"]').click();
+					await expect(page.locator('#mobile-menu-panel a[aria-current="page"]')).toHaveText(
+						'Projects'
+					);
+					await page
+						.locator('#mobile-menu-panel')
+						.getByRole('link', { name: 'About', exact: true })
+						.click();
+				} else {
+					await expect(nav.locator('.site-desktop-menu a[aria-current="page"]')).toHaveText(
+						'Projects'
+					);
+					await nav
+						.locator('.site-desktop-menu')
+						.getByRole('link', { name: 'About', exact: true })
+						.click();
+				}
+				await expect(page).toHaveURL(/\/en\/about$/);
+				await expect(page.getByRole('heading', { level: 1 })).toHaveText('About');
+			});
+		}
+	});
+}
+
+test('compact settings support keyboard dismissal, theme changes and resizing', async ({
+	page
+}) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.goto('/en');
+	const settings = page.locator('.ps-navigation .settings > summary');
+	const panel = page.locator('.ps-navigation .settings-panel');
+	await settings.focus();
+	await page.keyboard.press('Enter');
+	await expect(panel).toBeVisible();
+	await panel.getByRole('button', { name: 'Dark', exact: true }).click();
+	await expect(page.locator('.ps-shell')).toHaveAttribute('data-ps-theme', 'dark');
+	await expect
+		.poll(() => page.locator('.site-hero img').evaluate((el: HTMLImageElement) => el.currentSrc))
+		.toContain('/images/heroes/home.png');
+	await page.keyboard.press('Escape');
+	await expect(panel).toBeHidden();
+	await expect(settings).toBeFocused();
+	await settings.click();
+	await page.getByRole('heading', { level: 1 }).click({ position: { x: 2, y: 2 } });
+	await expect(panel).toBeHidden();
+	await settings.click();
+	await page.setViewportSize({ width: 1800, height: 1000 });
+	await expect(page.locator('.ps-navigation .settings')).not.toHaveAttribute('open');
+	await expect(
+		page.locator('.satellite.right').getByRole('button', { name: 'Dark', exact: true })
+	).toHaveAttribute('aria-pressed', 'true');
 });

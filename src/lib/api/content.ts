@@ -1,38 +1,37 @@
 import type { Locale } from '$lib/i18n/locale';
-import type {
-	HeroImageSection,
-	SectionBase,
-	RichTextSectionTyped,
-	ListSectionTyped,
-	ImageSectionTyped,
-	VideoSectionTyped
-} from '$lib/components/sections/interface';
+import type { HeroSectionData, SectionData, SectionDefinition } from '@page-sections/core';
 
 export type ContentBlock =
 	| { type: 'paragraph'; text: string; variant?: 'default' | 'lead' | 'muted' }
 	| { type: 'address'; name: string; lines: string[] }
 	| { type: 'contact'; label: string; email: string };
 
-export type ContentSection =
-	| (SectionBase & {
+export type SiteSection =
+	| (SectionDefinition & {
 			type: 'topics';
 			items: { id: string; number: string; title: string; text: string }[];
 	  })
-	| (SectionBase & {
+	| (SectionDefinition & {
 			type: 'projects';
 			items: { id: string; category: string; title: string; text: string }[];
 			footer: string;
 	  })
-	| (SectionBase & {
+	| (SectionDefinition & {
 			type: 'about';
 			paragraphs: string[];
 			panel: { headline: string; text: string; href: string; label: string };
 	  })
-	| (SectionBase & { type: 'prose'; blocks: ContentBlock[] })
-	| RichTextSectionTyped
-	| ListSectionTyped
-	| ImageSectionTyped
-	| VideoSectionTyped;
+	| (SectionDefinition & { type: 'prose'; blocks: ContentBlock[] });
+
+declare module '@page-sections/core' {
+	interface SectionTypeMap {
+		topics: Extract<SiteSection, { type: 'topics' }>;
+		projects: Extract<SiteSection, { type: 'projects' }>;
+		about: Extract<SiteSection, { type: 'about' }>;
+		prose: Extract<SiteSection, { type: 'prose' }>;
+	}
+}
+export type ContentSection = SectionData;
 
 /** A response contains one language's text and only the alternative page slugs. */
 export type ContentPage = {
@@ -43,8 +42,7 @@ export type ContentPage = {
 	title: string;
 	description: string;
 	layout: 'landing' | 'legal' | 'simple' | 'demo';
-	hero: HeroImageSection;
-	actions?: { href: string; label: string; primary?: boolean }[];
+	hero: HeroSectionData;
 	introBlocks?: ContentBlock[];
 	sections: ContentSection[];
 };

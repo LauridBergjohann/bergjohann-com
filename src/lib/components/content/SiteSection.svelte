@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Section } from '@page-sections/svelte';
-	import type { SiteSection } from '$lib/content/page-sections';
+	import type { SiteSection } from '$lib/api/content';
 	import Link from '$lib/components/helper/Link.svelte';
 	import ContentBlocks from './ContentBlocks.svelte';
 	let { section }: { section: SiteSection } = $props();

@@ -1,5 +1,5 @@
 ﻿import type { ContentBlock, ContentPage, ContentSection } from '$lib/api/content';
-import type { HeroImageSection } from '$lib/components/sections/interface';
+import type { HeroSectionData } from '@page-sections/core';
 import { pathFor, type Locale } from '$lib/i18n/locale';
 import { site } from '$lib/site';
 
@@ -42,11 +42,16 @@ function hero(
 	headline: Text,
 	introduction: Text,
 	eyebrow?: Text
-): Translatable<HeroImageSection> {
+): Translatable<HeroSectionData> {
 	return {
 		id: `${id}-hero`,
+		type: 'hero',
+		title: headline,
+		headingLevel: 1,
+		spacing: 'none',
+		background: { color: 'transparent', size: 'full' },
 		layout: 'full',
-		size: id === 'home' ? 'lg' : 'sm',
+		size: id === 'home' ? 'l' : 's',
 		headline,
 		introduction,
 		...(eyebrow ? { eyebrow } : {}),
@@ -69,11 +74,12 @@ function legalSection(
 		id,
 		type: 'prose',
 		title,
+		headline: title,
 		variant: 'content',
 		layout: 'inherit',
 		spacing: 'none',
 		divider: 'top',
-		background: 'transparent',
+		background: { color: 'transparent', size: 'full' },
 		blocks
 	};
 }
@@ -91,29 +97,35 @@ const sources: PageSource[] = [
 			'Eine persönliche Werkstatt für User Experience, Benutzeroberflächen, Softwarearchitektur und Modellbau.'
 		),
 		layout: 'landing',
-		hero: hero(
-			'home',
-			t('Stay curious. Build things.', 'Bleib neugierig. Erschaffe Neues.'),
-			t(
-				'Exploring user experience, software architecture, and small worlds. A space for ideas, experiments, and things made by hand.',
-				'User Experience, Softwarearchitektur und kleine Welten entdecken. Ein Ort für Ideen, Experimente und Dinge, die von Hand entstehen.'
+		hero: {
+			...hero(
+				'home',
+				t('Stay curious. Build things.', 'Bleib neugierig. Erschaffe Neues.'),
+				t(
+					'Exploring user experience, software architecture, and small worlds. A space for ideas, experiments, and things made by hand.',
+					'User Experience, Softwarearchitektur und kleine Welten entdecken. Ein Ort für Ideen, Experimente und Dinge, die von Hand entstehen.'
+				),
+				t(
+					'Laurid Bergjohann |  UX · Architecture · Coding',
+					'Laurid Bergjohann | UX · Architektur · Coding'
+				)
 			),
-			t('Laurid Bergjohann |  UX · Architecture · Coding', 'Laurid Bergjohann | UX · Architektur · Coding')
-		),
-		actions: [
-			{
-				href: '/projects',
-				label: t('Explore my projects', 'Entdecke meine Projekte'),
-				primary: true
-			},
-			{ href: '/about', label: t('A little about me', 'Ein wenig über mich') }
-		],
+			actions: [
+				{
+					href: '/projects',
+					label: t('Explore my projects', 'Entdecke meine Projekte')
+				},
+				{ href: '/about', label: t('A little about me', 'Ein wenig über mich') }
+			]
+		},
 		sections: [
 			{
 				id: 'themen',
 				type: 'topics',
 				eyebrow: t('01 / Topics', '01 / Themen'),
-				title: t('What I’m exploring.', 'Was mich beschäftigt.'),
+				title: t('Topics', 'Themen'),
+				background: { color: 'standard', size: 'full' },
+				headline: t('What I’m exploring.', 'Was mich beschäftigt.'),
 				introduction: t(
 					'The screen and the workbench have more in common than you might think.',
 					'Bildschirm und Werkbank haben mehr gemeinsam, als man vielleicht denkt.'
@@ -156,7 +168,9 @@ const sources: PageSource[] = [
 				id: 'projekte',
 				type: 'projects',
 				eyebrow: t('02 / Projects', '02 / Projekte'),
-				title: t('On my workbench.', 'Auf meiner Werkbank.'),
+				title: t('Projects', 'Projekte'),
+				background: { color: 'standard', size: 'full' },
+				headline: t('On my workbench.', 'Auf meiner Werkbank.'),
 				introduction: t(
 					'A first look at my projects. More detailed write-ups will follow over time.',
 					'Ein erster Einblick in meine Projekte. Ausführliche Berichte folgen nach und nach.'
@@ -194,7 +208,9 @@ const sources: PageSource[] = [
 				id: 'ueber-mich',
 				type: 'about',
 				eyebrow: t('03 / About me', '03 / Über mich'),
-				title: t('Hi, I’m Laurid.', 'Hallo, ich bin Laurid.'),
+				title: t('About me', 'Über mich'),
+				background: { color: 'standard', size: 'full' },
+				headline: t('Hi, I’m Laurid.', 'Hallo, ich bin Laurid.'),
 				variant: 'feature',
 				layout: 'narrow',
 				spacing: 'spacious',
@@ -442,6 +458,10 @@ const sources: PageSource[] = [
 		layout: 'demo',
 		hero: {
 			id: 'my-hero-section',
+			type: 'hero',
+			title: t('Welcome', 'Willkommen'),
+			headingLevel: 1,
+			spacing: 'none',
 			image: {
 				src: '/images/rhein-light.webp',
 				srcDark: '/images/rhein-dark.webp',
@@ -449,41 +469,45 @@ const sources: PageSource[] = [
 			},
 			headline: t('Welcome to My Site', 'Willkommen auf meiner Website'),
 			layout: 'full',
-			size: 'sm'
+			size: 's'
 		},
 		sections: [
 			{
 				id: 'my-text-section',
 				type: 'richText',
+				title: t('Text', 'Text'),
+				layout: 'wide',
 				body: t('Hello, World!', 'Hallo, Welt!'),
-				background: 'muted'
+				background: { color: 'muted', size: 'full' }
 			},
 			{
 				id: 'my-list-section',
-				type: 'list',
-				cardSize: 'md',
-				cards: [
+				type: 'cardGrid',
+				title: t('Cards', 'Karten'),
+				layout: 'wide',
+				cardSize: 'm',
+				list: [
 					{
 						id: 'card-1',
 						href: '/projects',
 						title: t('Card 1', 'Karte 1'),
 						subtitle: t('This is card 1', 'Das ist Karte 1'),
-						image: '/images/heroes/projects-light.png',
-						imageCover: true
+						image: { src: '/images/heroes/projects-light.png', alt: '', objectFit: 'cover' }
 					},
 					{
 						id: 'card-2',
 						href: '/workbench',
 						title: t('Card 2', 'Karte 2'),
 						subtitle: t('This is card 2', 'Das ist Karte 2'),
-						image: '/images/heroes/workbench-light.png',
-						imageCover: false
+						image: { src: '/images/heroes/workbench-light.png', alt: '', objectFit: 'contain' }
 					}
 				]
 			},
 			{
 				id: 'my-image-section',
 				type: 'image',
+				title: t('Image', 'Bild'),
+				layout: 'wide',
 				image: {
 					src: '/images/rhein-light.webp',
 					srcDark: '/images/rhein-dark.webp',
@@ -501,6 +525,8 @@ const sources: PageSource[] = [
 			{
 				id: 'my-video-section',
 				type: 'video',
+				title: t('Video', 'Video'),
+				layout: 'wide',
 				video: { provider: 'youtube', src: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
 				headline: t('Video Section Headline', 'Überschrift des Videoabschnitts'),
 				description: t(

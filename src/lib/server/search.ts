@@ -78,7 +78,7 @@ export function searchPages(locale: Locale, query: string): SearchResponse {
 						id: page.id,
 						label: page.title,
 						href: pathFor(locale, page.slug),
-						image: page.hero?.image.src ?? '/branding/logo-light.svg',
+						image: page.hero.image?.src ?? '/branding/logo-light.svg',
 						score
 					};
 				})

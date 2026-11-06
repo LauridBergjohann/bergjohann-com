@@ -117,8 +117,8 @@ test('server language detection and mobile language links work without JavaScrip
 		await page.goto('/privacy');
 		expect(new URL(page.url()).pathname).toBe('/de/datenschutz');
 		await expect(page.locator('html')).toHaveAttribute('lang', 'de');
-		await page.locator('button[popovertarget="appearance-settings"]').click();
-		const popup = page.getByRole('dialog');
+		await page.locator('.ps-navigation .settings > summary').click();
+		const popup = page.locator('.ps-navigation .settings-panel');
 		await expect(popup).toBeVisible();
 		await expect(popup.getByRole('group').first().locator('a[hreflang="en"]')).toBeVisible();
 		await languageLink(page, 'en').click();
@@ -175,7 +175,7 @@ test('desktop selection reloads the same page, persists on return, and preserves
 	page
 }) => {
 	await page.goto('/en/privacy');
-	await expect(page.locator('[data-header-appearance] button').first()).toBeEnabled();
+	await expect(page.locator('[data-header-appearance]:visible button').first()).toBeEnabled();
 	await expect(languageLink(page, 'de')).toHaveCount(1);
 	await page.evaluate(() => {
 		document.documentElement.dataset.languageDocument = 'before-switch';
@@ -281,7 +281,7 @@ test('mobile navigation and search remain usable without JavaScript', async ({
 			.getByRole('link', { name: 'Projekte', exact: true })
 			.getAttribute('href');
 		expect(new URL(projectHref!, page.url()).pathname).toBe('/de/projekte');
-		await page.locator('button[popovertarget="appearance-settings"]').click();
+		await page.locator('.ps-navigation .settings > summary').click();
 		await languageLink(page, 'en').click();
 		await expect(page).toHaveURL(/\/en\/search\?q=Projekte$/);
 	} finally {

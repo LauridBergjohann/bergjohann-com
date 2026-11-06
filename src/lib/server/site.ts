@@ -11,7 +11,7 @@ export function getSite(locale: Locale): SiteDto {
 		navigation: mainNav.flatMap((item) => {
 			if (item.type !== 'page') return [];
 			const page = pages.find((page) => page.id === item.pageId);
-			return page ? [{ label: page.title, href: pathFor(locale, page.slug) }] : [];
+			return page ? [{ id: page.id, label: page.title, href: pathFor(locale, page.slug) }] : [];
 		})
 	};
 }
