@@ -43,6 +43,39 @@ You can preview the production build with `npm run preview`.
 
 ## Languages and content
 
+### Page Sections integration
+
+Content pages use the published `@page-sections/core` and `@page-sections/svelte`
+packages, pinned to 0.1.1. No sibling checkout or workspace alias is needed.
+
+- `src/lib/content/page-sections.ts` adapts the localized API into the package's
+  serializable section models. It maps visible titles, backgrounds, card sizes,
+  image fitting and localized links without changing the API or search index.
+- `src/lib/components/content/ContentPage.svelte` uses the package's `ContentPage`
+  and `Sections`. Text, cards, images and video use the built-in renderers.
+  `SiteSection.svelte` renders topics, project previews, about panels and structured
+  legal text using the package's `Section` component and an augmented SectionTypeMap.
+- The existing artwork hero is supplied through the custom page header. It owns
+  the single h1; the SvelteKit route continues to own document titles and SEO.
+  The website header, search, language controls and footer remain host components.
+- `PageSectionsTheme.svelte` connects the package to the existing theme store only
+  after mounting. Before hydration and without JavaScript, images and the site
+  palette follow the system preference. `src/lib/content/page-sections.css` maps
+  website spacing, typography and widths onto the package components.
+- The earlier components under `components/sections` remain for their existing
+  isolated examples/tests and the custom hero. Standard content pages no longer
+  use their text, list, image, video or base-section renderers.
+
+`tests/page-sections.e2e.ts` checks all localized pages, single h1/main landmarks,
+metadata, legal semantics, mobile overflow and theme-aware package media with and
+without JavaScript. Run the production browser suite with `npx playwright test`;
+set `BERGJOHANN_TEST_PORT` to use a dedicated preview port.
+
+`npm run build:preview` creates production client/server output for local preview
+and browser tests without deployment packaging. `npm run build` remains the
+Vercel deployment build. This distinction lets the browser suite run on Windows
+without requiring permission to create the Vercel adapter's symlinks.
+
 Every public page has an English and German URL. Examples: /en, /de,
 /en/projects, /de/projekte, /en/privacy and /de/datenschutz.
 

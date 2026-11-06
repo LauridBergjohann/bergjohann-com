@@ -1,0 +1,115 @@
+/* Website presentation on top of the published components. Keep library defaults
+   scoped to this integration; the host owns its header, palette and content widths. */
+.site-page-sections .ps-shell {
+	--ps-border: var(--border);
+	--ps-scroll-offset: calc(var(--header-clearance) + 1rem);
+}
+.site-content-page.ps-page {
+	padding-bottom: 0;
+}
+.site-content-page > .ps-content-width {
+	width: 100%;
+}
+.site-content-page a[data-button] {
+	color: var(--on-primary);
+}
+.site-content-page .ps-section > .ps-section-content {
+	padding: 0.5rem 1.25rem;
+	font: inherit;
+}
+.site-content-page .ps-section[data-layout='inherit'] > .ps-section-content {
+	padding-inline: 0;
+}
+.site-content-page .ps-section[data-layout='full'] {
+	width: 100%;
+	margin-inline: 0;
+}
+.site-content-page .ps-section[data-layout='full'] > .ps-section-content {
+	padding: 0;
+}
+.site-content-page .ps-section[data-spacing='none'] > .ps-section-content {
+	padding-block: 0;
+}
+.site-content-page .ps-section[data-spacing='tight'] > .ps-section-content {
+	padding-block: 0.25rem;
+}
+.site-content-page .ps-section[data-spacing='loose'] > .ps-section-content {
+	padding-block: 1rem;
+}
+.site-content-page .ps-section[data-spacing='spacious'] > .ps-section-content {
+	padding-block: 4rem;
+}
+.site-content-page .ps-section .headline {
+	margin: 0 0 1rem;
+	font-size: 1.5rem;
+	line-height: 1.35;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+.site-content-page .ps-section .eyebrow {
+	margin: 0 0 0.75rem;
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+}
+.site-content-page .ps-section .introduction {
+	margin: 0 0 1rem;
+	line-height: 1.75;
+}
+.site-content-page .ps-section[data-variant='feature'] .headline {
+	max-width: 42rem;
+	margin-bottom: 2.25rem;
+	font-size: 1.875rem;
+	font-weight: 700;
+	letter-spacing: -0.025em;
+}
+.site-content-page .ps-section[data-variant='feature']:has(.introduction) .headline {
+	margin-bottom: 1rem;
+}
+.site-content-page .ps-section[data-variant='feature'] .introduction {
+	max-width: 42rem;
+	margin-bottom: 2.25rem;
+}
+.site-content-page .ps-section[data-variant='content'] .headline {
+	font-size: clamp(1.25rem, 3vw, 1.5rem);
+	letter-spacing: -0.025em;
+}
+.site-content-page .ps-section[data-variant='content'] > .ps-section-content > :not(:last-child) {
+	margin-bottom: 1rem;
+}
+.site-content-page .site-legal .ps-section[data-divider='top'] > .ps-section-content,
+.site-content-page .site-legal .ps-section[data-divider='both'] > .ps-section-content {
+	padding-top: 1.75rem;
+}
+.site-content-page .ps-media-pair {
+	gap: 2.5rem;
+	align-items: center;
+}
+.site-content-page .ps-media-pair p {
+	white-space: pre-line;
+	line-height: 1.75;
+}
+@media (min-width: 640px) {
+	.site-content-page .ps-section > .ps-section-content {
+		padding-inline: 2rem;
+	}
+	.site-content-page .ps-section[data-spacing='spacious'] > .ps-section-content {
+		padding-block: 5rem;
+	}
+	.site-content-page .ps-section[data-variant='feature'] .headline {
+		font-size: 2.25rem;
+	}
+}
+@media (min-width: 768px) {
+	.site-content-page .ps-section:not([data-spacing]) > .ps-section-content,
+	.site-content-page .ps-section[data-spacing='normal'] > .ps-section-content {
+		padding-block: 0.75rem;
+	}
+	.site-content-page .ps-section[data-spacing='tight'] > .ps-section-content {
+		padding-block: 0.5rem;
+	}
+	.site-content-page .ps-section[data-spacing='loose'] > .ps-section-content {
+		padding-block: 1.25rem;
+	}
+}

@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import '@page-sections/svelte/styles.css';
+@import './lib/content/page-sections.css';
 
 /* Locally hosted Inter 4.1; license and provenance: static/fonts/inter/. */
 @font-face {

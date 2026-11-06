@@ -19,7 +19,8 @@
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
 		"verify": "npm run check && npm run build",
-		"generate:icons": "node scripts/generate-icons.mjs"
+		"generate:icons": "node scripts/generate-icons.mjs",
+		"build:preview": "vite build --mode preview"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "latest",
@@ -60,6 +61,8 @@
 		"node": ">=24"
 	},
 	"dependencies": {
+		"@page-sections/core": "0.1.1",
+		"@page-sections/svelte": "0.1.1",
 		"feather-icons": "^4.29.2"
 	}
 }
