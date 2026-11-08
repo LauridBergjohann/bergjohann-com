@@ -33,6 +33,16 @@ function media(page: ContentPage): string[] {
 }
 
 describe('localized page content', () => {
+	it('does not expose mutable cached JSON documents through its responses', () => {
+		const original = getPage('en', '')!;
+		const response = getPage('en', '')!;
+		response.hero.headline = 'Changed by a consumer';
+		response.hero.actions![0].href = '/changed';
+		response.slugs.de = 'changed';
+		response.sections.length = 0;
+		expect(getPage('en', '')).toEqual(original);
+		expect(getPage('de', '')?.hero.headline).toBe('Bleib neugierig. Erschaffe Neues.');
+	});
 	it('resolves each translated slug to the same page identity', () => {
 		const expectedIds = [
 			'home',
@@ -100,7 +110,7 @@ describe('localized page content', () => {
 				});
 			}
 		}
-		expect(getPage('de', '')?.actions?.[0].href).toBe('/de/projekte');
-		expect(getPage('en', '')?.actions?.[0].href).toBe('/en/projects');
+		expect(getPage('de', '')?.hero.actions?.[0].href).toBe('/de/projekte');
+		expect(getPage('en', '')?.hero.actions?.[0].href).toBe('/en/projects');
 	});
 });

@@ -43,11 +43,61 @@ You can preview the production build with `npm run preview`.
 
 ## Languages and content
 
+### Page Sections integration
+
+Content pages use the published `@page-sections/core` and `@page-sections/svelte`
+packages, pinned to 0.3.0. No sibling checkout or workspace alias is needed.
+
+The homepage collections select `cardTone: "muted"` in their JSON documents to
+separate cards from the standard section background. Panels use `tone` with the
+same `standard`/`muted` palette; the imprint publisher explicitly selects muted.
+Navigation elevation, neutral menu text and hero eyebrow/paragraph spacing come
+from the package. Host preference groups share its `--ps-navigation-shadow` token
+on their own surface to preserve a single outline and unclipped tooltips.
+Primary action text uses the inverse surface color: white in light mode and dark
+text on the lighter teal accent in dark mode.
+
+- The localized content API serves public `PageData` and `SectionData` models with
+  site routing and SEO metadata. There is no `SectionTypeMap` augmentation or custom
+  renderer. Bilingual page documents live in `src/lib/server/data/pages/*.page.json`.
+- `ContentPage.svelte` composes the package's `ContentPage` and `Sections`.
+  Artwork heroes, editorial card grids (topics/projects), nested grids with text
+  and panels (about), and structured rich text/panels (privacy/imprint) all use
+  built-in renderers. Legal bodies use `bodyLayout: 'narrow'`; addresses and email
+  links remain semantic HTML. SvelteKit owns document titles and SEO.
+- Editorial cards retain complete descriptions and equal heights. Demo images use
+  a separate 3:2 media area with `mediaFit: 'contain'`, independent of text height.
+- `Header.svelte` supplies items, logo, search and preference controls to
+  `Navigation`. The package owns the mobile menu below 1200px, settings below
+  1600px, and delayed scrolling (112px). Its canonical header is 1536px at 2XL.
+  Native disclosures and the site's search popover work without JavaScript.
+- `PageSectionsTheme.svelte` connects package components to the website theme
+  store after mounting. Before hydration and without JavaScript, media follow
+  the system preference. `src/lib/content/page-sections.css` maps Navigation to the
+  site's header surface and border tokens, anchors the search popover and adapts
+  the site's search/preference controls. Satellite wrappers remain unpainted because
+  the host button groups already own their borders and corner radii.
+  Section backgrounds follow the JSON configuration; hero typography, navigation
+  surfaces, responsive widths, spacing, card sizing and heading hierarchy come
+  from the package. Site colors and font family are supplied through `PageShell`.
+- Search, locale routing, preferences, footer and error pages remain application
+  responsibilities. Their container uses the package's shared width rules.
+
+`tests/page-sections.e2e.ts` checks all localized pages, single h1/main landmarks,
+metadata, legal semantics, mobile overflow and theme-aware package media with and
+without JavaScript. Run the production browser suite with `npx playwright test`;
+set `BERGJOHANN_TEST_PORT` to use a dedicated preview port.
+
+`npm run build:preview` creates production client/server output for local preview
+and browser tests without deployment packaging. `npm run build` remains the
+Vercel deployment build. This distinction lets the browser suite run on Windows
+without requiring permission to create the Vercel adapter's symlinks.
+
 Every public page has an English and German URL. Examples: /en, /de,
 /en/projects, /de/projekte, /en/privacy and /de/datenschutz.
 
 - Shared page structures, media and translated text leaves live in
-  src/lib/server/content.ts. Add both slugs and both text translations there;
+  `src/lib/server/data/pages/*.page.json`. Add both slugs and both text translations there;
   the page API emits only the requested language plus the alternate slugs.
 - UI text, branding and footer destinations come from src/lib/server/data/ui.ts.
 - GET /api/pages/privacy?lang=en and GET /api/pages/datenschutz?lang=de return
@@ -62,10 +112,46 @@ Every public page has an English and German URL. Examples: /en, /de,
   the flag. No language cookie is required.
 - Language controls are ordinary links with a full document reload. They preserve
   the page identity, query string and (with JavaScript) fragment. Mobile settings,
-  navigation and search use native popovers and work without JavaScript.
+  navigation use native disclosures; search uses a native popover. All work without JavaScript.
 - Canonical URLs, reciprocal hreflang links and document language are server-rendered.
 
-Validation (Node.js 24 or newer):
+### Editing JSON page content
+
+Each `*.page.json` file is a complete document for one page, including its stable
+`id`, localized `slugs`, SEO title/description, hero and sections. Translated text
+uses `{ "en": "English text", "de": "Deutscher Text" }`; shared text stays a string.
+Structural values such as `type`, `layout` and `cardVariant` are not translated.
+Internal content links use the English source slug (for example `/projects`);
+the content service resolves them to the requested language.
+
+To add a page, create `<id>.page.json` and add its ID to `pages/index.json`. This
+manifest controls the order of the page collection; it does not control the main
+menu, which remains in `src/lib/server/data/navigation.ts`. UI messages and the
+demo model catalogue also remain separate from page content.
+
+Run `npm run check:content` after editing. It checks the manifest, unique IDs/slugs,
+required translations and all section properties against `PageDocument` and the
+installed Page Sections types. It uses in-memory TypeScript files; diagnostics
+identify the corresponding `<id>.page.json.ts` document. No generated TypeScript
+content files or extra validation dependencies are needed. The check also runs
+as part of `npm run check`, `npm run build` and `npm run build:preview`.
+
+`page-store.ts` is the server-only JSON storage boundary. Vite bundles the files
+into the deployment, so production requires no writable filesystem. JSON changes
+take effect during local development and require a rebuild/deployment in production.
+`content.ts` handles localization and returns independent response objects; routing,
+search and rendering continue to use its existing API.
+
+The documents contain plain JSON with no functions, imports or template references,
+so they can later become MongoDB documents. That later migration will add database
+access, runtime validation and asynchronous reads at the storage/service boundary;
+MongoDB is not connected by this change.
+
+Development, CI and Vercel use Node.js 24.x. The `engines.node` range is deliberately
+limited to this major version so Vercel does not automatically select a newer
+major release. Keep the Vercel project setting and GitHub Actions on Node.js 24.
+
+Validation (Node.js 24.x):
 
 ```sh
 npm run check

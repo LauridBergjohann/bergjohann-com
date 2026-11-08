@@ -13,9 +13,9 @@ for (const javaScriptEnabled of [true, false]) {
 			await page.setViewportSize({ width: 1920, height: 1080 });
 			await page.goto('/en');
 			const controls = [
-				page.getByRole('banner'),
-				page.locator('[data-header-language]'),
-				page.locator('[data-header-appearance]')
+				page.locator('.ps-navigation > .header'),
+				page.locator('[data-header-language]:visible'),
+				page.locator('[data-header-appearance]:visible')
 			];
 			const initial = [];
 			for (const control of controls) {
@@ -24,8 +24,10 @@ for (const javaScriptEnabled of [true, false]) {
 				expect(box).not.toBeNull();
 				initial.push(box!);
 			}
-			expect(initial[1].y).toBe(initial[0].y);
-			expect(initial[2].y).toBe(initial[0].y);
+			expect(
+				Math.abs(initial[1].y + initial[1].height / 2 - initial[0].y - initial[0].height / 2)
+			).toBeLessThanOrEqual(2);
+			expect(initial[2].y).toBe(initial[1].y);
 			for (const amount of [48, 112, 140, 300, 112, 48]) {
 				await scrollDocument(page, amount);
 				const displacement = Math.max(0, amount - 112);
@@ -53,12 +55,26 @@ for (const javaScriptEnabled of [true, false]) {
 				await page.setViewportSize({ width: 390, height: 844 });
 				await page.goto('/en');
 				if (javaScriptEnabled)
-					await expect(page.locator('#appearance-settings button').first()).toBeEnabled();
-				await page.locator('button[popovertarget="' + panelId + '"]').click();
-				const panel = page.locator('#' + panelId);
+					await expect(page.locator('.settings-panel button').first()).toBeEnabled();
+				await page
+					.locator(
+						panelId === 'appearance-settings'
+							? '.settings > summary'
+							: panelId === 'mobile-menu-panel'
+								? '.mobile-menu > summary'
+								: 'button[popovertarget="' + panelId + '"]'
+					)
+					.click();
+				const panel = page.locator(
+					panelId === 'appearance-settings'
+						? '.settings-panel'
+						: panelId === 'mobile-menu-panel'
+							? '.mobile-panel'
+							: '#' + panelId
+				);
 				await expect(panel).toBeVisible();
 				const initial = (await panel.boundingBox())!;
-				const header = (await page.getByRole('banner').boundingBox())!;
+				const header = (await page.locator('.ps-navigation > .header').boundingBox())!;
 				expect(initial.y).toBeGreaterThanOrEqual(header.y + header.height - 1);
 				expect(initial.x).toBeGreaterThanOrEqual(0);
 				expect(initial.x + initial.width).toBeLessThanOrEqual(390);
@@ -69,13 +85,19 @@ for (const javaScriptEnabled of [true, false]) {
 						.poll(async () => (await panel.boundingBox())!.y)
 						.toBeCloseTo(initial.y - displacement, 1);
 					await expect
-						.poll(async () => (await page.getByRole('banner').boundingBox())!.y)
+						.poll(async () => (await page.locator('.ps-navigation > .header').boundingBox())!.y)
 						.toBeCloseTo(header.y - displacement, 1);
 				}
 				await scrollDocument(page, 300);
+				await expect
+					.poll(async () => (await panel.boundingBox())!.y)
+					.toBeCloseTo(initial.y - 188, 1);
 				const scrolled = (await panel.boundingBox())!;
 				expect(scrolled.y).toBeCloseTo(initial.y - 188, 1);
-				expect((await page.getByRole('banner').boundingBox())!.y).toBeCloseTo(header.y - 188, 1);
+				expect((await page.locator('.ps-navigation > .header').boundingBox())!.y).toBeCloseTo(
+					header.y - 188,
+					1
+				);
 				await scrollDocument(page, 0);
 				await expect(panel).toBeVisible();
 				expect((await panel.boundingBox())!.y).toBeCloseTo(initial.y, 1);

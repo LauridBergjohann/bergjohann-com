@@ -39,14 +39,14 @@ function contentText(value: unknown, field = ''): string {
 			'introduction',
 			'text',
 			'body',
-			'paragraphs',
+			'eyebrow',
 			'label',
 			'description',
 			'name',
 			'lines',
 			'email',
 			'footer',
-			'category'
+			'subtitle'
 		].includes(field)
 		? value
 		: '';
@@ -60,9 +60,7 @@ export function searchPages(locale: Locale, query: string): SearchResponse {
 				.map((page) => {
 					const title = normalize(page.title);
 					const description = normalize(page.description);
-					const body = normalize(
-						contentText([page.hero, ...page.sections, ...(page.introBlocks ?? [])])
-					);
+					const body = normalize(contentText([page.hero, ...page.sections]));
 					const score =
 						title === normalized
 							? 100
@@ -78,7 +76,7 @@ export function searchPages(locale: Locale, query: string): SearchResponse {
 						id: page.id,
 						label: page.title,
 						href: pathFor(locale, page.slug),
-						image: page.hero?.image.src ?? '/branding/logo-light.svg',
+						image: page.hero.image?.src ?? '/branding/logo-light.svg',
 						score
 					};
 				})

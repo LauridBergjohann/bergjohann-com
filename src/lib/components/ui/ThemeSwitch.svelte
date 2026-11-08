@@ -3,7 +3,8 @@
 	import Icon from './Icon.svelte';
 	import { themePreference, changeTheme, type ThemePreference } from '$lib/theme';
 	import type { Messages } from '$lib/i18n/messages';
-	let { labelled = false, messages }: { labelled?: boolean; messages: Messages } = $props();
+	let { labelled = false, messages }: { labelled?: boolean | 'responsive'; messages: Messages } =
+		$props();
 	let preference = $state<ThemePreference | null>(null);
 	let ready = $state(false);
 	let dismissed = $state(false);
@@ -46,12 +47,13 @@
 				onkeydown={(event) => {
 					if (event.key === 'Escape') dismissed = true;
 				}}
-				class={`peer inline-flex h-10 cursor-pointer items-center justify-center gap-2 ${index === 0 ? 'rounded-l-[7px]' : index === options.length - 1 ? 'rounded-r-[7px]' : ''} text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:cursor-default disabled:opacity-50 ${labelled ? 'px-2' : 'w-10'} ${preference === option.value ? 'bg-selection text-foreground-soft' : 'text-foreground-soft hover:bg-background-alt hover:text-foreground'}`}
+				class={`peer inline-flex h-10 cursor-pointer items-center justify-center gap-2 ${index === 0 ? 'rounded-l-[7px]' : index === options.length - 1 ? 'rounded-r-[7px]' : ''} text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none disabled:cursor-default disabled:opacity-50 ${labelled === true ? 'px-2' : labelled === 'responsive' ? 'preference-control' : 'w-10'} ${preference === option.value ? 'bg-selection text-foreground-soft' : 'text-foreground-soft hover:bg-background-alt hover:text-foreground'}`}
 			>
 				<span aria-hidden="true"><Icon id={option.icon} size={18} /></span>
-				{#if labelled}<span>{option.label}</span>{/if}
+				{#if labelled}<span class:preference-label={labelled === 'responsive'}>{option.label}</span
+					>{/if}
 			</button>
-			{#if !labelled && !dismissed}
+			{#if labelled !== true && !dismissed}
 				<span
 					aria-hidden="true"
 					class="pointer-events-none absolute top-full right-0 z-50 pt-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 peer-focus-visible:opacity-100"

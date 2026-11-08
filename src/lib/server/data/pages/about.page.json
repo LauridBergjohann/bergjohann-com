@@ -1,0 +1,48 @@
+{
+	"id": "about",
+	"slugs": {
+		"en": "about",
+		"de": "ueber-mich"
+	},
+	"title": {
+		"en": "About",
+		"de": "Über mich"
+	},
+	"description": {
+		"en": "A little about Laurid Bergjohann and this personal workshop.",
+		"de": "Ein wenig über Laurid Bergjohann und diese persönliche Werkstatt."
+	},
+	"hero": {
+		"id": "about-hero",
+		"type": "hero",
+		"composition": "artwork",
+		"title": {
+			"en": "About",
+			"de": "Über mich"
+		},
+		"headingLevel": 1,
+		"spacing": "none",
+		"background": {
+			"color": "transparent",
+			"size": "full"
+		},
+		"layout": "full",
+		"size": "s",
+		"headline": {
+			"en": "About",
+			"de": "Über mich"
+		},
+		"introduction": {
+			"en": "This section about me is a work in progress.",
+			"de": "Dieser Bereich über mich entsteht gerade."
+		},
+		"textBackground": false,
+		"image": {
+			"src": "/images/heroes/about-light.png",
+			"srcDark": "/images/heroes/about.png",
+			"alt": "",
+			"objectFit": "contain"
+		}
+	},
+	"sections": []
+}

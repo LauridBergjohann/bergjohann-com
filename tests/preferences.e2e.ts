@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 
 const themeKey = 'bergjohann-theme';
 const themeButton = (page: Page, theme: 'light' | 'dark') =>
-	page.locator('[data-header-appearance]').getByRole('button', {
+	page.locator('[data-header-appearance]:visible').getByRole('button', {
 		name: theme === 'light' ? 'Light' : 'Dark',
 		exact: true
 	});
@@ -24,7 +24,7 @@ for (const systemTheme of ['light', 'dark'] as const) {
 			await page.emulateMedia({ colorScheme: systemTheme });
 			await page.goto('/en');
 			await expectTheme(page, systemTheme);
-			await expect(page.locator('[data-header-appearance] button')).toHaveCount(2);
+			await expect(page.locator('[data-header-appearance]:visible button')).toHaveCount(2);
 			expect(await page.evaluate((key) => sessionStorage.getItem(key), themeKey)).toBeNull();
 			const otherTheme = systemTheme === 'light' ? 'dark' : 'light';
 			await page.emulateMedia({ colorScheme: otherTheme });
@@ -40,7 +40,7 @@ for (const systemTheme of ['light', 'dark'] as const) {
 			await expectTheme(page, systemTheme);
 			await page.reload();
 			await expectTheme(page, systemTheme);
-			await page.locator('[data-header-language] a[hreflang="de"]').click();
+			await page.locator('[data-header-language]:visible a[hreflang="de"]').click();
 			await expect(page).toHaveURL(/\/de$/);
 			await expect(page.locator('html')).toHaveAttribute('data-theme', systemTheme);
 		}
@@ -144,7 +144,7 @@ test('desktop controls describe selected languages and themes and offer the alte
 	await page.goto('/en');
 	await expect(themeButton(page, 'light')).toBeEnabled();
 	for (const locale of ['en', 'de'] as const) {
-		const group = page.locator('[data-header-language]');
+		const group = page.locator('[data-header-language]:visible');
 		const english = group.locator('a[hreflang="en"]');
 		const german = group.locator('a[hreflang="de"]');
 		const descriptions =
@@ -169,7 +169,7 @@ test('desktop controls describe selected languages and themes and offer the alte
 		await page.keyboard.press('Escape');
 		await expect(currentTooltip).toHaveCount(0);
 
-		const appearance = page.locator('[data-header-appearance]');
+		const appearance = page.locator('[data-header-appearance]:visible');
 		const light = appearance.getByRole('button', {
 			name: locale === 'en' ? 'Light' : 'Hell',
 			exact: true
@@ -251,11 +251,11 @@ test('desktop controls describe selected languages and themes and offer the alte
 test('mobile settings show full language names above the two theme options', async ({ page }) => {
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.goto('/en');
-	await page.locator('button[popovertarget="appearance-settings"]').click();
-	const popup = page.getByRole('dialog');
+	await page.locator('.ps-navigation .settings > summary').click();
+	const popup = page.locator('.ps-navigation .settings-panel');
 	const language = popup.getByRole('group').first();
-	await expect(language.locator('a[hreflang="en"]')).toHaveText('english');
-	await expect(language.locator('a[hreflang="de"]')).toHaveText('deutsch');
+	await expect(language.locator('a[hreflang="en"] .preference-label')).toHaveText('english');
+	await expect(language.locator('a[hreflang="de"] .preference-label')).toHaveText('deutsch');
 	const appearance = popup.getByRole('group').nth(1);
 	await expect(appearance.getByRole('button')).toHaveCount(2);
 	await expect(appearance).toContainText('Light');
@@ -273,16 +273,16 @@ test('content links stay underlined, footer links underline on hover, and main n
 	page
 }) => {
 	await page.goto('/en');
-	const contentLink = page.locator('.hero-actions a').nth(1);
+	const contentLink = page.locator('.ps-hero-section .ps-actions a').nth(1);
 	await expect(contentLink).toHaveCSS('text-decoration-line', 'underline');
 	await contentLink.hover();
 	await expect(contentLink).toHaveCSS('text-decoration-line', 'underline');
-	const navigationLink = page.locator('header a[data-navtab="true"]').first();
+	const navigationLink = page.locator('.desktop-menu a').first();
 	await page.mouse.move(0, 0);
 	await expect(navigationLink).toHaveCSS('text-decoration-line', 'none');
 	await navigationLink.hover();
 	await expect(navigationLink).toHaveCSS('text-decoration-line', 'none');
-	const cta = page.locator('.hero-actions a').first();
+	const cta = page.locator('.ps-hero-section .ps-actions a').first();
 	await page.mouse.move(0, 0);
 	await expect(cta).toHaveCSS('text-decoration-line', 'none');
 	await cta.hover();

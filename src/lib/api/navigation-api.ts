@@ -1,13 +1,5 @@
-export interface NavigationEntry {
-    label: string;
-    href: string;
-    icon?: string;
-    children?: NavigationEntry[];
-}
+import type { MenuItem } from '@page-sections/core';
 
-export type Breadcrumb = BreadcrumbElement[];
-export type BreadcrumbElement = {
-    label: string;
-    href?: string; // letzter Eintrag hat meist kein href
-    ariaLabel?: string;
-  };
+export type NavigationEntry = MenuItem;
+
+export type Breadcrumb = import('@page-sections/core').Breadcrumb[];

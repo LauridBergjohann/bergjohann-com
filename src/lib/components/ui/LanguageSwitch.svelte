@@ -14,7 +14,7 @@
 		locale: Locale;
 		messages: Messages;
 		slugs: Record<Locale, string>;
-		labelled?: boolean;
+		labelled?: boolean | 'responsive';
 	} = $props();
 	let dismissed = $state(false);
 	const languages = ['en', 'de'] as const;
@@ -62,15 +62,21 @@
 					if (event.key === 'Escape') dismissed = true;
 				}}
 				class={'inline-flex h-10 items-center justify-center text-sm transition-colors focus-visible:ring-2 focus-visible:ring-link focus-visible:outline-none ' +
-					(labelled ? 'px-2 ' : 'w-10 ') +
+					(labelled === true
+						? 'px-2 '
+						: labelled === 'responsive'
+							? 'preference-control '
+							: 'w-10 ') +
 					(index === 0 ? 'rounded-l-[7px]' : 'rounded-r-[7px]') +
 					' ' +
 					(locale === language
 						? 'bg-selection text-foreground-soft'
 						: 'text-foreground-soft hover:bg-background-alt hover:text-foreground')}
-				>{labelled ? messages.settings.names[language] : language}</a
+				>{#if labelled === 'responsive'}<span class="preference-compact">{language}</span><span
+						class="preference-label">{messages.settings.names[language]}</span
+					>{:else}{labelled ? messages.settings.names[language] : language}{/if}</a
 			>
-			{#if !labelled && !dismissed}
+			{#if labelled !== true && !dismissed}
 				<span
 					aria-hidden="true"
 					class="pointer-events-none absolute top-full left-0 z-50 pt-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100"

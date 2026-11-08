@@ -1,0 +1,61 @@
+/* Navigation uses the site's raised header surface, independently of page sections. */
+.site-header .ps-navigation {
+	--ps-section-standard: var(--header-background);
+	--ps-border: var(--border-strong);
+}
+/* The host button groups own their outline and corner radius. A second painted
+   satellite surface would show through at the corners. Keep tooltips unclipped. */
+.site-header .ps-navigation > .satellite {
+	background: transparent;
+	box-shadow: none;
+	outline: none;
+}
+.site-header .satellite [role='group'] {
+	background: var(--header-background);
+	box-shadow: var(--ps-navigation-shadow, 0 4px 8px rgb(0 0 0 / 12%));
+}
+.site-header .ps-navigation a[data-button] {
+	color: var(--foreground-soft);
+}
+/* Host search anchoring and preference presentation. */
+.site-header .ps-navigation > .header {
+	anchor-name: --site-header;
+}
+:where(.site-header) .site-header-button {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 10px;
+	color: var(--foreground-soft);
+	cursor: pointer;
+}
+:where(.site-header) .site-header-button:hover {
+	background: var(--surface);
+}
+:where(.site-header) .site-header-button:focus-visible {
+	outline: 2px solid var(--link);
+	outline-offset: 2px;
+}
+.site-header .preference-heading {
+	margin: 0 0 0.5rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+.site-header .preference-control {
+	width: 40px;
+}
+.site-header .satellite .preference-heading,
+.site-header .satellite .preference-label {
+	display: none;
+}
+.site-header .settings .preference-compact,
+.site-header .settings .group > span[aria-hidden] {
+	display: none;
+}
+.site-header .settings .preference-control {
+	width: auto;
+	padding-inline: 0.5rem;
+}

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ContentPage from '$lib/components/content/ContentPage.svelte';
 	import Container from '$lib/components/ui/Container.svelte';
-	import HeaderSpacer from '$lib/components/header/HeaderSpacer.svelte';
 	import Link from '$lib/components/helper/Link.svelte';
 	import { pathFor } from '$lib/i18n/locale';
 	import type { PageProps } from './$types';
@@ -26,7 +25,6 @@
 {#if data.content}
 	<ContentPage page={data.content} />
 {:else if data.search}
-	<HeaderSpacer />
 	<main>
 		<Container width="narrow" class="min-h-[60vh] py-12 sm:py-20">
 			<h1 class="text-4xl font-semibold tracking-tight">{data.messages.search.heading}</h1>

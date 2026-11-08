@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import Container from '$lib/components/ui/Container.svelte';
-	import HeaderSpacer from '$lib/components/header/HeaderSpacer.svelte';
 	import Link from '$lib/components/helper/Link.svelte';
 </script>
 
@@ -9,7 +8,6 @@
 	<title>{page.status} – {page.data.messages?.error.notFound ?? page.error?.message}</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
-<HeaderSpacer />
 <main>
 	<Container width="narrow" class="min-h-[60vh] py-20">
 		<p class="font-mono text-link">{page.status}</p>
