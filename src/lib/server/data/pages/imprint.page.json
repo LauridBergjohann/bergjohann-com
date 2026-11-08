@@ -54,6 +54,7 @@
 		{
 			"id": "imprint-publisher",
 			"type": "panel",
+			"tone": "muted",
 			"title": {
 				"en": "Publisher",
 				"de": "Anbieter"

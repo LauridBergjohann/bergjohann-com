@@ -8,6 +8,14 @@
 .site-header .ps-navigation > .satellite {
 	background: transparent;
 	box-shadow: none;
+	outline: none;
+}
+.site-header .satellite [role='group'] {
+	background: var(--header-background);
+	box-shadow: var(--ps-navigation-shadow, 0 4px 8px rgb(0 0 0 / 12%));
+}
+.site-header .ps-navigation a[data-button] {
+	color: var(--foreground-soft);
 }
 /* Host search anchoring and preference presentation. */
 .site-header .ps-navigation > .header {

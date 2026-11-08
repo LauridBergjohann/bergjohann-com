@@ -121,7 +121,7 @@
 	--on-primary: var(--brand-navy);
 
 	/* Links */
-	--link: var(--brand-light);
+	--link: #72dfc6;
 	--link-hover: var(--brand-pale);
 
 	/* Accent */
@@ -176,7 +176,7 @@
 		--on-primary: var(--brand-navy);
 
 		/* Links */
-		--link: var(--brand-light);
+		--link: #72dfc6;
 		--link-hover: var(--brand-pale);
 
 		/* Accent */
