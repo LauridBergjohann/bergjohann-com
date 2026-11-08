@@ -1,39 +1,7 @@
-/* Site palette and typography; Page Sections owns geometry and responsive behavior. */
-.site-page-sections .ps-shell {
-	--ps-border: var(--border);
-}
-.site-content-page .ps-hero-section .hero {
-	background: var(--hero-background);
-}
-.site-content-page .ps-hero-section .headline {
-	font-weight: 700;
-	text-wrap: balance;
-	hyphens: auto;
-}
-.site-content-page .ps-hero-section .copy > p:first-child:not(:last-child) {
-	color: var(--foreground-soft);
-}
+/* Host controls inside Navigation: only search anchoring and preference presentation.
+   Page Sections owns section/hero styling, navigation surfaces and focus indicators. */
 .site-header .ps-navigation > .header {
 	anchor-name: --site-header;
-	background: var(--header-background);
-	box-shadow: 0 4px 12px #0001;
-}
-.site-header .ps-navigation > .satellite {
-	border: 0;
-	background: var(--header-background);
-	box-shadow: 0 4px 12px #0001;
-}
-.site-header .ps-navigation .settings-panel {
-	background: var(--header-background);
-}
-.site-header :is(.desktop-menu, .mobile-panel) a {
-	color: var(--foreground-soft);
-	border-radius: 0.5rem;
-}
-.site-header :is(.desktop-menu, .mobile-panel) a:hover,
-.site-header :is(.desktop-menu, .mobile-panel) a[aria-current] {
-	color: var(--foreground);
-	background: var(--selection-background);
 }
 :where(.site-header) .site-header-button {
 	display: inline-flex;
@@ -49,8 +17,7 @@
 :where(.site-header) .site-header-button:hover {
 	background: var(--surface);
 }
-:where(.site-header) .site-header-button:focus-visible,
-.site-header summary:focus-visible {
+:where(.site-header) .site-header-button:focus-visible {
 	outline: 2px solid var(--link);
 	outline-offset: 2px;
 }

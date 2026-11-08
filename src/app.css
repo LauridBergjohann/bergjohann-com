@@ -39,10 +39,6 @@
 	--page-background: #ffffff;
 	--section-background: #ffffff;
 	--header-background: #ffffff;
-	--hero-background:
-		linear-gradient(transparent, var(--section-background)),
-		radial-gradient(circle at 40% 30%, #ebeeed, #dee2e1);
-	--hero-text-background: rgb(255 255 255 / 0.94);
 	--selection-background: #eeeeee;
 
 	/* Page backgrounds */
@@ -89,12 +85,6 @@
 	--shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06); /* Subtle resting shadow */
 	--shadow-md: 0 6px 18px rgb(15 23 42 / 0.1); /* Card hover / medium elevation */
 	--shadow-lg: 0 14px 32px rgb(15 23 42 / 0.14); /* Dialogs and strong elevation */
-
-	/* Card semantics */
-	--card-background: var(--surface-raised); /* Default card background */
-	--card-border: var(--border); /* Default card border */
-	--card-shadow: var(--shadow-sm); /* Resting card shadow */
-	--card-shadow-hover: var(--shadow-md); /* Card hover shadow */
 }
 
 :root[data-theme='dark'] {
@@ -102,10 +92,6 @@
 	--page-background: hsl(220, 10%, 12%);
 	--section-background: hsl(220, 10%, 12%);
 	--header-background: hsl(220, 14%, 16%);
-	--hero-background:
-		linear-gradient(transparent, var(--section-background)),
-		radial-gradient(circle at 40% 30%, rgb(50 54 62), rgb(59 62 69));
-	--hero-text-background: rgb(28 30 34 / 0.94);
 	--selection-background: rgba(72, 77, 83, 0.5);
 
 	/* Page backgrounds */
@@ -152,12 +138,6 @@
 	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28); /* Subtle resting shadow */
 	--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35); /* Card hover / medium elevation */
 	--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45); /* Dialogs and strong elevation */
-
-	/* Card semantics */
-	--card-background: var(--surface); /* Default card background */
-	--card-border: var(--border); /* Default card border */
-	--card-shadow: var(--shadow-sm); /* Resting card shadow */
-	--card-shadow-hover: var(--shadow-md); /* Card hover shadow */
 }
 
 /* Respect the operating system theme even when JavaScript is unavailable. */
@@ -167,10 +147,6 @@
 		--page-background: hsl(220, 10%, 12%);
 		--section-background: hsl(220, 10%, 12%);
 		--header-background: hsl(220, 14%, 16%);
-		--hero-background:
-			linear-gradient(transparent, var(--section-background)),
-			radial-gradient(circle at 40% 30%, rgb(50 54 62), rgb(59 62 69));
-		--hero-text-background: rgb(28 30 34 / 0.94);
 		--selection-background: rgba(72, 77, 83, 0.5);
 
 		/* Page backgrounds */
@@ -217,12 +193,6 @@
 		--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28); /* Subtle resting shadow */
 		--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35); /* Card hover / medium elevation */
 		--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45); /* Dialogs and strong elevation */
-
-		/* Card semantics */
-		--card-background: var(--surface); /* Default card background */
-		--card-border: var(--border); /* Default card border */
-		--card-shadow: var(--shadow-sm); /* Resting card shadow */
-		--card-shadow-hover: var(--shadow-md); /* Card hover shadow */
 	}
 }
 

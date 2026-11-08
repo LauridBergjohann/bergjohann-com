@@ -64,9 +64,11 @@ packages, pinned to 0.2.0. No sibling checkout or workspace alias is needed.
   Native disclosures and the site's search popover work without JavaScript.
 - `PageSectionsTheme.svelte` connects package components to the website theme
   store after mounting. Before hydration and without JavaScript, media follow
-  the system preference. `src/lib/content/page-sections.css` contains brand
-  presentation only; responsive widths, spacing, hero composition, card sizing
-  and heading hierarchy come from the package.
+  the system preference. `src/lib/content/page-sections.css` only anchors the
+  search popover and adapts the site's search/preference controls inside Navigation.
+  Section backgrounds follow the JSON configuration; hero typography, navigation
+  surfaces, responsive widths, spacing, card sizing and heading hierarchy come
+  from the package. Site colors and font family are supplied through `PageShell`.
 - Search, locale routing, preferences, footer and error pages remain application
   responsibilities. Their container uses the package's shared width rules.
 
