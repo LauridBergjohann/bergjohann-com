@@ -59,7 +59,7 @@
 		"vitest-browser-svelte": "^2.1.1"
 	},
 	"engines": {
-		"node": ">=24"
+		"node": "24.x"
 	},
 	"dependencies": {
 		"@page-sections/core": "0.3.0",

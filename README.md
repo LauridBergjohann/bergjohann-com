@@ -147,7 +147,11 @@ so they can later become MongoDB documents. That later migration will add databa
 access, runtime validation and asynchronous reads at the storage/service boundary;
 MongoDB is not connected by this change.
 
-Validation (Node.js 24 or newer):
+Development, CI and Vercel use Node.js 24.x. The `engines.node` range is deliberately
+limited to this major version so Vercel does not automatically select a newer
+major release. Keep the Vercel project setting and GitHub Actions on Node.js 24.
+
+Validation (Node.js 24.x):
 
 ```sh
 npm run check
