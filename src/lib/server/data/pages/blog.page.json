@@ -1,0 +1,48 @@
+{
+	"id": "blog",
+	"slugs": {
+		"en": "blog",
+		"de": "blog"
+	},
+	"title": {
+		"en": "Blog",
+		"de": "Blog"
+	},
+	"description": {
+		"en": "Ideas and experiences from my personal workshop.",
+		"de": "Ideen und Erfahrungen aus meiner persönlichen Werkstatt."
+	},
+	"hero": {
+		"id": "blog-hero",
+		"type": "hero",
+		"composition": "artwork",
+		"title": {
+			"en": "Blog",
+			"de": "Blog"
+		},
+		"headingLevel": 1,
+		"spacing": "none",
+		"background": {
+			"color": "transparent",
+			"size": "full"
+		},
+		"layout": "full",
+		"size": "s",
+		"headline": {
+			"en": "Blog",
+			"de": "Blog"
+		},
+		"introduction": {
+			"en": "This blog is a work in progress.",
+			"de": "Dieser Blog entsteht gerade."
+		},
+		"textBackground": false,
+		"image": {
+			"src": "/images/heroes/blog-light.png",
+			"srcDark": "/images/heroes/blog.png",
+			"alt": "",
+			"objectFit": "contain"
+		}
+	},
+	"sections": []
+}

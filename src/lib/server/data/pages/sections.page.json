@@ -1,0 +1,161 @@
+{
+	"id": "sections",
+	"slugs": {
+		"en": "sections",
+		"de": "sektionen"
+	},
+	"title": {
+		"en": "Section examples",
+		"de": "Beispiele für Seitenabschnitte"
+	},
+	"description": {
+		"en": "Examples of the content sections used on this website.",
+		"de": "Beispiele für die Inhaltsabschnitte dieser Website."
+	},
+	"hero": {
+		"id": "my-hero-section",
+		"type": "hero",
+		"title": {
+			"en": "Welcome",
+			"de": "Willkommen"
+		},
+		"headingLevel": 1,
+		"spacing": "none",
+		"image": {
+			"src": "/images/rhein-light.webp",
+			"srcDark": "/images/rhein-dark.webp",
+			"alt": {
+				"en": "Hero image: a view of the Rhine",
+				"de": "Titelbild: Blick auf den Rhein"
+			}
+		},
+		"headline": {
+			"en": "Welcome to My Site",
+			"de": "Willkommen auf meiner Website"
+		},
+		"layout": "full",
+		"size": "s"
+	},
+	"sections": [
+		{
+			"id": "my-text-section",
+			"type": "richText",
+			"title": {
+				"en": "Text",
+				"de": "Text"
+			},
+			"layout": "wide",
+			"body": {
+				"en": "Hello, World!",
+				"de": "Hallo, Welt!"
+			},
+			"background": {
+				"color": "muted",
+				"size": "full"
+			}
+		},
+		{
+			"id": "my-list-section",
+			"type": "cardGrid",
+			"title": {
+				"en": "Cards",
+				"de": "Karten"
+			},
+			"layout": "wide",
+			"cardSize": "m",
+			"cardVariant": "editorial",
+			"mediaAspect": "3/2",
+			"mediaFit": "contain",
+			"itemSpan": {
+				"xs": 4,
+				"s": 3,
+				"m": 4,
+				"l": 6
+			},
+			"list": [
+				{
+					"id": "card-1",
+					"href": "/projects",
+					"title": {
+						"en": "Card 1",
+						"de": "Karte 1"
+					},
+					"subtitle": {
+						"en": "This is card 1",
+						"de": "Das ist Karte 1"
+					},
+					"image": {
+						"src": "/images/heroes/projects-light.png",
+						"alt": ""
+					}
+				},
+				{
+					"id": "card-2",
+					"href": "/workbench",
+					"title": {
+						"en": "Card 2",
+						"de": "Karte 2"
+					},
+					"subtitle": {
+						"en": "This is card 2",
+						"de": "Das ist Karte 2"
+					},
+					"image": {
+						"src": "/images/heroes/workbench-light.png",
+						"alt": ""
+					}
+				}
+			]
+		},
+		{
+			"id": "my-image-section",
+			"type": "image",
+			"title": {
+				"en": "Image",
+				"de": "Bild"
+			},
+			"layout": "wide",
+			"image": {
+				"src": "/images/rhein-light.webp",
+				"srcDark": "/images/rhein-dark.webp",
+				"alt": {
+					"en": "Image section: a view of the Rhine",
+					"de": "Bildabschnitt: Blick auf den Rhein"
+				},
+				"objectFit": "cover",
+				"aspect": "16/9"
+			},
+			"headline": {
+				"en": "Image Section Headline",
+				"de": "Überschrift des Bildabschnitts"
+			},
+			"description": {
+				"en": "This is the description for the image section.",
+				"de": "Dies ist die Beschreibung des Bildabschnitts."
+			},
+			"imageSide": "left"
+		},
+		{
+			"id": "my-video-section",
+			"type": "video",
+			"title": {
+				"en": "Video",
+				"de": "Video"
+			},
+			"layout": "wide",
+			"video": {
+				"provider": "youtube",
+				"src": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+			},
+			"headline": {
+				"en": "Video Section Headline",
+				"de": "Überschrift des Videoabschnitts"
+			},
+			"description": {
+				"en": "This is the description for the video section.",
+				"de": "Dies ist die Beschreibung des Videoabschnitts."
+			},
+			"videoSide": "right"
+		}
+	]
+}

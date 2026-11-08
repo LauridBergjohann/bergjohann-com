@@ -1,0 +1,48 @@
+{
+	"id": "workbench",
+	"slugs": {
+		"en": "workbench",
+		"de": "werkbank"
+	},
+	"title": {
+		"en": "Workbench",
+		"de": "Werkbank"
+	},
+	"description": {
+		"en": "Experiments, repairs and ideas from the workbench.",
+		"de": "Experimente, Reparaturen und Ideen von der Werkbank."
+	},
+	"hero": {
+		"id": "workbench-hero",
+		"type": "hero",
+		"composition": "artwork",
+		"title": {
+			"en": "Workbench",
+			"de": "Werkbank"
+		},
+		"headingLevel": 1,
+		"spacing": "none",
+		"background": {
+			"color": "transparent",
+			"size": "full"
+		},
+		"layout": "full",
+		"size": "s",
+		"headline": {
+			"en": "Workbench",
+			"de": "Werkbank"
+		},
+		"introduction": {
+			"en": "This workbench section is a work in progress.",
+			"de": "Dieser Werkbankbereich entsteht gerade."
+		},
+		"textBackground": false,
+		"image": {
+			"src": "/images/heroes/workbench-light.png",
+			"srcDark": "/images/heroes/workbench.png",
+			"alt": "",
+			"objectFit": "contain"
+		}
+	},
+	"sections": []
+}

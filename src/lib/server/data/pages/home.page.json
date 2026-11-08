@@ -1,0 +1,320 @@
+{
+	"id": "home",
+	"slugs": {
+		"en": "",
+		"de": ""
+	},
+	"title": {
+		"en": "Laurid Bergjohann – UX, Software Architecture & Model Making",
+		"de": "Laurid Bergjohann – UX, Softwarearchitektur & Modellbau"
+	},
+	"description": {
+		"en": "A personal workshop for user experience, user interfaces, software architecture, and model making.",
+		"de": "Eine persönliche Werkstatt für User Experience, Benutzeroberflächen, Softwarearchitektur und Modellbau."
+	},
+	"hero": {
+		"id": "home-hero",
+		"type": "hero",
+		"composition": "artwork",
+		"title": {
+			"en": "Stay curious. Build things.",
+			"de": "Bleib neugierig. Erschaffe Neues."
+		},
+		"headingLevel": 1,
+		"spacing": "none",
+		"background": {
+			"color": "transparent",
+			"size": "full"
+		},
+		"layout": "full",
+		"size": "l",
+		"headline": {
+			"en": "Stay curious. Build things.",
+			"de": "Bleib neugierig. Erschaffe Neues."
+		},
+		"introduction": {
+			"en": "Exploring user experience, software architecture, and small worlds. A space for ideas, experiments, and things made by hand.",
+			"de": "User Experience, Softwarearchitektur und kleine Welten entdecken. Ein Ort für Ideen, Experimente und Dinge, die von Hand entstehen."
+		},
+		"eyebrow": {
+			"en": "Laurid Bergjohann |  UX · Architecture · Coding",
+			"de": "Laurid Bergjohann | UX · Architektur · Coding"
+		},
+		"textBackground": false,
+		"image": {
+			"src": "/images/heroes/home-light.png",
+			"srcDark": "/images/heroes/home.png",
+			"alt": "",
+			"objectFit": "contain"
+		},
+		"actions": [
+			{
+				"href": "/projects",
+				"label": {
+					"en": "Explore my projects",
+					"de": "Entdecke meine Projekte"
+				},
+				"variant": "primary"
+			},
+			{
+				"href": "/about",
+				"label": {
+					"en": "A little about me",
+					"de": "Ein wenig über mich"
+				}
+			}
+		]
+	},
+	"sections": [
+		{
+			"id": "themen",
+			"type": "cardGrid",
+			"cardVariant": "editorial",
+			"itemSpan": {
+				"xs": 4,
+				"s": 3,
+				"m": 4,
+				"l": 4
+			},
+			"eyebrow": {
+				"en": "01 / Topics",
+				"de": "01 / Themen"
+			},
+			"title": {
+				"en": "Topics",
+				"de": "Themen"
+			},
+			"background": {
+				"color": "standard",
+				"size": "full"
+			},
+			"headline": {
+				"en": "What I’m exploring.",
+				"de": "Was mich beschäftigt."
+			},
+			"introduction": {
+				"en": "The screen and the workbench have more in common than you might think.",
+				"de": "Bildschirm und Werkbank haben mehr gemeinsam, als man vielleicht denkt."
+			},
+			"variant": "feature",
+			"layout": "wide",
+			"spacing": "spacious",
+			"divider": "none",
+			"list": [
+				{
+					"id": "ux",
+					"eyebrow": "01",
+					"title": {
+						"en": "User Experience & Interfaces",
+						"de": "User Experience & Benutzeroberflächen"
+					},
+					"description": {
+						"en": "What makes digital products intuitive and enjoyable to use? Thoughts on interaction, design, and the details in between.",
+						"de": "Was macht digitale Produkte intuitiv und angenehm bedienbar? Gedanken zu Interaktion, Gestaltung und den Details dazwischen."
+					}
+				},
+				{
+					"id": "architecture",
+					"eyebrow": "02",
+					"title": {
+						"en": "Software Architecture",
+						"de": "Softwarearchitektur"
+					},
+					"description": {
+						"en": "Structures that work beyond the drawing board. Exploring frontends, platforms, and the reasoning behind technical decisions.",
+						"de": "Strukturen, die auch jenseits des Reißbretts funktionieren. Einblicke in Frontends, Plattformen und die Überlegungen hinter technischen Entscheidungen."
+					}
+				},
+				{
+					"id": "model-making",
+					"eyebrow": "03",
+					"title": {
+						"en": "Model Making & Small Worlds",
+						"de": "Modellbau & kleine Welten"
+					},
+					"description": {
+						"en": "Ships, helicopters, planes, trucks, and a Dutch town in H0 scale. Projects, repairs, and fresh ideas from the workshop.",
+						"de": "Schiffe, Hubschrauber, Flugzeuge, Lkw und eine niederländische Stadt im Maßstab H0. Projekte, Reparaturen und frische Ideen aus der Werkstatt."
+					}
+				}
+			]
+		},
+		{
+			"id": "projekte",
+			"type": "cardGrid",
+			"cardVariant": "editorial",
+			"itemSpan": {
+				"xs": 4,
+				"s": 6,
+				"m": 4,
+				"l": 6
+			},
+			"eyebrow": {
+				"en": "02 / Projects",
+				"de": "02 / Projekte"
+			},
+			"title": {
+				"en": "Projects",
+				"de": "Projekte"
+			},
+			"background": {
+				"color": "standard",
+				"size": "full"
+			},
+			"headline": {
+				"en": "On my workbench.",
+				"de": "Auf meiner Werkbank."
+			},
+			"introduction": {
+				"en": "A first look at my projects. More detailed write-ups will follow over time.",
+				"de": "Ein erster Einblick in meine Projekte. Ausführliche Berichte folgen nach und nach."
+			},
+			"variant": "feature",
+			"layout": "wide",
+			"spacing": "spacious",
+			"divider": "top",
+			"list": [
+				{
+					"id": "products-in-3d",
+					"footer": {
+						"en": "Project preview · Full write-up coming soon",
+						"de": "Projektvorschau · Ausführlicher Bericht folgt"
+					},
+					"eyebrow": "WEB / THREE.JS",
+					"title": {
+						"en": "Exploring Products in 3D",
+						"de": "Produkte in 3D entdecken"
+					},
+					"description": {
+						"en": "Experiments with interactive 3D product views and interfaces that make digital objects feel more tangible.",
+						"de": "Experimente mit interaktiven 3D-Produktansichten und Oberflächen, die digitale Objekte greifbarer machen."
+					}
+				},
+				{
+					"id": "zeewijk",
+					"footer": {
+						"en": "Project preview · Full write-up coming soon",
+						"de": "Projektvorschau · Ausführlicher Bericht folgt"
+					},
+					"eyebrow": {
+						"en": "MODEL MAKING / H0",
+						"de": "MODELLBAU / H0"
+					},
+					"title": "Zeewijk",
+					"description": {
+						"en": "A fictional Dutch town growing piece by piece, with architecture, little stories, and close attention to detail.",
+						"de": "Eine fiktive niederländische Stadt, die Stück für Stück wächst – mit Architektur, kleinen Geschichten und viel Liebe zum Detail."
+					}
+				}
+			]
+		},
+		{
+			"id": "ueber-mich",
+			"type": "grid",
+			"eyebrow": {
+				"en": "03 / About me",
+				"de": "03 / Über mich"
+			},
+			"title": {
+				"en": "About me",
+				"de": "Über mich"
+			},
+			"background": {
+				"color": "standard",
+				"size": "full"
+			},
+			"headline": {
+				"en": "Hi, I’m Laurid.",
+				"de": "Hallo, ich bin Laurid."
+			},
+			"variant": "feature",
+			"layout": "wide",
+			"spacing": "spacious",
+			"divider": "top",
+			"blocks": [
+				{
+					"id": "about-copy",
+					"span": {
+						"xs": 4,
+						"s": 6,
+						"m": 5,
+						"l": 8
+					},
+					"sections": [
+						{
+							"id": "about-text",
+							"type": "richText",
+							"title": {
+								"en": "About me",
+								"de": "Über mich"
+							},
+							"layout": "inherit",
+							"spacing": "none",
+							"blocks": [
+								{
+									"type": "paragraph",
+									"text": {
+										"en": "I enjoy figuring out how things are put together and how to improve them. That applies just as much to an interface or a software architecture as it does to a model I build myself.",
+										"de": "Ich finde gerne heraus, wie Dinge aufgebaut sind und wie sie sich verbessern lassen. Das gilt für eine Benutzeroberfläche oder eine Softwarearchitektur genauso wie für ein Modell, das ich selbst baue."
+									}
+								},
+								{
+									"type": "paragraph",
+									"text": {
+										"en": "This site is meant to be a personal space for ideas, experiences, and conversations, rather than a glossy portfolio. Over time, I hope it will grow into a blog and a journal of my projects.",
+										"de": "Diese Website soll ein persönlicher Ort für Ideen, Erfahrungen und Gespräche sein, kein Hochglanzportfolio. Mit der Zeit soll daraus ein Blog und ein Tagebuch meiner Projekte entstehen."
+									}
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "about-aside",
+					"span": {
+						"xs": 4,
+						"s": 6,
+						"m": 3,
+						"l": 4
+					},
+					"sections": [
+						{
+							"id": "about-website",
+							"type": "panel",
+							"title": {
+								"en": "Stay curious. Build things.",
+								"de": "Bleib neugierig. Erschaffe Neues."
+							},
+							"headline": {
+								"en": "Stay curious. Build things.",
+								"de": "Bleib neugierig. Erschaffe Neues."
+							},
+							"layout": "inherit",
+							"spacing": "none",
+							"tone": "muted",
+							"blocks": [
+								{
+									"type": "paragraph",
+									"text": {
+										"en": "This website is built with SvelteKit, TypeScript and Tailwind.",
+										"de": "Diese Website entsteht mit SvelteKit, TypeScript und Tailwind."
+									}
+								}
+							],
+							"actions": [
+								{
+									"href": "https://github.com/LauridBergjohann/bergjohann-com",
+									"label": {
+										"en": "View the website repository",
+										"de": "Zum Quellcode der Website"
+									},
+									"variant": "text"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
