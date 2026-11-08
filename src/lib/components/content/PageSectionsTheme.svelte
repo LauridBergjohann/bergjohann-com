@@ -21,7 +21,7 @@
 			ink: 'var(--foreground)',
 			body: 'var(--muted)',
 			accent: 'var(--link)',
-			onAccent: 'var(--on-primary)',
+			onAccent: 'var(--background)',
 			standard: 'var(--section-background)',
 			muted: 'var(--surface)',
 			radius: '12px',

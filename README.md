@@ -46,7 +46,16 @@ You can preview the production build with `npm run preview`.
 ### Page Sections integration
 
 Content pages use the published `@page-sections/core` and `@page-sections/svelte`
-packages, pinned to 0.2.0. No sibling checkout or workspace alias is needed.
+packages, pinned to 0.3.0. No sibling checkout or workspace alias is needed.
+
+The homepage collections select `cardTone: "muted"` in their JSON documents to
+separate cards from the standard section background. Panels use `tone` with the
+same `standard`/`muted` palette; the imprint publisher explicitly selects muted.
+Navigation elevation, neutral menu text and hero eyebrow/paragraph spacing come
+from the package. Host preference groups share its `--ps-navigation-shadow` token
+on their own surface to preserve a single outline and unclipped tooltips.
+Primary action text uses the inverse surface color: white in light mode and dark
+text on the lighter teal accent in dark mode.
 
 - The localized content API serves public `PageData` and `SectionData` models with
   site routing and SEO metadata. There is no `SectionTypeMap` augmentation or custom

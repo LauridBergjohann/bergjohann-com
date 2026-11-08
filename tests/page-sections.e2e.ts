@@ -15,6 +15,63 @@ const slugs = {
 };
 
 for (const width of [390, 1920]) {
+	test(`published package preserves the site presentation in both themes at ${width}px`, async ({
+		page
+	}) => {
+		await page.setViewportSize({ width, height: 1000 });
+		await page.goto('/en');
+		for (const mode of ['light', 'dark'] as const) {
+			if (width < 1600) await page.locator('.settings > summary').click();
+			const preferences = page.locator(width < 1600 ? '.settings-panel' : '.satellite.right');
+			await preferences
+				.getByRole('button', { name: mode === 'light' ? 'Light' : 'Dark', exact: true })
+				.click();
+			await page.keyboard.press('Escape');
+			await expect(page.locator('.ps-shell')).toHaveAttribute('data-ps-theme', mode);
+			await expect(page.locator('.ps-navigation .header')).not.toHaveCSS('box-shadow', 'none');
+			if (width >= 1600) {
+				await expect(page.locator('.satellite.left')).toHaveCSS('outline-style', 'none');
+				await expect(page.locator('.satellite.left [role="group"]')).not.toHaveCSS(
+					'box-shadow',
+					'none'
+				);
+			}
+			await expect(page.locator('.satellite.left a').first()).toHaveCSS(
+				'color',
+				mode === 'light' ? 'rgb(38, 38, 38)' : 'rgb(202, 203, 206)'
+			);
+			const hero = page.locator('.ps-hero-section');
+			await expect(hero.locator('.eyebrow')).toHaveCSS(
+				'color',
+				mode === 'light' ? 'rgb(0, 123, 94)' : 'rgb(114, 223, 198)'
+			);
+			await expect(hero.locator('.eyebrow')).toHaveCSS('margin-bottom', '24px');
+			await expect(hero.locator('.introduction')).toHaveCSS('margin-top', '28px');
+			await expect(hero.locator('.ps-actions')).toHaveCSS('margin-top', '32px');
+			await expect(hero.locator('[data-action="primary"]')).toHaveCSS(
+				'color',
+				mode === 'light' ? 'rgb(255, 255, 255)' : 'rgb(28, 30, 34)'
+			);
+			for (const id of ['themen', 'projekte']) {
+				const surfaces = page.locator(`#${id} [data-ps-card-part="surface"]`);
+				for (const surface of await surfaces.all()) {
+					await expect(surface).toHaveCSS(
+						'background-color',
+						mode === 'light' ? 'rgb(242, 242, 242)' : 'rgb(35, 39, 47)'
+					);
+				}
+			}
+			await page.goto('/en/imprint');
+			await expect(page.locator('#imprint-publisher .ps-panel')).toHaveCSS(
+				'background-color',
+				mode === 'light' ? 'rgb(242, 242, 242)' : 'rgb(35, 39, 47)'
+			);
+			await page.goto('/en');
+		}
+	});
+}
+
+for (const width of [390, 1920]) {
 	test(`native sections keep readable text, equal cards and independent media at ${width}px`, async ({
 		page
 	}) => {

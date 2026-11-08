@@ -70,6 +70,7 @@
 			"id": "themen",
 			"type": "cardGrid",
 			"cardVariant": "editorial",
+			"cardTone": "muted",
 			"itemSpan": {
 				"xs": 4,
 				"s": 3,
@@ -143,6 +144,7 @@
 			"id": "projekte",
 			"type": "cardGrid",
 			"cardVariant": "editorial",
+			"cardTone": "muted",
 			"itemSpan": {
 				"xs": 4,
 				"s": 6,

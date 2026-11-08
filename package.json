@@ -62,8 +62,8 @@
 		"node": ">=24"
 	},
 	"dependencies": {
-		"@page-sections/core": "0.2.0",
-		"@page-sections/svelte": "0.2.0",
+		"@page-sections/core": "0.3.0",
+		"@page-sections/svelte": "0.3.0",
 		"feather-icons": "^4.29.2"
 	}
 }
