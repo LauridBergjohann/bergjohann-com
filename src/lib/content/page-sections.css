@@ -1,5 +1,15 @@
-/* Host controls inside Navigation: only search anchoring and preference presentation.
-   Page Sections owns section/hero styling, navigation surfaces and focus indicators. */
+/* Navigation uses the site's raised header surface, independently of page sections. */
+.site-header .ps-navigation {
+	--ps-section-standard: var(--header-background);
+	--ps-border: var(--border-strong);
+}
+/* The host button groups own their outline and corner radius. A second painted
+   satellite surface would show through at the corners. Keep tooltips unclipped. */
+.site-header .ps-navigation > .satellite {
+	background: transparent;
+	box-shadow: none;
+}
+/* Host search anchoring and preference presentation. */
 .site-header .ps-navigation > .header {
 	anchor-name: --site-header;
 }
