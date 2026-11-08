@@ -23,7 +23,7 @@
 		"headingLevel": 1,
 		"spacing": "none",
 		"background": {
-			"color": "transparent",
+			"color": "transparentToStandard",
 			"size": "full"
 		},
 		"layout": "full",

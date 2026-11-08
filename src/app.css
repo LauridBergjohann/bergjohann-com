@@ -36,7 +36,7 @@
 	--brand-ice: #fbfdfc;
 
 	color-scheme: light;
-	--page-background: #ffffff;
+	--page-background: #e0e4e3;
 	--section-background: #ffffff;
 	--header-background: #ffffff;
 	--selection-background: #eeeeee;
@@ -89,7 +89,7 @@
 
 :root[data-theme='dark'] {
 	color-scheme: dark;
-	--page-background: hsl(220, 10%, 12%);
+	--page-background: hsl(223.64, 8.8%, 24.51%);
 	--section-background: hsl(220, 10%, 12%);
 	--header-background: hsl(220, 14%, 16%);
 	--selection-background: rgba(72, 77, 83, 0.5);
