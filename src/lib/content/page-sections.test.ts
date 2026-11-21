@@ -14,7 +14,7 @@ function allSections(sections: SectionData[]): SectionData[] {
 }
 
 describe('Page Sections content contract', () => {
-	it('indexes editorial cards, nested text and structured contact details in both languages', () => {
+	it('indexes cards, nested text and structured contact details in both languages', () => {
 		for (const locale of ['en', 'de'] as const) {
 			for (const query of [
 				'THREE.JS',
@@ -54,7 +54,7 @@ describe('Page Sections content contract', () => {
 		);
 		if (cards?.type !== 'cardGrid') throw new Error('Missing card grid');
 		expect(cards.list.map((card) => card.href)).toEqual(['/de/projekte', '/de/werkbank']);
-		expect(cards.cardVariant).toBe('editorial');
+		expect(cards.list[0].subtitle).toBe('Das ist Karte 1');
 		expect(cards.mediaAspect).toBe('3/2');
 		expect(cards.mediaFit).toBe('contain');
 	});

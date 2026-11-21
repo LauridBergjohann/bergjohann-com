@@ -47,6 +47,7 @@ export interface Messages {
 	};
 	footer: {
 		tagline: string;
+		social: string;
 		navigation: string;
 		source: string;
 		linkedin: string;

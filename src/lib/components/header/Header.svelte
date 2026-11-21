@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Navigation } from '@page-sections/svelte';
+	import { Header as PageHeader } from '@page-sections/svelte';
 	import type { MenuItem } from '@page-sections/core';
 	import { afterNavigate } from '$app/navigation';
 	import { tick } from 'svelte';
@@ -63,8 +63,8 @@
 </script>
 
 <svelte:window onkeydown={onKeydown} onclick={onClick} onresize={onResize} />
-<header class="site-header">
-	<Navigation
+<div class="site-header">
+	<PageHeader
 		items={menuItems}
 		closeKey={currentPath}
 		scrollBehavior="delayed"
@@ -102,7 +102,7 @@
 			</div>
 		{/snippet}
 		{#snippet settingsIcon()}<Icon id="settings" size={18} />{/snippet}
-	</Navigation>
+	</PageHeader>
 	<div
 		bind:this={searchPanel}
 		id="mobile-search"
@@ -112,7 +112,7 @@
 	>
 		<Searchbox variant="mobile" closeTick={navTick} {locale} {messages} />
 	</div>
-</header>
+</div>
 
 <style>
 	.desktop-search {

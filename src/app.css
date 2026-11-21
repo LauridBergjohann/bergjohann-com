@@ -24,176 +24,54 @@
 		'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Neutral surfaces inspired by Svelte; green-teal accents match the logo palette. */
+/* Shared Page Sections website palette; automatic and explicit modes use the same tokens. */
 :root {
-	/* Shared logo colors. Retain token names for existing consumers. */
-	--brand-navy: #cae2dd;
-	--brand-deep: #007b5e;
-	--brand-blue: #00a57f;
-	--brand-medium: #00b38f;
-	--brand-light: #06795e;
-	--brand-pale: #0fac87;
-	--brand-ice: #fbfdfc;
+	color-scheme: light dark;
+	--page-background: light-dark(#e7ebe9, hsl(220, 10%, 12%));
+	--section-background: light-dark(#ffffff, hsl(225, 8%, 20%));
+	--surface: light-dark(#f2f2f2, hsl(220, 8%, 28%));
+	--selection-background: light-dark(#eeeeee, rgba(72, 77, 83, 0.5));
+	--foreground: light-dark(#141414, hsl(220, 2%, 90%));
+	--muted: light-dark(#666666, #ffffff);
+	--subtle: light-dark(#767676, hsl(220, 5%, 65%));
+	--border: light-dark(#d1d1d1, hsl(219, 10%, 34%));
+	--control-border: light-dark(#808080, hsl(220, 5%, 65%));
+	--primary: light-dark(#007b5e, #2bc093);
+	--on-primary: light-dark(#ffffff, hsl(220, 10%, 12%));
+	--footer-background: light-dark(#007b5e, rgb(53, 58, 65));
+	--footer-foreground: light-dark(#ffffff, hsl(216, 10%, 80%));
+	--footer-bar-background: light-dark(#bdbdbd, hsl(230, 7%, 16%));
+	--footer-bar-foreground: light-dark(#333333, hsl(220, 5%, 65%));
 
+	/* Semantic aliases keep the site's controls and package components consistent. */
+	--header-background: var(--section-background);
+	--background: var(--section-background);
+	--background-alt: var(--surface);
+	--surface-raised: var(--section-background);
+	--surface-hover: var(--selection-background);
+	--foreground-soft: var(--foreground);
+	--border-strong: var(--border);
+	--primary-hover: color-mix(in srgb, var(--primary) 85%, var(--foreground));
+	--primary-soft: color-mix(in srgb, var(--primary) 12%, var(--surface));
+	--link: var(--primary);
+	--link-hover: var(--primary-hover);
+	--accent: var(--primary);
+	--accent-soft: var(--primary-soft);
+	--success: light-dark(#16a34a, #22c55e);
+	--warning: #f59e0b;
+	--error: light-dark(#dc2626, #ef4444);
+	--info: var(--primary);
+	--shadow-sm: 0 1px 2px light-dark(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.28));
+	--shadow-md: 0 6px 18px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.35));
+	--shadow-lg: 0 14px 32px light-dark(rgb(0 0 0 / 0.14), rgb(0 0 0 / 0.45));
+}
+
+:root[data-theme='light'] {
 	color-scheme: light;
-	--page-background: #e0e4e3;
-	--section-background: #ffffff;
-	--header-background: #ffffff;
-	--selection-background: #eeeeee;
-
-	/* Page backgrounds */
-	--background: #ffffff;
-	--background-alt: #f0f0f0;
-
-	/* Surfaces */
-	--surface: #f2f2f2;
-	--surface-raised: #ffffff;
-	--surface-hover: #ebebeb;
-
-	/* Text */
-	--foreground: #141414;
-	--foreground-soft: #262626;
-	--muted: #666666;
-	--subtle: #767676;
-
-	/* Borders */
-	--border: #ebebeb;
-	--border-strong: #d1d1d1;
-	--control-border: #808080;
-
-	/* Primary brand color */
-	--primary: var(--brand-deep);
-	--primary-hover: #059271;
-	--primary-soft: var(--brand-ice);
-	--on-primary: #ffffff;
-
-	/* Links */
-	--link: var(--brand-deep);
-	--link-hover: var(--brand-navy);
-
-	/* Accent */
-	--accent: var(--brand-blue);
-	--accent-soft: var(--brand-ice);
-
-	/* Semantic states */
-	--success: #16a34a; /* Successful or positive state */
-	--warning: #f59e0b; /* Warning state */
-	--error: #dc2626; /* Error or destructive state */
-	--info: #00a57f; /* Informational state */
-
-	/* Shadows */
-	--shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06); /* Subtle resting shadow */
-	--shadow-md: 0 6px 18px rgb(15 23 42 / 0.1); /* Card hover / medium elevation */
-	--shadow-lg: 0 14px 32px rgb(15 23 42 / 0.14); /* Dialogs and strong elevation */
 }
 
 :root[data-theme='dark'] {
 	color-scheme: dark;
-	--page-background: hsl(223.64, 8.8%, 24.51%);
-	--section-background: hsl(220, 10%, 12%);
-	--header-background: hsl(220, 14%, 16%);
-	--selection-background: rgba(72, 77, 83, 0.5);
-
-	/* Page backgrounds */
-	--background: hsl(220, 10%, 12%);
-	--background-alt: rgb(55, 59, 63);
-
-	/* Surfaces */
-	--surface: hsl(220, 14%, 16%);
-	--surface-raised: hsl(220, 14%, 16%);
-	--surface-hover: hsl(220, 15%, 21%);
-
-	/* Text */
-	--foreground: hsl(220, 2%, 90%);
-	--foreground-soft: hsl(220, 3%, 80%);
-	--muted: hsl(220, 5%, 65%);
-	--subtle: hsl(220, 5%, 55%);
-
-	/* Borders */
-	--border: hsl(220, 15%, 22%);
-	--border-strong: hsl(220, 15%, 32%);
-	--control-border: hsl(220, 5%, 55%);
-
-	/* Primary brand color */
-	--primary: var(--brand-light);
-	--primary-hover: var(--brand-pale);
-	--primary-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
-	--on-primary: var(--brand-navy);
-
-	/* Links */
-	--link: #72dfc6;
-	--link-hover: var(--brand-pale);
-
-	/* Accent */
-	--accent: var(--brand-light);
-	--accent-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
-
-	/* Semantic states */
-	--success: #22c55e; /* Successful or positive state */
-	--warning: #f59e0b; /* Warning state */
-	--error: #ef4444; /* Error or destructive state */
-	--info: #72dfc6; /* Informational state */
-
-	/* Shadows */
-	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28); /* Subtle resting shadow */
-	--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35); /* Card hover / medium elevation */
-	--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45); /* Dialogs and strong elevation */
-}
-
-/* Respect the operating system theme even when JavaScript is unavailable. */
-@media (prefers-color-scheme: dark) {
-	:root:not([data-theme]) {
-		color-scheme: dark;
-		--page-background: hsl(220, 10%, 12%);
-		--section-background: hsl(220, 10%, 12%);
-		--header-background: hsl(220, 14%, 16%);
-		--selection-background: rgba(72, 77, 83, 0.5);
-
-		/* Page backgrounds */
-		--background: hsl(220, 10%, 12%);
-		--background-alt: rgb(55, 59, 63);
-
-		/* Surfaces */
-		--surface: hsl(220, 14%, 16%);
-		--surface-raised: hsl(220, 14%, 16%);
-		--surface-hover: hsl(220, 15%, 21%);
-
-		/* Text */
-		--foreground: hsl(220, 2%, 90%);
-		--foreground-soft: hsl(220, 3%, 80%);
-		--muted: hsl(220, 5%, 65%);
-		--subtle: hsl(220, 5%, 55%);
-
-		/* Borders */
-		--border: hsl(220, 15%, 22%);
-		--border-strong: hsl(220, 15%, 32%);
-		--control-border: hsl(220, 5%, 55%);
-
-		/* Primary brand color */
-		--primary: var(--brand-light);
-		--primary-hover: var(--brand-pale);
-		--primary-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
-		--on-primary: var(--brand-navy);
-
-		/* Links */
-		--link: #72dfc6;
-		--link-hover: var(--brand-pale);
-
-		/* Accent */
-		--accent: var(--brand-light);
-		--accent-soft: color-mix(in srgb, var(--brand-deep) 28%, var(--surface));
-
-		/* Semantic states */
-		--success: #22c55e; /* Successful or positive state */
-		--warning: #f59e0b; /* Warning state */
-		--error: #ef4444; /* Error or destructive state */
-		--info: #72dfc6; /* Informational state */
-
-		/* Shadows */
-		--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.28); /* Subtle resting shadow */
-		--shadow-md: 0 8px 24px rgb(0 0 0 / 0.35); /* Card hover / medium elevation */
-		--shadow-lg: 0 18px 40px rgb(0 0 0 / 0.45); /* Dialogs and strong elevation */
-	}
 }
 
 /* Expose CSS variables as semantic Tailwind colors. */

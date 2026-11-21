@@ -69,7 +69,8 @@
 		{
 			"id": "themen",
 			"type": "cardGrid",
-			"cardVariant": "editorial",
+			"cardSize": "l",
+			"mediaFit": "cover",
 			"cardTone": "muted",
 			"itemSpan": {
 				"xs": 4,
@@ -143,7 +144,8 @@
 		{
 			"id": "projekte",
 			"type": "cardGrid",
-			"cardVariant": "editorial",
+			"cardSize": "l",
+			"mediaFit": "cover",
 			"cardTone": "muted",
 			"itemSpan": {
 				"xs": 4,

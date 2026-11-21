@@ -57,7 +57,8 @@ const translations: Record<Locale, TextMessages> = {
 		footer: {
 			tagline: 'UX · Engineering · Model Worlds',
 			navigation: 'Footer navigation',
-			source: 'Source code on GitHub',
+			social: 'Social media',
+			source: 'GitHub',
 			linkedin: 'LinkedIn',
 			imprint: 'Imprint',
 			privacy: 'Privacy Policy'
@@ -114,7 +115,8 @@ const translations: Record<Locale, TextMessages> = {
 		footer: {
 			tagline: 'UX · Softwareentwicklung · Modellwelten',
 			navigation: 'Fußnavigation',
-			source: 'Quellcode auf GitHub',
+			social: 'Soziale Medien',
+			source: 'GitHub',
 			linkedin: 'LinkedIn',
 			imprint: 'Impressum',
 			privacy: 'Datenschutz'

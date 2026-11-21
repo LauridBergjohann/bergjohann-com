@@ -21,11 +21,17 @@
 			ink: 'var(--foreground)',
 			body: 'var(--muted)',
 			accent: 'var(--link)',
-			onAccent: 'var(--background)',
+			onAccent: 'var(--on-primary)',
 			standard: 'var(--section-background)',
 			muted: 'var(--surface)',
 			radius: '12px',
-			fontFamily: 'var(--font-sans)'
+			fontFamily: 'var(--font-sans)',
+			footerBackground: 'var(--footer-background)',
+			footerInk: 'var(--footer-foreground)',
+			footerRadius: 'var(--ps-radius)',
+			footerShadow: 'var(--ps-surface-shadow)',
+			footerBarBackground: 'var(--footer-bar-background)',
+			footerBarInk: 'var(--footer-bar-foreground)'
 		}}
 	>
 		{@render children()}
