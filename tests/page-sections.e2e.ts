@@ -28,6 +28,22 @@ for (const width of [390, 1920]) {
 				.click();
 			await page.keyboard.press('Escape');
 			await expect(page.locator('.ps-shell')).toHaveAttribute('data-ps-theme', mode);
+			await expect(page.locator('body')).toHaveCSS(
+				'background-color',
+				mode === 'light' ? 'rgb(231, 235, 233)' : 'rgb(28, 30, 34)'
+			);
+			await expect(page.locator('.ps-navigation .header')).toHaveCSS(
+				'background-color',
+				mode === 'light' ? 'rgb(255, 255, 255)' : 'rgb(47, 49, 55)'
+			);
+			await expect(page.locator('.ps-footer-main')).toHaveCSS(
+				'background-color',
+				mode === 'light' ? 'rgb(0, 123, 94)' : 'rgb(53, 58, 65)'
+			);
+			await expect(page.locator('.ps-footer-bar')).toHaveCSS(
+				'background-color',
+				mode === 'light' ? 'rgb(189, 189, 189)' : 'rgb(38, 39, 44)'
+			);
 			await expect(page.locator('.ps-navigation .header')).not.toHaveCSS('box-shadow', 'none');
 			if (width >= 1600) {
 				await expect(page.locator('.satellite.left')).toHaveCSS('outline-style', 'none');
@@ -38,15 +54,15 @@ for (const width of [390, 1920]) {
 			}
 			await expect(page.locator('.satellite.left a').first()).toHaveCSS(
 				'color',
-				mode === 'light' ? 'rgb(38, 38, 38)' : 'rgb(202, 203, 206)'
+				mode === 'light' ? 'rgb(20, 20, 20)' : 'rgb(229, 229, 230)'
 			);
 			const hero = page.locator('.ps-hero-section');
 			await expect(hero.locator('.eyebrow')).toHaveCSS(
 				'color',
-				mode === 'light' ? 'rgb(0, 123, 94)' : 'rgb(114, 223, 198)'
+				mode === 'light' ? 'rgb(0, 123, 94)' : 'rgb(43, 192, 147)'
 			);
-			await expect(hero.locator('.eyebrow')).toHaveCSS('margin-bottom', '24px');
-			await expect(hero.locator('.introduction')).toHaveCSS('margin-top', '28px');
+			await expect(hero.locator('.eyebrow')).toHaveCSS('margin-bottom', '12px');
+			await expect(hero.locator('.introduction')).toHaveCSS('margin-top', '12px');
 			await expect(hero.locator('.ps-actions')).toHaveCSS('margin-top', '32px');
 			await expect(hero.locator('[data-action="primary"]')).toHaveCSS(
 				'color',
@@ -57,14 +73,14 @@ for (const width of [390, 1920]) {
 				for (const surface of await surfaces.all()) {
 					await expect(surface).toHaveCSS(
 						'background-color',
-						mode === 'light' ? 'rgb(242, 242, 242)' : 'rgb(35, 39, 47)'
+						mode === 'light' ? 'rgb(242, 242, 242)' : 'rgb(66, 69, 77)'
 					);
 				}
 			}
 			await page.goto('/en/imprint');
 			await expect(page.locator('#imprint-publisher .ps-panel')).toHaveCSS(
 				'background-color',
-				mode === 'light' ? 'rgb(242, 242, 242)' : 'rgb(35, 39, 47)'
+				mode === 'light' ? 'rgb(242, 242, 242)' : 'rgb(66, 69, 77)'
 			);
 			await page.goto('/en');
 		}
@@ -242,6 +258,12 @@ test('package images honor the system dark theme without JavaScript', async ({
 			.poll(() => image.evaluate((el: HTMLImageElement) => el.currentSrc))
 			.toContain('rhein-dark.webp');
 		await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+		await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(28, 30, 34)');
+		await expect(page.locator('.ps-navigation .header')).toHaveCSS(
+			'background-color',
+			'rgb(47, 49, 55)'
+		);
+		await expect(page.locator('.ps-footer-main')).toHaveCSS('background-color', 'rgb(53, 58, 65)');
 	} finally {
 		await context.close();
 	}

@@ -46,7 +46,7 @@ You can preview the production build with `npm run preview`.
 ### Page Sections integration
 
 Content pages use the published `@page-sections/core` and `@page-sections/svelte`
-packages, pinned to 0.3.0. No sibling checkout or workspace alias is needed.
+packages, pinned to 0.5.0. No sibling checkout or workspace alias is needed.
 
 The homepage collections select `cardTone: "muted"` in their JSON documents to
 separate cards from the standard section background. Panels use `tone` with the
@@ -60,27 +60,34 @@ text on the lighter teal accent in dark mode.
 - The localized content API serves public `PageData` and `SectionData` models with
   site routing and SEO metadata. There is no `SectionTypeMap` augmentation or custom
   renderer. Bilingual page documents live in `src/lib/server/data/pages/*.page.json`.
-- `ContentPage.svelte` composes the package's `ContentPage` and `Sections`.
-  Artwork heroes, editorial card grids (topics/projects), nested grids with text
+- `ContentPage.svelte` composes the package's `ContentPage`, `HeroSection` and `Sections`.
+  Since 0.5.0, the hero is rendered explicitly as a child of the page.
+  Artwork heroes, card grids (topics/projects), nested grids with text
   and panels (about), and structured rich text/panels (privacy/imprint) all use
   built-in renderers. Legal bodies use `bodyLayout: 'narrow'`; addresses and email
   links remain semantic HTML. SvelteKit owns document titles and SEO.
-- Editorial cards retain complete descriptions and equal heights. Demo images use
+- Cards retain complete descriptions and equal heights within each row. Homepage
+  cards use size L and cover images; the whole card links to its destination. Demo images use
   a separate 3:2 media area with `mediaFit: 'contain'`, independent of text height.
 - `Header.svelte` supplies items, logo, search and preference controls to
-  `Navigation`. The package owns the mobile menu below 1200px, settings below
+  `Header`. The package owns the mobile menu below 1200px, settings below
   1600px, and delayed scrolling (112px). Its canonical header is 1536px at 2XL.
   Native disclosures and the site's search popover work without JavaScript.
 - `PageSectionsTheme.svelte` connects package components to the website theme
   store after mounting. Before hydration and without JavaScript, media follow
-  the system preference. `src/lib/content/page-sections.css` maps Navigation to the
-  site's header surface and border tokens, anchors the search popover and adapts
+  the system preference. `src/app.css` defines the Page Sections website's light/dark
+  palette once using `light-dark()` and `color-scheme`, including a no-JavaScript
+  system fallback. Semantic aliases share these colors with the site's controls.
+  `src/lib/content/page-sections.css` supplies border/selection tokens, anchors the search popover and adapts
   the site's search/preference controls. Satellite wrappers remain unpainted because
   the host button groups already own their borders and corner radii.
   Section backgrounds follow the JSON configuration; hero typography, navigation
   surfaces, responsive widths, spacing, card sizing and heading hierarchy come
   from the package. Site colors and font family are supplied through `PageShell`.
-- Search, locale routing, preferences, footer and error pages remain application
+- `Footer.svelte` supplies the package's `Footer` with the site identity, social links
+  and localized legal links. Social links open in a new tab; legal links stay in the
+  current tab. Footer surfaces use the shared light/dark palette.
+- Search, locale routing, preferences and error pages remain application
   responsibilities. Their container uses the package's shared width rules.
 
 `tests/page-sections.e2e.ts` checks all localized pages, single h1/main landmarks,
@@ -120,7 +127,7 @@ Every public page has an English and German URL. Examples: /en, /de,
 Each `*.page.json` file is a complete document for one page, including its stable
 `id`, localized `slugs`, SEO title/description, hero and sections. Translated text
 uses `{ "en": "English text", "de": "Deutscher Text" }`; shared text stays a string.
-Structural values such as `type`, `layout` and `cardVariant` are not translated.
+Structural values such as `type`, `layout` and `cardSize` are not translated.
 Internal content links use the English source slug (for example `/projects`);
 the content service resolves them to the requested language.
 

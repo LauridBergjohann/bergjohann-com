@@ -1,7 +1,9 @@
-/* Navigation uses the site's raised header surface, independently of page sections. */
-.site-header .ps-navigation {
-	--ps-section-standard: var(--header-background);
+/* Complete the shared palette for package tokens not exposed by PageTheme. */
+.site-page-sections .ps-shell {
 	--ps-border: var(--border-strong);
+	--ps-selection: var(--selection-background);
+	min-height: 100vh;
+	background: var(--ps-background);
 }
 /* The host button groups own their outline and corner radius. A second painted
    satellite surface would show through at the corners. Keep tooltips unclipped. */
